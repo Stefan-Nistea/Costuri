@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cheltuieli Lunar / Anual</title>
+<link rel="stylesheet" href="style.css">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
+</head>
+<body>
+
+<nav>
+  <button onclick="showPage('lunar')">Lunar</button>
+  <button onclick="showPage('anual')">Anual</button>
+</nav>
+
+<div id="lunar" class="page">
+  <div class="totalsContainer">
+    <div class="totalLine">
+      <h2>Plăți lunare: <span id="totalLunarHome">0</span> RON</h2>
+    </div>
+	
+	<div class="totalLine">
+      <h2>Obligații lunare: <span id="obligatiiLunare">0</span> RON</h2>
+    </div>
+	
+	<div class="totalSubLine">
+      <h3>Plăți lunare + 1/12 din cele anuale</h3>
+    </div>
+	
+    <div class="totalLine">
+      <h2>Total Anual: <span id="totalAnualHome">0</span> RON</h2>
+    </div>
+    
+  </div>
+
+  <table id="tableServiciiHome">
+    <thead>
+      <tr>
+        <th>Serviciu</th>
+        <th>Cost</th>
+        <th>Monedă</th>
+        <th>% din total</th>
+        <th>Note</th>
+        <th>Activ</th>
+        <th>Drag</th>
+        <th>Șterge</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+
+  <div class="addService">
+    <input type="text" id="newServiceName" placeholder="Nume serviciu">
+    <input type="number" id="newServiceCost" placeholder="Cost">
+    <button onclick="addNewServiceHome()">Adaugă serviciu</button>
+  </div>
+
+  <div class="addCategory">
+    <input type="text" id="newCategoryName" placeholder="Nume categorie">
+    <button onclick="addCategoryHome()">Adaugă categorie</button>
+  </div>
+  
+  <canvas id="chartHomePie"></canvas>
+  
+</div>
+
+<div id="anual" class="page" style="display:none;">
+  <div class="totalsContainer">
+    <div class="totalLine">
+      <h2>Total Anual: <span id="totalAnual">0</span> RON</h2>
+    </div>
+  </div>
+
+  <table id="tableServiciiAnual">
+    <thead>
+      <tr>
+        <th>Serviciu</th>
+        <th>Cost</th>
+        <th>Monedă</th>
+        <th>% din total</th>
+        <th>Note</th>
+        <th>Activ</th>
+        <th>Drag</th>
+        <th>Șterge</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+
+  <div class="addService">
+    <input type="text" id="newServiceNameAnual" placeholder="Nume serviciu">
+    <input type="number" id="newServiceCostAnual" placeholder="Cost">
+    <button onclick="addNewServiceAnual()">Adaugă serviciu</button>
+  </div>
+
+  <div class="addCategory">
+    <input type="text" id="newCategoryNameAnual" placeholder="Nume categorie">
+    <button onclick="addCategoryAnual()">Adaugă categorie</button>
+  </div>
+  
+  <canvas id="chartAnual"></canvas>
+  
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>

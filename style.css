@@ -1,0 +1,190 @@
+body { 
+	font-family: Arial, sans-serif; 
+	margin:0; 
+	padding:0; 
+}
+
+nav { 
+	display:flex; 
+	justify-content:center; 
+	background:#f0f0f0; 
+	padding:10px; 
+	gap:10px; 
+}
+
+nav button { 
+	padding:10px 20px; 
+	border:none; 
+	border-radius:5px; 
+	background:#3498db; 
+	color:white; 
+	cursor:pointer; 
+}
+
+nav button:hover{ 
+	background:#2980b9; 
+}
+
+.page { 
+	padding:20px; 
+}
+
+.totalsContainer {
+    width: 75%;         /* la fel ca tabelul */
+    margin: 20px auto;  /* centrat pe pagină */
+    padding-left: 5px;  /* offset pentru aliniere cu conținutul tabelului */
+	margin-bottom: 40px;
+}
+
+.totalLine h2 {
+	margin-bottom: 2px;
+}
+
+.totalSubLine h3 {
+    font-size: 0.7em;       /* font mai mic decât h2 */
+    color: #555;            /* culoare mai subtilă, optional */
+    margin-bottom: 10px;    /* spațiu între sublinie și următoarea linie */
+	margin-top: 2px;
+    text-align: left;       /* aliniere cu totalurile */
+}
+
+table { 
+	width:75%; 
+	margin:auto; 
+	border-collapse:collapse; 
+	margin-bottom:15px; 
+	text-align:center; 
+}
+
+th,td { 
+	border:1px solid #ccc; 
+	padding:8px; 
+	text-align:center; 
+}
+
+/* Coloana Serviciu flexibilă */
+th:nth-child(1), td:nth-child(1) {
+  width:auto;
+  max-width:400px;
+  white-space: nowrap; 
+  overflow:hidden; 
+  text-overflow:ellipsis;
+  text-align:center;
+  padding-left:5px;
+}
+
+/* Coloana Note centrată cu wrap și fundal ușor */
+th:nth-child(6), td:nth-child(6) {
+  width:200px; 
+  text-align:center; 
+  padding:5px;
+}
+
+/* Coloana Note cât mai lată */
+#tableServiciiHome th:nth-child(5),
+#tableServiciiHome td:nth-child(5),
+#tableServiciiAnual th:nth-child(5),
+#tableServiciiAnual td:nth-child(5) {
+    width: 30%;
+}
+
+.noteInput {
+    width: 30%;
+    height: 40px;
+    resize: none;
+    white-space: pre-wrap;
+}
+
+
+td textarea.noteInput {
+  width: 100%;
+  min-height: 40px;
+  box-sizing: border-box;
+  resize: vertical;
+  text-align: left;
+  white-space: normal;
+  overflow-wrap: break-word;
+  background-color: #fef9e7;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  padding: 4px;
+  font-family: inherit;
+  font-size: 14px;
+}
+
+/* Pie chart la jumătate */
+#chartHomePie { width:50%; max-width:400px; margin:auto; display:block; }
+#chartAnual { width:50%; max-width:400px; margin:auto; display:block; }
+
+/* Coloana Activ */
+#tableServiciiHome th:nth-child(6),
+#tableServiciiHome td:nth-child(6),
+#tableServiciiAnual th:nth-child(6),
+#tableServiciiAnual td:nth-child(6) {
+    width: 60px; /* aproximativ cât textul "Activ" */
+    text-align: center;
+}
+
+
+/* Buton On/Off */
+.switchBtn { 
+	padding:5px 15px; 
+	border:none; 
+	border-radius:5px; 
+	color:white; 
+	font-weight:bold; 
+	cursor:pointer; 
+	display:block; 
+	margin:auto; 
+}
+
+.switchBtn.active { 
+	background-color: green; 
+}
+
+.switchBtn.inactive { 
+	background-color: red; 
+}
+
+/* Buton stergere simplu, doar chenar */
+.deleteBtn { 
+	padding:3px 8px; 
+	border:1px solid #e74c3c; 
+	background:transparent; 
+	color:#e74c3c; 
+	border-radius:3px; 
+	cursor:pointer; 
+	font-size:16px; 
+}
+
+/* Drag handle */
+.dragHandle { 
+	cursor: grab; 
+	font-size:20px; 
+}
+
+/* Coloane mai înguste pentru butoane și titluri scurte */
+th:nth-child(3), td:nth-child(3),
+th:nth-child(4), td:nth-child(4),
+th:nth-child(5), td:nth-child(5),
+th:nth-child(7), td:nth-child(7),
+th:nth-child(8), td:nth-child(8)
+{ width:60px; }
+
+/* Coloana Note mai lată */
+th:nth-child(6), td:nth-child(6) { 
+	width:200px; 
+	text-align:center; 
+	padding:0; 
+}
+
+/* Inputs fără spin pentru numere */
+td input[type=number]::-webkit-outer-spin-button,
+td input[type=number]::-webkit-inner-spin-button { -webkit-appearance: none; margin:0; }
+
+td input[type="number"], td input[type="text"] { width:60px; text-align:center; -moz-appearance: textfield; }
+
+/* Adaugă spațiu între grafice și rândul de adăugare serviciu */
+.addService, .addCategory { text-align:center; margin:15px 0; }
+
+
