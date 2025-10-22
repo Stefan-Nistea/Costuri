@@ -279,7 +279,8 @@ function renderUtilCurent(){
   const items=[...data_utilitati.citiri_curent].sort((a,b)=>a.luna.localeCompare(b.luna));
   let prev=null, labels=[], diffs=[];
   items.forEach(c=>{
-    const diff=prev?(c.valoare-prev.valoare):0;
+    const rawDiff = prev ? (c.valoare - prev.valoare) : 0;
+	const diff = rawDiff < 0 ? 0 : rawDiff;
     diffs.push(diff); labels.push(c.luna);
     tb.innerHTML+=`<tr><td>${c.luna}</td><td>${fmt(c.valoare)}</td><td>${fmt(diff)}</td>
       <td><button class="deleteBtn" onclick="deleteUtilCurent('${c.luna}',${c.valoare})">🗑️</button></td></tr>`;
@@ -314,7 +315,8 @@ function renderUtilGaz(){
   const items=[...data_utilitati.citiri_gaz].sort((a,b)=>a.luna.localeCompare(b.luna));
   let prev=null, labels=[], diffs=[];
   items.forEach(c=>{
-    const diff=prev?(c.valoare-prev.valoare):0;
+    const rawDiff = prev ? (c.valoare - prev.valoare) : 0;
+	const diff = rawDiff < 0 ? 0 : rawDiff;
     diffs.push(diff); labels.push(c.luna);
     tb.innerHTML+=`<tr><td>${c.luna}</td><td>${fmt(c.valoare)}</td><td>${fmt(diff)}</td>
       <td><button class="deleteBtn" onclick="deleteUtilGaz('${c.luna}',${c.valoare})">🗑️</button></td></tr>`;
