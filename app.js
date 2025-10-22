@@ -428,6 +428,51 @@ document.addEventListener('DOMContentLoaded', ()=>{
   showPage(currentPage);
 });
 
+// === COLUMN RESIZE ===
+
+function enableColumnResize() {
+  document.querySelectorAll('.services-table').forEach((table, tableIndex) => {
+    table.querySelectorAll('th').forEach((th, colIndex) => {
+
+      if (th.querySelector('.col-resizer')) return;
+
+      const resizer = document.createElement('div');
+      resizer.classList.add('col-resizer');
+      th.appendChild(resizer);
+
+      // Check Localstorage size
+      const savedWidth = localStorage.getItem(`colWidth_${tableIndex}_${colIndex}`);
+      if (savedWidth) th.style.width = savedWidth;
+
+      let startX, startWidth;
+
+      resizer.addEventListener('mousedown', function (e) {
+        startX = e.pageX;
+        startWidth = th.offsetWidth;
+        document.documentElement.style.cursor = 'col-resize';
+
+        function onMouseMove(e) {
+          const newWidth = startWidth + (e.pageX - startX);
+          th.style.width = newWidth + 'px';
+        }
+
+        function onMouseUp() {
+          localStorage.setItem(`colWidth_${tableIndex}_${colIndex}`, th.style.width);
+          document.documentElement.style.cursor = '';
+          document.removeEventListener('mousemove', onMouseMove);
+          document.removeEventListener('mouseup', onMouseUp);
+        }
+
+        document.addEventListener('mousemove', onMouseMove);
+        document.addEventListener('mouseup', onMouseUp);
+      });
+    });
+  });
+}
+
+// Wait for table resizing
+setTimeout(enableColumnResize, 500);
+
 // === UTILS ===
 function getRandomColor(){
   const r=Math.floor(Math.random()*120+80);
