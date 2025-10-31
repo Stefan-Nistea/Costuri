@@ -1,313 +1,32 @@
 <!DOCTYPE html>
 <html lang="ro">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Cheltuieli Lunar / Anual / Utilități / Administrație</title>
-
-<link rel="stylesheet" href="style.css" />
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ExpenseFlow</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
 </head>
 <body>
 
 <header class="app-header">
-  <h1>Cheltuieli — Lunar / Utilități / Administrație</h1>
+  <h1>ExpenseFlow</h1>
   <nav class="main-nav">
-    <button id="btnLunar" class="nav-btn active" onclick="showPage('lunar')">Lunar</button>
-    <!-- TAB ANUAL ELIMINAT -->
-    <button id="btnUtilitati" class="nav-btn" onclick="showPage('utilitati')">Utilități</button>
-    <button id="btnAdministratie" class="nav-btn" onclick="showPage('administratie')">Administratie</button>
-  </nav>
+    <button id="btnLunar" class="nav-btn active" onclick="loadPage('lunar')">Lunar</button>
+    <button id="btnUtilitati" class="nav-btn" onclick="loadPage('utilitati')">Utilități</button>
+    <button id="btnAdministratie" class="nav-btn" onclick="loadPage('administratie')">Administrație</button>
+	<button id="btnZilnic" class="nav-btn" onclick="loadPage('zilnic')">Zilnic</button>  </nav>
 </header>
 
-<main>
+<main id="content">
+  <!-- Page content loads here -->
+</main>
 
-  <!-- === PAGINA LUNAR (ACUM include și ANUAL în dreapta) === -->
-  <section id="lunar" class="page">
-  <div class="totalsContainer">
-    <div class="totalsRow">
-      <div class="totalCard">
-        <h4> Plăți lunare </h4>
-        <div id="totalsPerCurrencyLunar" class="totalValues">—</div>
-      </div>
-      <div class="totalCard">
-        <h4> Obligații lunare (RON)</h4>
-        <div id="obligatiiLunare" class="totalValues">—</div>
-        <div class="subtext">Lunar + 1/12 din anual (convertit)</div>
-      </div>
-      <div class="totalCard">
-        <h4> Total anual </h4>
-        <div id="totalAnualHome" class="totalValues">—</div>
-      </div>
-    </div>
-  </div>
-
-  <!-- RÂND 1: DOAR TABELE -->
-  <div class="two-cols">
-    <!-- COL STÂNGA: LUNAR -->
-    <div class="col-panel">
-	  <h2 class="table-title">LUNAR</h2>
-      <table id="tableServiciiHome" class="services-table">
-        <thead>
-          <tr>
-            <th> Serviciu </th>
-            <th> Cost </th>
-            <th> Monedă </th>
-            <th> % </th>
-            <th> Note </th>
-            <th> Activ </th>
-            <th> Drag </th>
-            <th> Șterge </th>
-          </tr>
-        </thead>
-        <tbody></tbody>
-      </table>
-
-      <div class="formRow">
-        <input id="newServiceName" type="text" placeholder="Nume serviciu" />
-        <input id="newServiceCost" type="number" step="0.01" placeholder="Cost"/>
-        <select id="newServiceCurrency">
-          <option value="RON">RON</option>
-          <option value="EUR">EUR</option>
-          <option value="USD">USD</option>
-        </select>
-        <button class="btn" onclick="addItem('lunar')">Adaugă serviciu</button>
-      </div>
-
-      <div class="formRow">
-        <input id="newCategoryName" type="text" placeholder="Nume categorie" />
-        <button class="btn ghost" onclick="addCategory('lunar')">Adaugă categorie</button>
-      </div>
-    </div>
-
-    <!-- COL DREAPTA: ANUAL -->
-    <div class="col-panel">
-	  <h2 class="table-title">ANUAL</h2>
-      <table id="tableServiciiAnual" class="services-table">
-        <thead>
-          <tr>
-            <th> Serviciu </th>
-            <th> Cost </th>
-            <th> Monedă </th>
-            <th> % </th>
-            <th> Note </th>
-            <th> Activ </th>
-            <th> Drag </th>
-            <th> Șterge </th>
-          </tr>
-        </thead>
-        <tbody></tbody>
-      </table>
-
-      <div class="formRow">
-        <input id="newServiceNameAnual" type="text" placeholder="Nume serviciu" />
-        <input id="newServiceCostAnual" type="number" step="0.01" placeholder="Cost" />
-        <select id="newServiceCurrencyAnual">
-          <option value="RON">RON</option>
-          <option value="EUR">EUR</option>
-          <option value="USD">USD</option>
-        </select>
-        <button class="btn" onclick="addItem('anual')">Adaugă serviciu</button>
-      </div>
-
-      <div class="formRow">
-        <input id="newCategoryNameAnual" type="text" placeholder="Nume categorie" />
-        <button class="btn ghost" onclick="addCategory('anual')">Adaugă categorie</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- RÂND 2: DOAR GRAFICE -->
-  <div class="two-cols" style="margin-top:20px;">
-    <div class="col-panel">
-      <canvas id="chartHomePie" class="chart"></canvas>
-    </div>
-    <div class="col-panel">
-      <canvas id="chartAnual" class="chart"></canvas>
-    </div>
-  </div>
-</section>
-
-  <!-- === PAGINA UTILITĂȚI  === -->
-  <section id="utilitati" class="page" style="display:none;">
-    <div class="totalsContainer">
-      <div class="totalsRow">
-        <div class="totalCard">
-          <h4>Media plăți utilități (RON)</h4>
-          <div id="utilitatiMediaRON" class="totalValues">—</div>
-          <div class="subtext">Se transferă automat în „Lunar” ca „Media utilități”.</div>
-        </div>
-      </div>
-    </div>
-
-    <h3>Plăți utilități</h3>
-    <div class="util-flex">
-      <div class="util-table">
-        <table id="tableUtilPlati" class="services-table">
-          <thead>
-            <tr>
-              <th>Luna plății</th>
-              <th>Sumă</th>
-              <th>Monedă</th>
-              <th>Șterge</th>
-            </tr>
-          </thead>
-          <tbody></tbody>
-        </table>
-
-        <div class="formRow">
-          <input id="utilPlataLuna" type="month" />
-          <input id="utilPlataSuma" type="number" step="0.01" placeholder="Sumă" />
-          <select id="utilPlataMoneda">
-            <option value="RON">RON</option>
-            <option value="EUR">EUR</option>
-            <option value="USD">USD</option>
-          </select>
-          <button class="btn" onclick="addUtilPlata()">Adaugă plată</button>
-        </div>
-      </div>
-      <div class="util-chart">
-        <canvas id="chartUtilPlati" class="chart"></canvas>
-      </div>
-    </div>
-
-    <h3>Citiri curent (kWh)</h3>
-    <div class="util-flex">
-      <div class="util-table">
-        <table id="tableUtilCurent" class="services-table">
-          <thead>
-            <tr>
-              <th>Data citirii</th>
-              <th>Citire (kWh)</th>
-              <th>Diferență</th>
-              <th>Șterge</th>
-            </tr>
-          </thead>
-          <tbody></tbody>
-        </table>
-
-        <div class="formRow">
-          <input id="utilCurentLuna" type="month" />
-          <input id="utilCurentValoare" type="number" step="0.01" placeholder="kWh" />
-          <button class="btn" onclick="addUtilCurent()">Adaugă citire curent</button>
-        </div>
-      </div>
-      <div class="util-chart">
-        <canvas id="chartUtilCurent" class="chart"></canvas>
-      </div>
-    </div>
-
-    <h3>Citiri gaz (m³)</h3>
-    <div class="util-flex">
-      <div class="util-table">
-        <table id="tableUtilGaz" class="services-table">
-          <thead>
-            <tr>
-              <th>Data citirii</th>
-              <th>Citire (m³)</th>
-              <th>Diferență</th>
-              <th>Șterge</th>
-            </tr>
-          </thead>
-          <tbody></tbody>
-        </table>
-
-        <div class="formRow">
-          <input id="utilGazLuna" type="month" />
-          <input id="utilGazValoare" type="number" step="0.01" placeholder="m³" />
-          <button class="btn" onclick="addUtilGaz()">Adaugă citire gaz</button>
-        </div>
-      </div>
-      <div class="util-chart">
-        <canvas id="chartUtilGaz" class="chart"></canvas>
-      </div>
-    </div>
-  </section>
-
-  <!-- === PAGINA ADMINISTRAȚIE === -->
-  <section id="administratie" class="page" style="display:none;">
-    <h3>Plăți administrație</h3>
-    <div class="util-flex">
-      <div class="util-table">
-        <table id="tableAdminPlati" class="services-table">
-          <thead>
-            <tr>
-              <th>Luna plății</th>
-              <th>Sumă</th>
-              <th>Monedă</th>
-              <th>Șterge</th>
-            </tr>
-          </thead>
-          <tbody></tbody>
-        </table>
-
-        <div class="formRow">
-          <input id="adminPlataLuna" type="month" />
-          <input id="adminPlataSuma" type="number" step="0.01" placeholder="Sumă" />
-          <select id="adminPlataMoneda">
-            <option value="RON">RON</option>
-            <option value="EUR">EUR</option>
-            <option value="USD">USD</option>
-          </select>
-          <button class="btn" onclick="addAdminPlata()">Adaugă plată</button>
-        </div>
-      </div>
-      <div class="util-chart">
-        <canvas id="chartAdminPlati" class="chart"></canvas>
-      </div>
-    </div>
-
-    <h3>Citiri apă (Administrație)</h3>
-    <div class="util-flex">
-      <div class="util-table">
-        <table id="tableAdminApa" class="services-table">
-          <thead>
-            <tr>
-              <th>Luna citire</th>
-              <th>Contor 1</th>
-              <th>Diferență</th>
-              <th>Contor 2</th>
-              <th>Diferență 2</th>
-              <th>Consum Total</th>
-              <th>Cost Calculat</th>
-              <th>Cost Apa pe Factură</th>
-              <th>Șterge</th>
-            </tr>
-          </thead>
-          <tbody></tbody>
-        </table>
-
-        <div class="formRow">
-          <input id="adminApaLuna" type="month" />
-          <input id="adminApaContor1" type="number" step="0.01" placeholder="Contor 1" />
-          <input id="adminApaContor2" type="number" step="0.01" placeholder="Contor 2" />
-          <button class="btn" onclick="addAdminApa()">Adaugă citire apă</button>
-        </div>
-      </div>
-      <div class="util-chart">
-        <canvas id="chartAdminApa" class="chart"></canvas>
-      </div>
-    </div>	
-	
-	<section class="rates-panel" style="margin-top:20px;">
-	  <h3>Cost apă (lei / m³)</h3>	  
-	  <div class="rates-row">
-		<input id="adminCostPeMc" type="number" step="0.0001" placeholder="lei / m³" />
-		<button class="btn small" onclick="applyAdminCost()">Aplică</button>
-	  </div>
-	  <p class="note-small">
-		Folosit doar pentru calculul „Cost Calculat” din tabelul de mai sus.
-	  </p>
-	</section>
-	
-  </section>
-
-  <!-- Curs valutar -->
-  <section class="rates-panel">
-	
+<!-- Excange pannel (Common attribute) -->
+<section class="rates-panel">
   <h3>Curs valutar (folosit pentru conversie în RON)</h3>
-
   <div class="rates-row">
     <label>EUR → RON
       <input id="rateEUR" type="number" step="0.0001" value="4.95" />
@@ -318,17 +37,12 @@
     <button id="applyRates" class="btn small">Aplică manual</button>
     <button id="autoRates" class="btn small ghost">Actualizează din BNR</button>
   </div>
-
-  <p id="ratesInfo" class="note-small">
-    Ultima actualizare automată: —  
-  </p>
+  <p id="ratesInfo" class="note-small">Ultima actualizare automată: —</p>
   <p class="note-small">
     Valorile se preiau automat de la 
-    <a href="https://www.bnr.ro/nbrfxrates.xml" target="_blank">BNR</a>  
+    <a href="https://www.bnr.ro/nbrfxrates.xml" target="_blank">BNR</a>
   </p>
 </section>
-
-</main>
 
 <script src="app.js"></script>
 </body>

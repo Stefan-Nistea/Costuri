@@ -1,0 +1,190 @@
+<section id="zilnic" class="page">
+
+  <!-- SELECTOR CATEGORII -->
+  <div class="zilnic-tabs" style="display:flex; justify-content:center; gap:10px; margin-top:12px;">
+    <button class="zilnic-tab active" onclick="switchZilnicTab('supermarket', event)">Supermarket</button>
+    <button class="zilnic-tab" onclick="switchZilnicTab('car', event)">Car</button>
+    <button class="zilnic-tab" onclick="switchZilnicTab('iesiri', event)">Bars&Trips</button>
+    <button class="zilnic-tab" onclick="switchZilnicTab('rasfat', event)">Wants</button>
+  </div>
+
+  <!-- ================= SUPER MARKET (VIZIBIL IMPLICIT) ================= -->
+  <div id="pageSupermarket" style="display:block;">
+
+    <!-- CARD SUS -->
+    <div class="totalsContainer" style="margin-top:18px;">
+      <div class="totalsRow">
+        <div class="totalCard">
+          <h4>Media plăți supermarket (RON)</h4>
+          <div id="zilnicMediaRON" class="totalValues">—</div>
+          <div class="subtext">Se transferă automat în „Lunar” ca „Media supermarket”.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- GRAFIC -->
+    <canvas id="chartZilnic" class="chart"></canvas>
+
+    <!-- FORMULAR INTRODUCERE TRANZACȚIE -->
+    <div class="formRow">
+      <input id="zilnicLuna" type="month" />
+      <select id="zilnicSupermarket">
+        <option value="Lidl">Lidl</option>
+        <option value="Kaufland">Kaufland</option>
+        <option value="Carrefour">Carrefour</option>
+        <option value="Mega Image">Mega Image</option>
+        <option value="Profi">Profi</option>
+        <option value="Penny">Penny</option>
+        <option value="Altele">Altele</option>
+      </select>
+      <input id="zilnicSuma" type="number" step="0.01" placeholder="RON" />
+      <button class="btn" onclick="addZilnicTranzactie()">Adaugă tranzacție</button>
+    </div>
+
+    <!-- SUMMARY -->
+    <div id="zilnicVizual" class="summary-card">
+      <div id="zilnicSummary"></div>
+    </div>
+
+    <!-- TABEL SUPERMARKET -->
+    <div id="zilnicContent" style="margin-top:34px;">
+      <div id="zilnicTableContainer" style="margin-top:10px;">
+        <table id="zilnicTable" class="services-table" style="width:100%; border-collapse:collapse;">
+          <thead>
+            <tr>
+              <th>Lună</th>
+              <th>Supermarket</th>
+              <th>Sumă (RON)</th>
+              <th>Șterge</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- PIE CHARTS -->
+    <div class="zilnic-charts">
+      <div class="chart-card">
+        <h4 id="zilnicPieMonthTitle">—</h4>
+        <canvas id="zilnicPieByMonth" class="chart"></canvas>
+      </div>
+      <div class="chart-card">
+        <h4>Distribuție totală</h4>
+        <canvas id="zilnicPieAllTime" class="chart"></canvas>
+      </div>
+    </div>
+
+  </div>
+
+    <!-- ================= CAR (IZOLAT COMPLET, INVIZIBIL LA LOAD) ================= -->
+  <div id="pageCar" style="display:block;">
+  
+    <!-- CARD SUS: MEDIA CAR -->
+	<div class="totalsContainer" style="margin-top:18px;">
+	  <div class="totalsRow">
+		<div class="totalCard">
+		  <h4>Media plăți mașină (RON)</h4>
+		  <div id="carMediaRON" class="totalValues">—</div>
+		  <div class="subtext">Se transferă automat în „Lunar” ca „Media Car”.</div>
+		</div>
+	  </div>
+	</div>
+	
+	<!-- BARCHART CAR -->
+	<canvas id="chartCarBars" class="chart" style="max-width:700px; margin:6px auto 10px;"></canvas>
+
+    <!-- FORMULAR INTRODUCERE -->
+    <div id="carForm" class="formRow" style="margin-top:20px;">
+      <select id="carTip">
+        <option value="benzina">Combustibil</option>
+        <option value="alt">Service / Taxe</option>
+      </select>
+
+      <div id="carFuelFields">
+		  <div class="fuelRow">
+			<input id="carData" type="date" />
+			<input id="carOdometru" type="number" />
+			<span id="carLastOdo" style="opacity:0.7; font-size:13px;"></span>
+		  </div>
+
+		  <div class="fuelRow">
+			<input id="carLitri" type="number" step="0.01" placeholder="Litri" />
+			<select id="carFuelType">
+			  <option>Benzină 95</option>
+			  <option>Benzină 98</option>
+			  <option>Motorină standard</option>
+			  <option>Motorină premium</option>
+			  <option>GPL</option>
+			</select>
+			<input id="carPret" type="number" step="0.01" placeholder="Preț/litru" />
+		  </div>
+	  </div>
+
+
+      <div id="carAltFields">
+        <input id="carData2" type="date" />
+        <input id="carDenumire" type="text" placeholder="Ex: Revizie, RCA, Vignetă..." />
+        <input id="carCost2" type="number" step="0.01" placeholder="Cost total" />
+      </div>
+
+      <button class="btn" onclick="addCarTranzactie()">Adaugă</button>
+    </div>
+	
+	<!-- CARD SUS: MEDIA CHELTUIELI MAȘINĂ -->
+    <div class="totalsContainer" style="margin-top:18px;">
+      <div class="totalsRow" style="justify-content:center;">
+        <div class="totalCard" style="max-width:600px; width:100%;">
+          <h4>Rezumat cheltuieli mașină</h4>
+          <div id="carSummaryText" class="totalValues" style="font-size:15px; line-height:1.45; text-align:center;"></div>
+          <div class="subtext">Se transferă automat în „Lunar” ca „Media Car”.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TABEL + TABURI INTERNE -->
+    <div id="carSwitch" class="zilnic-tabs" style="display:flex; justify-content:center; gap:10px; margin-top:18px;">
+      <button id="carTabFuelBtn" class="zilnic-tab active" onclick="switchCarTable('fuel', event)">Combustibil</button>
+      <button id="carTabServBtn" class="zilnic-tab" onclick="switchCarTable('alt', event)">Service / Taxe</button>
+    </div>
+
+    <!-- TABEL PRINCIPAL -->
+    <div id="carTablesContainer" style="margin-top:20px;">
+
+  <div id="carTableFuelWrap" class="car-table-wrap" style="display:block;">
+    <table id="carTableFuel" class="services-table" style="width:100%; border-collapse:collapse;">
+      <thead>
+        <tr>
+          <th>Data</th>
+          <th>Odometru</th>
+          <th>Tip carburant</th>
+          <th>Litri</th>
+          <th>Preț/litru</th>
+		  <th>RON/km</th>
+          <th>Cost total</th>
+          <th>Șterge</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </div>
+
+  <div id="carTableAltWrap" class="car-table-wrap" style="display:none;">
+    <table id="carTableAlt" class="services-table" style="width:100%; border-collapse:collapse;">
+      <thead>
+        <tr>
+          <th>Data</th>
+          <th>Denumire</th>
+          <th>Cost total</th>
+          <th>Șterge</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </div>
+
+</div>
+
+  </div>
+
+</section>

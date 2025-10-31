@@ -1,0 +1,84 @@
+<section id="lunar" class="page">
+  <div class="totalsContainer">
+    <div class="totalsRow">
+      <div class="totalCard">
+        <h4>Plăți lunare</h4>
+        <div id="totalsPerCurrencyLunar" class="totalValues">—</div>
+      </div>
+      <div class="totalCard">
+        <h4>Obligații lunare (RON)</h4>
+        <div id="obligatiiLunare" class="totalValues">—</div>
+        <div class="subtext">Lunar + 1/12 din anual</div>
+      </div>
+      <div class="totalCard">
+        <h4>Total anual</h4>
+        <div id="totalAnualHome" class="totalValues">—</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="two-cols">
+    <div class="col-panel">
+      <h2 class="table-title">LUNAR</h2>
+      <table id="tableServiciiHome" class="services-table">
+        <thead>
+          <tr>
+            <th>Serviciu</th><th>Cost</th><th>Monedă</th><th>%</th>
+            <th>Note</th><th>Activ</th><th>Drag</th><th>Șterge</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+
+      <div class="formRow">
+        <input id="newServiceName" type="text" placeholder="Nume serviciu">
+        <input id="newServiceCost" type="number" step="0.01" placeholder="Cost">
+        <select id="newServiceCurrency">
+          <option value="RON">RON</option>
+          <option value="EUR">EUR</option>
+          <option value="USD">USD</option>
+        </select>
+        <button class="btn" onclick="addItem('lunar')">Adaugă serviciu</button>
+      </div>
+
+      <div class="formRow">
+        <input id="newCategoryName" type="text" placeholder="Nume categorie">
+        <button class="btn ghost" onclick="addCategory('lunar')">Adaugă categorie</button>
+      </div>
+    </div>
+
+    <div class="col-panel">
+      <h2 class="table-title">ANUAL</h2>
+      <table id="tableServiciiAnual" class="services-table">
+        <thead>
+          <tr>
+            <th>Serviciu</th><th>Cost</th><th>Monedă</th><th>%</th>
+            <th>Note</th><th>Activ</th><th>Drag</th><th>Șterge</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+
+      <div class="formRow">
+        <input id="newServiceNameAnual" type="text" placeholder="Nume serviciu">
+        <input id="newServiceCostAnual" type="number" step="0.01" placeholder="Cost">
+        <select id="newServiceCurrencyAnual">
+          <option value="RON">RON</option>
+          <option value="EUR">EUR</option>
+          <option value="USD">USD</option>
+        </select>
+        <button class="btn" onclick="addItem('anual')">Adaugă serviciu</button>
+      </div>
+
+      <div class="formRow">
+        <input id="newCategoryNameAnual" type="text" placeholder="Nume categorie">
+        <button class="btn ghost" onclick="addCategory('anual')">Adaugă categorie</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="two-cols" style="margin-top:20px;">
+    <div class="col-panel"><canvas id="chartHomePie" class="chart"></canvas></div>
+    <div class="col-panel"><canvas id="chartAnual" class="chart"></canvas></div>
+  </div>
+</section>
