@@ -1,8 +1,6 @@
 /**
  * app.js — Personal Finance SPA (Client-side)
  * Notes:
- *  - Comments converted to concise CV-style English; no logic changes.
- *  - Function names, DOM selectors, and user-facing text remain unchanged.
  *  - Structure: seed data, storage, helpers, CRUD, rendering, routing, charts, daily, car, utilities, admin.
  */
 
@@ -22,7 +20,9 @@ let data_lunar = {
     {nume:'HBO Max', cost:15, moneda:'RON', activ:true, note:''},
     {nume:'GeoGuesser', cost:15, moneda:'RON', activ:true, note:''},
     {nume:'Audiable', cost:48, moneda:'RON', activ:true, note:''},
-    {nume:'Microsoft', cost:48, moneda:'RON', activ:true, note:''}  
+    {nume:'Microsoft', cost:48, moneda:'RON', activ:true, note:''},
+
+	{categorie:true, nume:'Consumabile'}
   ]
 };
 
@@ -30,7 +30,8 @@ let data_anual = {
   servicii: [
     {categorie:true, nume:'Abonamente'},
     {nume:'Bitdefender', cost:330, moneda:'RON', activ:true, note:''},
-    {nume:'Sala', cost:1700, moneda:'RON', activ:true, note:''}
+    {nume:'Sala', cost:1700, moneda:'RON', activ:true, note:''},
+	{nume:'Genius', cost:99, moneda:'RON', activ:true, note:''}
   ]
 };
 
@@ -579,7 +580,7 @@ function addAdminApa() {
     });
   }
 
-  renderAdminApa(); // Re-render table
+  renderAdminApa(); 
   saveDataLocal();  // Persist to localStorage
 }
 
@@ -1565,6 +1566,38 @@ document.addEventListener('scroll', e => {
   if (container.scrollTop > 5) container.classList.add('scrolled');
   else container.classList.remove('scrolled');
 }, true);
+
+
+// === ZOOM functions === 
+
+let zoomLevel = 1;
+
+function applyZoom() {
+  document.getElementById('zoomWrapper').style.transform = `scale(${zoomLevel})`;
+}
+
+// Ctrl + scroll → zoom page
+window.addEventListener('wheel', function (e) {
+  if (!e.ctrlKey) return; // do nothing unless CTRL pressed
+
+  e.preventDefault(); // stop default browser zoom
+  if (e.deltaY < 0) {
+    zoomLevel += 0.05; // scroll up -> zoom in
+  } else {
+    zoomLevel -= 0.05; // scroll down -> zoom out
+    zoomLevel = Math.max(0.5, zoomLevel);
+  }
+  applyZoom();
+}, { passive: false });
+
+// Ctrl + 0 -> reset zoom
+window.addEventListener('keydown', function (e) {
+  if (e.ctrlKey && e.key === '0') {
+    zoomLevel = 1;
+    applyZoom();
+    e.preventDefault();
+  }
+});
 
 // === EXPOSE ===
 window.loadPage=loadPage;

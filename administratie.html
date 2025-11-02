@@ -1,5 +1,18 @@
 <section id="administratie" class="page">
+  
   <h3>Plăți administrație</h3>
+  
+  <div class="formRow">
+        <input id="adminPlataLuna" type="month" />
+        <input id="adminPlataSuma" type="number" step="0.01" placeholder="Sumă" />
+        <select id="adminPlataMoneda">
+          <option value="RON">RON</option>
+          <option value="EUR">EUR</option>
+          <option value="USD">USD</option>
+        </select>
+        <button class="btn" onclick="addAdminPlata()">Adaugă plată</button>
+  </div>
+	
   <div class="util-flex">
     <div class="util-table">
       <table id="tableAdminPlati" class="services-table">
@@ -14,16 +27,6 @@
         <tbody></tbody>
       </table>
 
-      <div class="formRow">
-        <input id="adminPlataLuna" type="month" />
-        <input id="adminPlataSuma" type="number" step="0.01" placeholder="Sumă" />
-        <select id="adminPlataMoneda">
-          <option value="RON">RON</option>
-          <option value="EUR">EUR</option>
-          <option value="USD">USD</option>
-        </select>
-        <button class="btn" onclick="addAdminPlata()">Adaugă plată</button>
-      </div>
     </div>
     <div class="util-chart">
       <canvas id="chartAdminPlati" class="chart"></canvas>
@@ -31,6 +34,14 @@
   </div>
 
   <h3>Citiri apă (Administrație)</h3>
+  
+  <div class="formRow">
+        <input id="adminApaLuna" type="month" />
+        <input id="adminApaContor1" type="number" step="0.01" placeholder="Contor 1" />
+        <input id="adminApaContor2" type="number" step="0.01" placeholder="Contor 2" />
+        <button class="btn" onclick="addAdminApa()">Adaugă citire apă</button>
+  </div>
+  
   <div class="util-flex">
     <div class="util-table">
       <table id="tableAdminApa" class="services-table">
@@ -50,16 +61,12 @@
         <tbody></tbody>
       </table>
 
-      <div class="formRow">
-        <input id="adminApaLuna" type="month" />
-        <input id="adminApaContor1" type="number" step="0.01" placeholder="Contor 1" />
-        <input id="adminApaContor2" type="number" step="0.01" placeholder="Contor 2" />
-        <button class="btn" onclick="addAdminApa()">Adaugă citire apă</button>
-      </div>
+      
     </div>
     <div class="util-chart">
       <canvas id="chartAdminApa" class="chart"></canvas>
     </div>
+
   </div>
 
   <section class="rates-panel" style="margin-top:20px;">
