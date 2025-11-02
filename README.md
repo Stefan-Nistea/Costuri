@@ -1,14 +1,15 @@
 ## Running ExpanseFlow page (test version)
 
+Getting started: 
 * open command promt in your local repository (files path)
-* Run py -m http.server 5500
+* Run: py -m http.server 5500
 * Open browser
 * url: http://localhost:5500/
 
 Requirements:
   * Python 3.12.4
 
-!Please note that this is a local test version. Input data can be los between sesions.!
+!Please note that this is a local test version. Input data can be lost between sesions.!
 
 ## Workflow for this repo:
 ### Gitflow Workflow
