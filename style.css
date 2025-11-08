@@ -1,5 +1,30 @@
+/*
+==========================================================
+Expense Tracker UI — Pastel Fresh Modern
+Author: Stefan Nistea
+Last updated: Nov 2025
+
+Sections:
+1. Theme variables
+2. Base / Reset
+3. Header / Navigation
+4. Layout
+5. Totals (summary cards)
+6. Panels (rates / settings)
+7. Forms / Inputs / Buttons
+8. Tables
+9. Charts
+10. Utility layouts (tables + charts)
+11. Zilnic page (tabs, charts, scroll)
+12. Car page
+13. Utilities & Administration tables
+14. Lunar page layout
+15. Responsive tweaks
+==========================================================
+*/
+
 /* ===========================
-   THEME — Pastel Fresh Modern
+   1. THEME — Pastel Fresh Modern
    =========================== */
 :root{
   /* Palette */
@@ -26,12 +51,20 @@
 
   /* Typography */
   font-family: Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
+  
+  --shadow-card: 0 4px 14px rgba(0,0,0,0.08);
+  --shadow-elevated: 0 8px 24px rgba(16,24,40,0.06);
 }
 
-/* Base */
-*{ box-sizing: border-box; }
+/* ===========================
+   2. BASE / RESET
+   =========================== */
+*{
+  box-sizing: border-box;
+}
 
-html, body{
+html,
+body{
   height: 100%;
   margin: 0;
   background: var(--bg);
@@ -41,9 +74,9 @@ html, body{
 }
 
 /* ===========================
-   Header / Navigation
+   3. HEADER / NAVIGATION
    =========================== */
-   
+
 .app-header{
   background: linear-gradient(0deg, rgba(255,255,255,0.94), rgba(255,255,255,0.94));
   backdrop-filter: saturate(120%) blur(2px);
@@ -62,11 +95,12 @@ html, body{
   color: #1d2939;
 }
 
-.main-nav{ 
-	display:flex; 
-	gap: 12px; 
+.main-nav{
+  display:flex;
+  gap: 12px;
 }
 
+/* Main navigation buttons */
 .nav-btn{
   border: 1px solid var(--border);
   background: #fff;
@@ -75,11 +109,18 @@ html, body{
   border-radius: 10px;
   font-weight: 700;
   cursor: pointer;
-  transition: transform .05s ease, box-shadow .2s ease, background .2s ease;
+  transition: transform .1s ease, box-shadow .2s ease, background .2s ease, color .2s ease;
 }
 
-.nav-btn:hover{ box-shadow: 0 4px 14px rgba(16,24,40,0.06); }
-.nav-btn:active{ transform: translateY(1px); }
+.nav-btn:hover{
+  box-shadow: 0 4px 14px rgba(16,24,40,0.06);
+  transform: translateY(-1px);
+}
+
+.nav-btn:active{
+  transform: translateY(1px);
+}
+
 .nav-btn.active{
   background: var(--accent);
   color: #fff;
@@ -88,30 +129,31 @@ html, body{
 }
 
 /* ===========================
-   Layout
+   4. LAYOUT
    =========================== */
-   
+
 main{
-  max-width: 90%;       
+  max-width: 90%;
   margin: 0 auto;
-  padding: 0 20px;      
+  padding: 0 20px;
 }
 
 .page {
   padding: 0 4px;
 }
 
+/* Generic 2-columns layout for sections that pair table + chart or similar */
 .two-cols {
   display: flex;
-  justify-content: space-between;   
+  justify-content: space-between;
   align-items: flex-start;
-  gap: 20px;                      
-  margin-top: 10px;
+  gap: 20px;
+  margin-top:10px;
 }
 
-.col-panel{ 
-  flex: 1 1 0; 
-  min-width: 0; 
+.col-panel{
+  flex: 1 1 0;
+  min-width: 0;
 }
 
 /* Section titles used on tables */
@@ -131,20 +173,26 @@ main{
 
 /* Responsive columns */
 @media (max-width: 900px){
-  .two-cols{ flex-direction: column; }
+  .two-cols{
+    flex-direction: column;
+  }
 }
 
 /* ===========================
-   Totals (cards row)
+   5. TOTALS (summary cards)
    =========================== */
-.totalsContainer{ 
-	margin-bottom: 18px; 
+
+.totalsContainer{
+  margin-bottom: 18px;
 }
 
 .totalsRow{
-  display:flex; gap:12px; flex-wrap:wrap;
+  display:flex;
+  gap:12px;
+  flex-wrap:wrap;
 }
 
+/* Summary card for key metrics (averages, totals) */
 .totalCard{
   background: var(--bg-soft);
   padding: 16px 16px 14px;
@@ -154,6 +202,12 @@ main{
   border: 1px solid var(--border);
   box-shadow: var(--shadow);
   text-align: center;
+  transition: box-shadow .2s ease, transform .1s ease;
+}
+
+.totalCard:hover{
+  box-shadow: 0 10px 26px rgba(16,24,40,0.10);
+  transform: translateY(-2px);
 }
 
 .totalCard h4{
@@ -178,8 +232,9 @@ main{
 }
 
 /* ===========================
-   Panels (rates, settings)
+   6. PANELS (rates, settings)
    =========================== */
+
 .rates-panel{
   background: var(--bg-soft);
   padding: 14px;
@@ -195,11 +250,19 @@ main{
   color: #1f2a37;
 }
 
-.rates-row{ display:flex; gap:10px; align-items:center; flex-wrap:wrap; }
+.rates-row{
+  display:flex;
+  gap:10px;
+  align-items:center;
+  flex-wrap:wrap;
+}
+
 .rates-row label{
   font-weight: 700;
   color: var(--muted);
-  display:flex; gap:8px; align-items:center;
+  display:flex;
+  gap:8px;
+  align-items:center;
 }
 
 .rates-row input{
@@ -212,8 +275,9 @@ main{
 }
 
 /* ===========================
-   Forms / Inputs / Buttons
+   7. FORMS / INPUTS / BUTTONS
    =========================== */
+
 .formRow{
   display:flex;
   gap:10px;
@@ -222,8 +286,8 @@ main{
   flex-wrap: wrap;
 }
 
-.formRow.left-align{ 
-	justify-content: flex-start !important; 
+.formRow.left-align{
+  justify-content: flex-start !important;
 }
 
 .formRow input[type="text"],
@@ -238,12 +302,13 @@ main{
   font-weight: 600;
 }
 
-.note-small{ 
-	font-size: 12px; 
-	color: var(--muted); 
-	margin-top: 6px; 
+.note-small{
+  font-size: 12px;
+  color: var(--muted);
+  margin-top: 6px;
 }
 
+/* Primary button */
 .btn{
   background: var(--accent);
   color: #fff;
@@ -254,13 +319,13 @@ main{
   font-weight: 800;
   letter-spacing: .2px;
   box-shadow: 0 8px 18px rgba(39,193,122,0.25);
-  transition: transform .05s ease, box-shadow .2s ease, background .2s ease;
+  transition: transform .1s ease, box-shadow .2s ease, background .2s ease, filter .2s ease;
 }
 
-.btn.small{ 
-	padding: 8px 10px; 
-	font-size: 14px; 
-	border-radius: 10px; 
+.btn.small{
+  padding: 8px 10px;
+  font-size: 14px;
+  border-radius: 10px;
 }
 
 .btn.ghost{
@@ -270,17 +335,35 @@ main{
   box-shadow: none;
 }
 
-.btn:hover{ 
-	filter: brightness(1.02); 
+.btn:hover{
+  filter: brightness(1.02);
+  transform: translateY(-1px);
 }
 
-.btn:active{ 
-	transform: translateY(1px); 
+.btn:active{
+  transform: translateY(1px);
+}
+
+/* Center input rows for narrow screens (Zilnic page) */
+@media (max-width: 1500px) {
+  #zilnic .formRow {
+    justify-content: center !important;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  #zilnic .formRow input,
+  #zilnic .formRow select,
+  #zilnic .formRow button {
+    width: 80%;
+    max-width: 1000px;
+  }
 }
 
 /* ===========================
-   Tables
+   8. TABLES
    =========================== */
+
 .services-table{
   width:100%;
   border-collapse: collapse;
@@ -299,7 +382,8 @@ main{
   font-size: 13px;
 }
 
-.services-table th, .services-table td{
+.services-table th,
+.services-table td{
   border: 1px solid var(--border);
   padding: 6px 8px;
   font-size: 14px;
@@ -308,20 +392,20 @@ main{
   background: #fff;
 }
 
-.services-table tbody tr:nth-child(even){ 
-	background: #fbfdff; 
+.services-table tbody tr:nth-child(even){
+  background: #fbfdff;
 }
 
-.services-table tbody tr:hover{ 
-	background: var(--accent-100); 
+.services-table tbody tr:hover{
+  background: var(--accent-100);
 }
 
 .services-table td:first-child,
-.services-table th:first-child{ 
-	text-align: center !important; 
+.services-table th:first-child{
+  text-align: center !important;
 }
 
-/* Inline note textarea */
+/* Inline note textarea inside a table cell */
 .noteInput{
   width: 100%;
   min-height: 10px;
@@ -334,25 +418,29 @@ main{
   background: #fff;
 }
 
-/* Draggable handle */
+/* Draggable handle column */
 .dragHandle{
   cursor: grab;
   font-size: 18px;
   user-select: none;
 }
 
-/* Column resizer (if used) */
-.services-table th{ 
-	position: relative; 
+/* Column resizer placeholder (if implemented) */
+.services-table th{
+  position: relative;
 }
 
 .services-table th .col-resizer{
-  position: absolute; right: 0; top: 0;
-  width: 6px; height: 100%;
-  cursor: col-resize; user-select: none;
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 6px;
+  height: 100%;
+  cursor: col-resize;
+  user-select: none;
 }
 
-/* Delete & Switch buttons in table */
+/* Delete & Switch buttons in table cells */
 .deleteBtn{
   background: #fff;
   border: 1px solid var(--danger);
@@ -360,11 +448,11 @@ main{
   padding: 6px 8px;
   border-radius: 10px;
   cursor: pointer;
-  transition: background .2s ease;
+  transition: background .2s ease, color .2s ease;
 }
 
-.deleteBtn:hover{ 
-	background: var(--danger-100); 
+.deleteBtn:hover{
+  background: var(--danger-100);
 }
 
 .switchBtn{
@@ -376,17 +464,35 @@ main{
   color: #fff;
 }
 
-.switchBtn.active{ 
-	background: var(--accent); 
+.switchBtn.active{
+  background: var(--accent);
 }
 
-.switchBtn.inactive{ 
-	background: var(--danger); 
+.switchBtn.inactive{
+  background: var(--danger);
+}
+
+/* Responsive tables for small screens (Zilnic) */
+@media (max-width: 700px) {
+  #zilnic table.services-table {
+    display: block;
+    width: 100%;
+    overflow-x: auto;
+    white-space: nowrap;
+    border-radius: 12px;
+  }
+
+  #zilnic table.services-table th,
+  #zilnic table.services-table td {
+    font-size: 12px;
+    padding: 6px 6px;
+  }
 }
 
 /* ===========================
-   Charts
+   9. CHARTS
    =========================== */
+
 .chart{
   display: block;
   max-width: 50%;
@@ -394,7 +500,7 @@ main{
   margin: 18px auto 0;
 }
 
-/* Specific chart sizing in pages */
+/* Specific chart sizing in pages: Utilitati & Administratie */
 #utilitati canvas.chart,
 #administratie canvas.chart{
   width: 100%;
@@ -410,15 +516,16 @@ main{
   gap: 14px;
 }
 
+/* Override with refined sizing for these charts */
 #utilitati canvas.chart,
 #administratie canvas.chart {
   width: 100%;
-  max-width: 600px;   /* opțional: menține lățimea decentă */
-  height: 350px !important;  /* scade înălțimea (implicit era ~240px) */
+  max-width: 600px;
+  height: 350px !important;
   margin: 10px auto 0;
 }
 
-/* Lunar charts in two-cols */
+/* Lunar charts inside column panels */
 #lunar .col-panel .chart{
   width: 75%;
   max-width: 520px;
@@ -426,26 +533,19 @@ main{
   margin: 18px auto 18px;
 }
 
-/* ZILNIC Chart*/
+/* ZILNIC main chart */
 #zilnic canvas#chartZilnic {
   display: block;
   width: 100% !important;
   max-width: 700px !important;
   height: auto !important;
-  margin: 12px auto !important; 
-}
-
-@media (max-width: 800px) {
-  #zilnic canvas#chartZilnic {
-    max-width: 100% !important;
-    margin: 12px auto;
-  }
+  margin: 12px auto !important;
 }
 
 /* ===========================
-   Utility layouts (tables + charts)
+   10. UTILITY LAYOUTS (tables + charts)
    =========================== */
-   
+
 .util-flex{
   display: flex;
   gap: 20px;
@@ -453,8 +553,8 @@ main{
   margin-top: 10px;
 }
 
-.util-table{ 
-	flex: 0 0 50%; 
+.util-table{
+  flex: 0 0 50%;
 }
 
 #utilitati .util-table,
@@ -471,26 +571,34 @@ main{
 }
 
 /* ===========================
-   Responsive 
+   11. GENERIC HEADINGS
    =========================== */
 
-/* Optional small helpers for headings in sections */
-h3{ 
-	color: #0f1f2e; 
-	margin-top: 25px;
-	text-align: center;
+h3{
+  color: #0f1f2e;
+  margin-top: 25px;
+  text-align: center;
 }
-h3 + .util-flex{ margin-top: 6px; }
 
-/* Keep inputs compact in table numeric columns */
-.services-table th:nth-child(2), .services-table td:nth-child(2){ width: 110px; }
+h3 + .util-flex{
+  margin-top: 6px;
+}
+
+/* Numeric column width hint */
+.services-table th:nth-child(2),
+.services-table td:nth-child(2){
+  width: 110px;
+}
+
 .services-table td:nth-child(2) input[type="number"]{
   width: 100%;
   box-sizing: border-box;
   text-align: center;
 }
 
-/* === Table default width === */
+/* ===========================
+   12. LUNAR & ANUAL COLUMN WIDTHS
+   =========================== */
 
 /* Serviciu */
 #lunar .services-table th:nth-child(1),
@@ -518,9 +626,9 @@ h3 + .util-flex{ margin-top: 6px; }
 #lunar .services-table td:nth-child(3),
 #anual .services-table th:nth-child(3),
 #anual .services-table td:nth-child(3) {
-  width: 56px;
-  max-width: 70px;
-  min-width: 70px;
+  width: 50px;
+  max-width: 60px;
+  min-width: 60px;
   text-align: center;
 }
 
@@ -540,8 +648,8 @@ h3 + .util-flex{ margin-top: 6px; }
 #lunar .services-table td:nth-child(5),
 #anual .services-table th:nth-child(5),
 #anual .services-table td:nth-child(5) {
-  width: 150px;
-  min-width: 150px;
+  width: 100px;
+  min-width: 50px;
 }
 
 /* Active button */
@@ -550,8 +658,8 @@ h3 + .util-flex{ margin-top: 6px; }
 #anual .services-table th:nth-child(6),
 #anual .services-table td:nth-child(6) {
   width: 60px;
-  max-width: 60px;
-  min-width: 60px;
+  max-width: 70px;
+  min-width: 70px;
 }
 
 /* Drag button */
@@ -574,9 +682,13 @@ h3 + .util-flex{ margin-top: 6px; }
   min-width: 60px;
 }
 
+/* ===========================
+   13. LUNAR LAYOUT
+   =========================== */
+
 #lunar .col-panel:first-child,
 #lunar .col-panel:last-child {
-  width: calc(50% - 12px); 
+  width: calc(50% - 12px);
   max-width: none;
 }
 
@@ -585,32 +697,36 @@ h3 + .util-flex{ margin-top: 6px; }
   flex-wrap: wrap;
   justify-content: space-between;
   align-items: flex-start;
-  gap: 20px;                    
+  gap: 20px;
   width: 100%;
   box-sizing: border-box;
   overflow: hidden;
 }
 
 #lunar .col-panel {
-  flex: 0 0 calc(50% - 10px);  
-  min-width: 0; 
+  flex: 0 0 calc(50% - 10px);
+  min-width: 0;
 }
 
 #lunar .services-table {
   min-width: 100%;
-  table-layout: auto;  
+  table-layout: auto;
   border-collapse: collapse;
   border-spacing: 0;
 }
 
+/* ===========================
+   14. DESKTOP-WIDE LAYOUT
+   =========================== */
+
 @media (min-width: 1000px) {
   main {
-    max-width: 100vw ;   
-    margin: 0 ;
-    padding-left: 35px;  
+    max-width: 100vw;
+    margin: 0;
+    padding-left: 35px;
     padding-right: 35px;
-	padding-top: 15px;
-	padding-bottom: 15px;
+    padding-top: 15px;
+    padding-bottom: 15px;
   }
 
   .page {
@@ -620,7 +736,7 @@ h3 + .util-flex{ margin-top: 6px; }
 
   .two-cols,
   .util-flex {
-    gap: 16px;           
+    gap: 16px;
     margin-left: 0;
     margin-right: 0;
   }
@@ -637,19 +753,22 @@ h3 + .util-flex{ margin-top: 6px; }
   }
 }
 
-/* Note for uneditable zones */
+/* ===========================
+   15. LOCK UNEDITABLE ZONES
+   =========================== */
+
 #administratie [contenteditable="true"],
 #utilitati [contenteditable="true"] {
-  pointer-events: none;     
+  pointer-events: none;
   background-color: #fafafa;
   color: #555;
   cursor: default;
 }
 
-/* =====================
-   ZILNIC — Tab Selector
-   ===================== */
-   
+/* ===========================
+   16. ZILNIC — TAB SELECTOR
+   =========================== */
+
 .zilnic-tabs {
   display: flex;
   justify-content: center;
@@ -665,10 +784,20 @@ h3 + .util-flex{ margin-top: 6px; }
   font-weight: 600;
   font-size: 14px;
   cursor: pointer;
-  transition: border-color .15s ease, color .15s ease;
+  transition: border-color .15s ease, color .15s ease, background-color .15s ease;
   color: var(--muted);
 }
 
+.zilnic-tab:hover {
+  border-color: var(--accent-600);
+}
+
+.zilnic-tab.active {
+  border-color: var(--accent-600);
+  color: var(--accent-600);
+}
+
+/* Zilnic visual summary card */
 #zilnicVizual {
   max-width: 600px;
   margin: 24px auto;
@@ -687,18 +816,9 @@ h3 + .util-flex{ margin-top: 6px; }
   line-height: 1.45;
 }
 
-.zilnic-tab:hover {
-  border-color: var(--accent-600);
-}
-
-.zilnic-tab.active {
-  border-color: var(--accent-600);
-  color: var(--accent-600);
-}
-
-/* =====================
-   ZILNIC — Charts
-   ===================== */
+/* ===========================
+   17. ZILNIC — CHARTS
+   =========================== */
 
 .zilnic-charts {
   display: flex;
@@ -724,7 +844,7 @@ h3 + .util-flex{ margin-top: 6px; }
   opacity: 0.9;
 }
 
-/* === ZILNIC TABLE SCROLL === */
+/* ZILNIC table scrollable container */
 #zilnicTableContainer {
   max-height: 700px;
   overflow-y: auto;
@@ -745,7 +865,7 @@ h3 + .util-flex{ margin-top: 6px; }
 #zilnicTable thead th {
   position: sticky;
   top: 0;
-  background: #f8faf9; 
+  background: #f8faf9;
   z-index: 5;
   box-shadow: 0 2px 4px rgba(0,0,0,0.08);
 }
@@ -761,9 +881,9 @@ h3 + .util-flex{ margin-top: 6px; }
 }
 
 /* ===========================
-   Car page
+   18. CAR PAGE
    =========================== */
-   
+
 #carForm input,
 #carForm select {
   min-width: 130px;
@@ -774,7 +894,7 @@ h3 + .util-flex{ margin-top: 6px; }
   font-weight: 700;
 }
 
-/* === CAR tables === */
+/* CAR tables wrapper */
 #carTables .car-table-wrap{
   max-height: 700px;
   overflow: auto;
@@ -802,6 +922,7 @@ h3 + .util-flex{ margin-top: 6px; }
   z-index: 1;
 }
 
+/* Summary card under Car tables */
 .summary-card{
   max-width: 600px;
   margin: 24px auto;
@@ -820,25 +941,25 @@ h3 + .util-flex{ margin-top: 6px; }
   line-height: 1.45;
 }
 
-.summary-card .sum .month{ 
-	font-weight: 700; 
-	color: #1f2a37; 
+.summary-card .sum .month{
+  font-weight: 700;
+  color: #1f2a37;
 }
 
-.summary-card .sum .total{ 
-	font-weight: 700; 
+.summary-card .sum .total{
+  font-weight: 700;
 }
 
-.summary-card .sum .meta{ 
-	opacity: .9; 
-	display:block; 
-	margin-top: 2px; 
+.summary-card .sum .meta{
+  opacity: .9;
+  display:block;
+  margin-top: 2px;
 }
 
-.summary-card .sum .break{ 
-	opacity: .85; 
-	display:block; 
-	margin-top: 2px; 
+.summary-card .sum .break{
+  opacity: .85;
+  display:block;
+  margin-top: 2px;
 }
 
 #carSummaryText {
@@ -866,12 +987,12 @@ h3 + .util-flex{ margin-top: 6px; }
   margin-top: 3px;
 }
 
-/* ==== CAR FORM LAYOUT STABLE VERSION ==== */
+/* CAR form stable layout (2-row approach) */
 #carForm {
   display: flex;
   flex-direction: column;
   gap: 14px;
-  align-items: center; 
+  align-items: center;
   width: 100%;
 }
 
@@ -896,19 +1017,14 @@ h3 + .util-flex{ margin-top: 6px; }
   flex: 0 0 auto;
 }
 
-/* ---- 2 ROW HARD LAYOUT FOR FUEL ---- */
-
-/* Row 1 */
+/* Fixed ordering for fuel fields (2-row layout) */
 #carData      { order: 1; flex: 0 0 150px; }
 #carOdometru  { order: 2; flex: 0 0 130px; }
 #carLastOdo   { order: 3; flex: 0 0 100px; text-align:center; }
-
-/* Row 2 */
 #carLitri     { order: 4; flex: 0 0 120px; }
 #carFuelType  { order: 5; flex: 0 0 150px; }
 #carPret      { order: 6; flex: 0 0 120px; }
 
-/* Button stays compact */
 #carForm .btn {
   width: auto !important;
   padding: 9px 16px;
@@ -930,24 +1046,30 @@ h3 + .util-flex{ margin-top: 6px; }
   justify-content: center;
 }
 
-/* Zoom functionality */
+/* ===========================
+   19. ZOOM FUNCTIONALITY WRAPPER
+   =========================== */
+
 #zoomWrapper {
   transform-origin: top center;
   transition: transform 0.12s ease-out;
 }
 
-/* Tables Utility and Admin */
+/* ===========================
+   20. UTILITATI & ADMINISTRATIE TABLES
+   =========================== */
+
 #utilitati .util-table,
 #administratie .util-table {
   overflow-y: auto;
-  max-height: 360px; 
+  max-height: 360px;
   max-width: 700px;
   border-radius: 12px;
   margin: 0 auto;
   box-shadow: 0 4px 14px rgba(0,0,0,0.05);
 }
 
-/* fixed holder */
+/* Sticky header inside scrollable table */
 #utilitati .util-table table thead th,
 #administratie .util-table table thead th {
   position: sticky;
@@ -955,3 +1077,62 @@ h3 + .util-flex{ margin-top: 6px; }
   background: #fbfcfe;
   z-index: 1;
 }
+
+/* ===========================
+   21. RESPONSIVE — LUNAR
+   =========================== */
+
+@media (max-width: 1400px) {
+  #lunar .two-cols {
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: flex-start !important;
+    gap: 20px !important;
+  }
+
+  #lunar .col-panel,
+  #lunar .col-panel:first-child,
+  #lunar .col-panel:last-child {
+    flex: 0 0 100% !important;
+    width: 100% !important;
+    max-width: 900px !important;
+    margin: 0 auto !important;
+  }
+
+  #lunar .services-table {
+    width: 100% !important;
+    margin: 0 auto !important;
+  }
+}
+
+/* LUNAR: horizontal scroll on very narrow screens */
+@media (max-width: 650px) {
+  #lunar .col-panel {
+    padding: 0 8px !important;
+  }
+
+  #lunar .services-table {
+    display: block !important;
+    overflow-x: auto !important;
+    white-space: nowrap !important;
+    border-radius: 12px;
+    border: 1px solid var(--border);
+    box-shadow: 0 4px 14px rgba(0,0,0,0.06);
+  }
+
+  #lunar .services-table thead th,
+  #lunar .services-table td {
+    font-size: 12px !important;
+    padding: 6px 8px !important;
+  }
+
+  #lunar .two-cols {
+    align-items: stretch !important;
+  }
+}
+
+/*
+==========================================================
+END OF FILE — Expense Tracker UI (Pastel Fresh Modern)
+==========================================================
+*/

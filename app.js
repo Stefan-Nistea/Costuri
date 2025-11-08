@@ -223,8 +223,8 @@ function fmt(n) {
  */
 
 let exchangeRates = {
-  EUR: 0,
-  USD: 0,
+  EUR: 5.08,
+  USD: 4.4,
   RON: 1
 };
 
@@ -232,25 +232,16 @@ let exchangeRates = {
  * Fetches XML feed from BNR and extracts RON conversion values.
  * Uses browser DOMParser to read <Rate currency="EUR"> and <Rate currency="USD">.
  */
-async function getRates() {
-  try {
-    const response = await fetch("https://www.bnr.ro/nbrfxrates.xml");
-    const text = await response.text();
-    const parser = new DOMParser();
-    const xml = parser.parseFromString(text, "application/xml");
+function getRates() {
+  // Citim din input-uri dacă există valori, altfel folosim fallback-urile
+  const eurInput = parseFloat(document.getElementById('rateEUR')?.value);
+  const usdInput = parseFloat(document.getElementById('rateUSD')?.value);
 
-    const eur = xml.querySelector('Rate[currency="EUR"]');
-    const usd = xml.querySelector('Rate[currency="USD"]');
-
-    if (eur && usd) {
-      exchangeRates.EUR = parseFloat(eur.textContent);
-      exchangeRates.USD = parseFloat(usd.textContent);
-    }
-
-    console.log("BNR exchange rates updated:", exchangeRates);
-  } catch (err) {
-    console.error("Failed to fetch BNR rates:", err);
-  }
+  return {
+    EUR: !isNaN(eurInput) ? eurInput : exchangeRates.EUR,
+    USD: !isNaN(usdInput) ? usdInput : exchangeRates.USD,
+    RON: 1
+  };
 }
 
 
@@ -843,8 +834,8 @@ async function updateRatesFromBNR() {
     console.warn('Error fetching BNR exchange rates — using default values.', e);
 
     // Default fallback exchange rates
-    const eur = 4.95;
-    const usd = 4.50;
+    const eur = 5.08;
+    const usd = 4.40;
 
     // Update UI fields with fallback values
     document.getElementById('rateEUR').value = eur.toFixed(4);
