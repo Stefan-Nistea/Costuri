@@ -1241,6 +1241,22 @@ function switchZilnicTab(tab, event) {
       switchCarTable(isFuel ? 'fuel' : 'alt');
     }
   }
+  
+  if (tab === 'iesiri') {
+    pageSuper.style.display = 'none';
+    pageCar.style.display   = 'none';
+    document.getElementById('pageBarsTrips').style.display = 'block';
+    document.getElementById('pageWants').style.display = 'none';
+    return;
+  }
+
+  if (tab === 'rasfat') {
+    pageSuper.style.display = 'none';
+    pageCar.style.display   = 'none';
+    document.getElementById('pageBarsTrips').style.display = 'none';
+    document.getElementById('pageWants').style.display = 'block';
+    return;
+  }
 }
 
 
