@@ -4,8 +4,8 @@
   <div class="zilnic-tabs" style="display:flex; justify-content:center; gap:10px; margin-top:12px;">
     <button class="zilnic-tab active" onclick="switchZilnicTab('supermarket', event)">Supermarket</button>
     <button class="zilnic-tab" onclick="switchZilnicTab('car', event)">Car</button>
-    <button class="zilnic-tab" onclick="switchZilnicTab('iesiri', event)">Bars&Trips</button>
-    <button class="zilnic-tab" onclick="switchZilnicTab('rasfat', event)">Wants</button>
+    <button class="zilnic-tab" onclick="switchZilnicTab('BarsTrips', event)">Bars&Trips</button>
+    <button class="zilnic-tab" onclick="switchZilnicTab('Wants', event)">Wants</button>
   </div>
 
   <!-- ================= SUPER MARKET (VIZIBIL IMPLICIT) ================= -->
@@ -77,8 +77,8 @@
 
   </div>
 
-    <!-- ================= CAR (IZOLAT COMPLET, INVIZIBIL LA LOAD) ================= -->
-  <div id="pageCar" style="display:block;">
+  <!-- ================= CAR ================= -->
+  <div id="pageCar" style="display:none;">
   
     <!-- CARD SUS: MEDIA CAR -->
 	<div class="totalsContainer" style="margin-top:18px;">
@@ -151,50 +151,55 @@
     <!-- TABEL PRINCIPAL -->
     <div id="carTablesContainer" style="margin-top:20px;">
 
-  <div id="carTableFuelWrap" class="car-table-wrap" style="display:block;">
-    <table id="carTableFuel" class="services-table" style="width:100%; border-collapse:collapse;">
-      <thead>
-        <tr>
-          <th>Data</th>
-          <th>Odometru</th>
-          <th>Tip carburant</th>
-          <th>Litri</th>
-          <th>Preț/litru</th>
-		  <th>RON/km</th>
-          <th>Cost total</th>
-          <th>Șterge</th>
-        </tr>
-      </thead>
-      <tbody></tbody>
-    </table>
+	  <div id="carTableFuelWrap" class="car-table-wrap" style="display:block;">
+		<table id="carTableFuel" class="services-table" style="width:100%; border-collapse:collapse;">
+		  <thead>
+			<tr>
+			  <th>Data</th>
+			  <th>Odometru</th>
+			  <th>Tip carburant</th>
+			  <th>Litri</th>
+			  <th>Preț/litru</th>
+			  <th>RON/km</th>
+			  <th>Cost total</th>
+			  <th>Șterge</th>
+			</tr>
+		  </thead>
+		  <tbody></tbody>
+		</table>
+	  </div>
+
+	  <div id="carTableAltWrap" class="car-table-wrap" style="display:none;">
+		<table id="carTableAlt" class="services-table" style="width:100%; border-collapse:collapse;">
+		  <thead>
+			<tr>
+			  <th>Data</th>
+			  <th>Denumire</th>
+			  <th>Cost total</th>
+			  <th>Șterge</th>
+			</tr>
+		  </thead>
+		  <tbody></tbody>
+		</table>
+	  </div>
+
+    </div>
   </div>
-
-  <div id="carTableAltWrap" class="car-table-wrap" style="display:none;">
-    <table id="carTableAlt" class="services-table" style="width:100%; border-collapse:collapse;">
-      <thead>
-        <tr>
-          <th>Data</th>
-          <th>Denumire</th>
-          <th>Cost total</th>
-          <th>Șterge</th>
-        </tr>
-      </thead>
-      <tbody></tbody>
-    </table>
-  </div>
-
-</div>
-
+  
   </div>
   
   <!-- ================= BARS & TRIPS ================= -->
-  <div id="pageBarsTrips" style="display:none; text-align:center; margin-top:60px; font-size:20px; opacity:0.8;">
-    <p>Bars & Trips — page under construction </p>
+  <div id="pageBarsTrips" style="display:none;">
+    <div class="placeholder" style="text-align:center; opacity:0.6; margin-top:40px;">
+      <h3>Bars & Trips — page under construction </h3>
+    </div>
   </div>
 
   <!-- ================= WANTS ================= -->
-  <div id="pageWants" style="display:none; text-align:center; margin-top:60px; font-size:20px; opacity:0.8;">
-    <p>Wants — page under construction </p>
+  <div id="pageWants" style="display:none;">
+    <div class="placeholder" style="text-align:center; opacity:0.6; margin-top:40px;">
+      <h3>Wants — page under construction </h3>
+    </div>
   </div>
 
 </section>

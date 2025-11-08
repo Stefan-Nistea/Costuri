@@ -403,6 +403,21 @@ main{
   margin: 0;
 }
 
+#administratie .util-flex,
+#utilitati .util-flex {
+  flex-direction: column;
+  align-items: stretch;
+  gap: 14px;
+}
+
+#utilitati canvas.chart,
+#administratie canvas.chart {
+  width: 100%;
+  max-width: 600px;   /* opțional: menține lățimea decentă */
+  height: 350px !important;  /* scade înălțimea (implicit era ~240px) */
+  margin: 10px auto 0;
+}
+
 /* Lunar charts in two-cols */
 #lunar .col-panel .chart{
   width: 75%;
@@ -442,6 +457,12 @@ main{
 	flex: 0 0 50%; 
 }
 
+#utilitati .util-table,
+#administratie .util-table {
+  flex: unset !important;
+  width: 100%;
+}
+
 .util-chart{
   flex: 0 0 50%;
   display: flex;
@@ -454,7 +475,11 @@ main{
    =========================== */
 
 /* Optional small helpers for headings in sections */
-h3{ color: #0f1f2e; margin-top: 14px; }
+h3{ 
+	color: #0f1f2e; 
+	margin-top: 25px;
+	text-align: center;
+}
 h3 + .util-flex{ margin-top: 6px; }
 
 /* Keep inputs compact in table numeric columns */
@@ -909,4 +934,24 @@ h3 + .util-flex{ margin-top: 6px; }
 #zoomWrapper {
   transform-origin: top center;
   transition: transform 0.12s ease-out;
+}
+
+/* Tables Utility and Admin */
+#utilitati .util-table,
+#administratie .util-table {
+  overflow-y: auto;
+  max-height: 360px; 
+  max-width: 700px;
+  border-radius: 12px;
+  margin: 0 auto;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.05);
+}
+
+/* fixed holder */
+#utilitati .util-table table thead th,
+#administratie .util-table table thead th {
+  position: sticky;
+  top: 0;
+  background: #fbfcfe;
+  z-index: 1;
 }

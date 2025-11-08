@@ -1,81 +1,140 @@
+"use strict";
+
 /**
  * app.js — Personal Finance SPA (Client-side)
- * Notes:
- *  - Structure: seed data, storage, helpers, CRUD, rendering, routing, charts, daily, car, utilities, admin.
+ *
+ * Core client-side logic for:
+ * - Monthly (lunar) and yearly (anual) recurring services
+ * - Utilities and administration payments
+ * - Daily supermarket & car expenses
+ * - Charts, summaries and cross-section synchronization
+ *
  */
 
-// === SEED DATA ===
+/* =========================
+ * SEED DATA
+ * ========================= */
+ 
 let data_lunar = {
   servicii: [
-    {categorie:true, nume:'Utilitati'},
-    {nume:'Internet si TV', cost:66, moneda:'RON', activ:true, note:''},
-  
-    {categorie:true, nume:'Servicii online'},
-    {nume:'Google Drive', cost:10, moneda:'RON', activ:true, note:''},
-    {nume:'Youtube Premium', cost:29, moneda:'RON', activ:true, note:''},
-    {nume:'Amazon Prime', cost:20, moneda:'RON', activ:true, note:''},
-    {nume:'Spotify', cost:24, moneda:'RON', activ:true, note:''},
-    {nume:'Netflix', cost:56, moneda:'RON', activ:true, note:''},
-    {nume:'Disney Plus', cost:45, moneda:'RON', activ:true, note:''},
-    {nume:'HBO Max', cost:15, moneda:'RON', activ:true, note:''},
-    {nume:'GeoGuesser', cost:15, moneda:'RON', activ:true, note:''},
-    {nume:'Audiable', cost:48, moneda:'RON', activ:true, note:''},
-    {nume:'Microsoft', cost:48, moneda:'RON', activ:true, note:''},
+    { categorie: true, nume: "Utilitati" },
+    { nume: "Internet si TV", cost: 66, moneda: "RON", activ: true, note: "" },
 
-	{categorie:true, nume:'Consumabile'}
+    { categorie: true, nume: "Servicii online" },
+    { nume: "Google Drive",      cost: 10, moneda: "RON", activ: true, note: "" },
+    { nume: "Youtube Premium",   cost: 29, moneda: "RON", activ: true, note: "" },
+    { nume: "Amazon Prime",      cost: 20, moneda: "RON", activ: true, note: "" },
+    { nume: "Spotify",           cost: 24, moneda: "RON", activ: true, note: "" },
+    { nume: "Netflix",           cost: 56, moneda: "RON", activ: true, note: "" },
+    { nume: "Disney Plus",       cost: 45, moneda: "RON", activ: true, note: "" },
+    { nume: "HBO Max",           cost: 15, moneda: "RON", activ: true, note: "" },
+    { nume: "GeoGuesser",        cost: 15, moneda: "RON", activ: true, note: "" },
+    { nume: "Audiable",          cost: 48, moneda: "RON", activ: true, note: "" },
+    { nume: "Microsoft",         cost: 48, moneda: "RON", activ: true, note: "" },
+
+    { categorie: true, nume: "Consumabile" }
   ]
 };
+
+/* ========================
+ * SEED DATA: YEARLY (ANUAL)
+ * ======================== */
+
 
 let data_anual = {
   servicii: [
-    {categorie:true, nume:'Abonamente'},
-    {nume:'Bitdefender', cost:330, moneda:'RON', activ:true, note:''},
-    {nume:'Sala', cost:1700, moneda:'RON', activ:true, note:''},
-	{nume:'Genius', cost:99, moneda:'RON', activ:true, note:''}
+    { categorie: true, nume: "Abonamente" },
+    { nume: "Bitdefender", cost: 330,  moneda: "RON", activ: true, note: "" },
+    { nume: "Sala",        cost: 1700, moneda: "RON", activ: true, note: "" },
+    { nume: "Genius",      cost: 99,   moneda: "RON", activ: true, note: "" }
   ]
 };
 
-// === UTILITIES DATA ===
+
+/* ==========================
+ * SEED DATA: UTILITIES (BILL)
+ * ========================== */
+ 
+
 let data_utilitati = {
+  // Monthly payments (e.g. electricity, gas, water), aggregated as simple rows
   plati: [],
+  // Electricity readings by month
   citiri_curent: [],
+  // Gas readings by month
   citiri_gaz: []
 };
 
-// === ADMINISTRATION DATA ===
+/* ===============================
+ * SEED DATA: ADMINISTRATION (HOA)
+ * =============================== */
+ 
 let data_administratie = {
-  plati: [],                   // {luna, suma, moneda}
-  apa: [],                     // {luna, contor1, contor2, cost_factura}
-  cost_pe_mc: 10               // lei / m³ (global pentru calcule)
+  // Admin payments: { luna, suma, moneda }
+  plati: [],
+  // Water meter readings: { luna, contor1, contor2, cost_factura }
+  apa: [],
+  // Global cost per m³ used for auto-calculation in UI
+  cost_pe_mc: 10
 };
 
-// === DAILY DATA ===
+
+/* ==========================
+ * SEED DATA: DAILY SUPERMARKET
+ * ========================== */
+ 
+
 let data_zilnic = {
-  tranzactii: []   // { luna: "2025-07", supermarket: "Lidl", suma: 123.45 }
-};
-
-let data_car = {
+  // Daily / monthly supermarket entries:
+  // { tip: 'supermarket', luna: 'YYYY-MM', supermarket: 'Lidl', suma: Number }
   tranzactii: []
 };
 
-// === GLOBALS ===
+/* ======================
+ * SEED DATA: CAR EXPENSES
+ * ====================== */
+
+let data_car = {
+  // Car transactions:
+  // - Fuel rows: { tip:'car', subt:'fuel', data, luna, odometru, litri, pret_litru, fuelType, suma }
+  // - Service/Tax rows: { tip:'car', subt:'alt', data, luna, denumire, suma }
+  tranzactii: []
+};
+
+/* ================
+ * GLOBAL REFERENCES
+ * ================ */
+
+// Charts
 let chartHomePie, chartAnual;
 let chartUtilPlati, chartUtilCurent, chartUtilGaz;
 let chartAdminPlati, chartAdminApa;
 let chartZilnic;
 let chartZilnicPieMonth, chartZilnicPieAll;
-let sortableHome = null, sortableAnual = null;
+
+// Sortable instances
+let sortableHome = null;
+let sortableAnual = null;
+
+// Current visible SPA "page" key: 'lunar' | 'utilitati' | 'administratie' | 'zilnic'
 let currentPage = 'lunar';
 
-// === STORAGE ===
-function loadDataLocal(){
+/* =================
+ * LOCAL STORAGE I/O
+ * ================= */
+
+/**
+ * Load persisted state from localStorage into in-memory structures.
+ * Ensures backward compatibility and safe defaults.
+ */
+function loadDataLocal() {
   try {
-    const dl     = localStorage.getItem('data_lunar');
-    const da     = localStorage.getItem('data_anual');
-    const du     = localStorage.getItem('data_utilitati');
-    const dadmin = localStorage.getItem('data_administratie');
-    const dz     = localStorage.getItem('data_zilnic');
-    const dc     = localStorage.getItem('data_car');
+    const dl     = localStorage.getItem("data_lunar");
+    const da     = localStorage.getItem("data_anual");
+    const du     = localStorage.getItem("data_utilitati");
+    const dadmin = localStorage.getItem("data_administratie");
+    const dz     = localStorage.getItem("data_zilnic");
+    const dc     = localStorage.getItem("data_car");
 
     if (dl) data_lunar = JSON.parse(dl);
     if (da) data_anual = JSON.parse(da);
@@ -84,53 +143,175 @@ function loadDataLocal(){
     if (dz) data_zilnic = JSON.parse(dz);
     if (dc) data_car = JSON.parse(dc);
 
-    // Safe defaults
-    if (!Array.isArray(data_zilnic.tranzactii)) data_zilnic.tranzactii = [];
-    if (!Array.isArray(data_car.tranzactii)) data_car.tranzactii = [];
+    // Normalize / migrate shapes if older data is present
 
-    if (!data_utilitati.plati) data_utilitati.plati = [];
-    if (!data_utilitati.citiri_curent && data_utilitati.citiri)
+    if (!Array.isArray(data_zilnic.tranzactii)) {
+      data_zilnic.tranzactii = [];
+    }
+
+    if (!Array.isArray(data_car.tranzactii)) {
+      data_car.tranzactii = [];
+    }
+
+    if (!data_utilitati.plati) {
+      data_utilitati.plati = [];
+    }
+
+    // Legacy: `citiri` -> `citiri_curent`
+    if (!data_utilitati.citiri_curent && data_utilitati.citiri) {
       data_utilitati.citiri_curent = data_utilitati.citiri;
-    if (!data_utilitati.citiri_gaz) data_utilitati.citiri_gaz = [];
+    }
+    if (!data_utilitati.citiri_gaz) {
+      data_utilitati.citiri_gaz = [];
+    }
     delete data_utilitati.citiri;
 
-    if (!data_administratie.plati) data_administratie.plati = [];
-    if (!data_administratie.apa) data_administratie.apa = [];
-    if (typeof data_administratie.cost_pe_mc !== 'number')
+    if (!data_administratie.plati) {
+      data_administratie.plati = [];
+    }
+    if (!data_administratie.apa) {
+      data_administratie.apa = [];
+    }
+    if (typeof data_administratie.cost_pe_mc !== "number") {
       data_administratie.cost_pe_mc = 10;
+    }
 
-  } catch(e){
-    console.warn('Reset localStorage (date invalide)', e);
+  } catch (e) {
+    console.warn("Invalid data in localStorage. Resetting all stored state.", e);
     localStorage.clear();
   }
 }
 
-
+/**
+ * Persist current in-memory state into localStorage.
+ * Called after each mutating operation or global update.
+ */
 function saveDataLocal() {
   try {
-    localStorage.setItem('data_lunar', JSON.stringify(data_lunar));
-    localStorage.setItem('data_anual', JSON.stringify(data_anual));
-    localStorage.setItem('data_utilitati', JSON.stringify(data_utilitati));
-    localStorage.setItem('data_administratie', JSON.stringify(data_administratie));
-    localStorage.setItem('data_zilnic', JSON.stringify(data_zilnic));
-    localStorage.setItem('data_car', JSON.stringify(data_car));
-    localStorage.setItem('lastPage', currentPage);
-  } catch(err) {
-    console.error("Eroare la salvarea in localStorage:", err);
+    localStorage.setItem("data_lunar", JSON.stringify(data_lunar));
+    localStorage.setItem("data_anual", JSON.stringify(data_anual));
+    localStorage.setItem("data_utilitati", JSON.stringify(data_utilitati));
+    localStorage.setItem("data_administratie", JSON.stringify(data_administratie));
+    localStorage.setItem("data_zilnic", JSON.stringify(data_zilnic));
+    localStorage.setItem("data_car", JSON.stringify(data_car));
+    localStorage.setItem("lastPage", currentPage);
+  } catch (err) {
+    console.error("Failed to write to localStorage:", err);
   }
 }
 
-// === FORMAT ===
-function fmt(n){
-  return Number(n || 0).toLocaleString('ro-RO', { minimumFractionDigits:2, maximumFractionDigits:2 });
+/* =================
+ * FORMAT HELPERS
+ * ================= */
+
+/**
+ * Format number as RON-style with 2 decimals using ro-RO locale.
+ */
+function fmt(n) {
+  return Number(n || 0).toLocaleString("ro-RO", {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2
+  });
 }
 
-// === FX RATES ===
-function getRates(){
-  const eur = parseFloat(document.getElementById('rateEUR')?.value) || 0;
-  const usd = parseFloat(document.getElementById('rateUSD')?.value) || 0;
-  return { EUR: eur, USD: usd, RON: 1 };
+/* ================================
+ * EXCHANGE RATES — BNR XML PARSER
+ * ================================
+ *
+ * Fetches official daily exchange rates (RON-EUR-USD) from BNR feed.
+ * Updates the global conversion object and refreshes the UI if needed.
+ */
+
+let exchangeRates = {
+  EUR: 0,
+  USD: 0,
+  RON: 1
+};
+
+/**
+ * Fetches XML feed from BNR and extracts RON conversion values.
+ * Uses browser DOMParser to read <Rate currency="EUR"> and <Rate currency="USD">.
+ */
+async function getRates() {
+  try {
+    const response = await fetch("https://www.bnr.ro/nbrfxrates.xml");
+    const text = await response.text();
+    const parser = new DOMParser();
+    const xml = parser.parseFromString(text, "application/xml");
+
+    const eur = xml.querySelector('Rate[currency="EUR"]');
+    const usd = xml.querySelector('Rate[currency="USD"]');
+
+    if (eur && usd) {
+      exchangeRates.EUR = parseFloat(eur.textContent);
+      exchangeRates.USD = parseFloat(usd.textContent);
+    }
+
+    console.log("BNR exchange rates updated:", exchangeRates);
+  } catch (err) {
+    console.error("Failed to fetch BNR rates:", err);
+  }
 }
+
+/* =========================================
+ * GLOBAL REFRESH — RECOMPUTE & RE-RENDER UI
+ * =========================================
+ *
+ * Triggered whenever data changes or after page load.
+ * Responsibilities:
+ *  - Persist data in localStorage
+ *  - Update per-page summaries and charts
+ *  - Keep media values (supermarket / car / utilitati) in sync
+ */
+
+function updateAll() {
+  // --- Keep cross-page data synced ---
+  if (typeof syncUtilitatiMediaToLunar === "function") syncUtilitatiMediaToLunar();
+  if (typeof syncAdministratieToLunar === "function") syncAdministratieToLunar();
+  if (typeof syncSupermarketMediaToLunar === "function") syncSupermarketMediaToLunar();
+  if (typeof syncCarMediaToLunar === "function") syncCarMediaToLunar();
+
+  // --- Refresh main tables ---
+  if (typeof renderTable === "function") renderTable("lunar");
+  if (typeof renderTable === "function") renderTable("anual");
+  if (typeof updateTotalsUI === "function") updateTotalsUI();
+
+  // --- Refresh utilities ---
+  if (typeof renderUtilPlati === "function") renderUtilPlati();
+  if (typeof renderUtilCurent === "function") renderUtilCurent();
+  if (typeof renderUtilGaz === "function") renderUtilGaz();
+
+  // --- Refresh administration ---
+  if (typeof renderAdminPlati === "function") renderAdminPlati();
+  if (typeof renderAdminApa === "function") renderAdminApa();
+
+  // --- Refresh daily supermarket & car ---
+  if (typeof renderZilnicTable === "function") renderZilnicTable();
+
+  if (currentPage === "zilnic") {
+    if (typeof updateZilnicView === "function") updateZilnicView();
+    if (typeof updateZilnicPie === "function") updateZilnicPie();
+
+    if (typeof renderCarTables === "function") renderCarTables();
+    if (typeof updateCarTotals === "function") updateCarTotals();
+    if (typeof updateCarSummary === "function") updateCarSummary();
+    if (typeof updateCarLastOdometru === "function") updateCarLastOdometru();
+  }
+
+  // --- Update averages ---
+  if (typeof computeSupermarketAverage === "function") computeSupermarketAverage();
+  if (typeof computeCarAverage === "function") computeCarAverage();
+
+  // --- Charts ---
+  if (typeof updateHomeCharts === "function") updateHomeCharts();
+
+  // --- Persist changes ---
+  saveDataLocal();
+
+  console.log("All data updated (full sync).");
+}
+
+
 
 // === HELPERS ===
 function getDataFor(type){ return (type==='lunar') ? data_lunar : data_anual; }
@@ -226,7 +407,7 @@ async function updateRatesFromBNR() {
       if (currency === 'USD') usd = parseFloat(r.textContent.replace(',', '.'));
     }
 
-    if (!eur || !usd) throw new Error('Cursuri lipsă în XML');
+    if (!eur || !usd) throw new Error('Missing FX rates in BNR XML');
 
     document.getElementById('rateEUR').value = eur.toFixed(4);
     document.getElementById('rateUSD').value = usd.toFixed(4);
@@ -857,40 +1038,6 @@ function deleteZilnicTranzactie(index) {
 }
 
 
-// === UPDATE ALL ===
-function updateAll(){
-
-  syncUtilitatiMediaToLunar();
-  syncAdministratieToLunar();
-
-  renderTable('lunar');
-  renderTable('anual');
-  updateTotalsUI();
-
-  renderUtilPlati();
-  renderUtilCurent();
-  renderUtilGaz();
-
-  renderAdminPlati();
-  renderAdminApa();
-
-  renderZilnicTable();
-  if (currentPage === 'zilnic') {
-    updateZilnicView?.();
-    updateZilnicPie?.();
-
-    renderCarTables?.();
-    updateCarTotals?.();
-    updateCarSummary?.();
-    updateCarLastOdometru?.();
-  }
-
-  syncSupermarketMediaToLunar();
-  syncCarMediaToLunar();
-
-  saveDataLocal();
-}
-
 // === SIMPLE ROUTER — DYNAMIC PAGE LOAD ===
 async function loadPage(page) {
   try{
@@ -1084,27 +1231,34 @@ function initChartsFor(page){
 }
 
 // === INIT ===
-document.addEventListener('DOMContentLoaded', ()=>{
+document.addEventListener('DOMContentLoaded', () => {
   loadDataLocal();
 
-  // butoane curs valutar
+  // Nav buttons: attach events instead of inline onclick
+  document.querySelectorAll('.nav-btn').forEach(btn => {
+    const page = btn.getAttribute('data-page');
+    if (!page) return;
+    btn.addEventListener('click', () => {
+      loadPage(page);
+    });
+  });
+
   const btnRates = document.getElementById('applyRates');
   if (btnRates) btnRates.addEventListener('click', updateAll);
 
   const btnAutoRates = document.getElementById('autoRates');
   if (btnAutoRates) {
-    btnAutoRates.addEventListener('click', async ()=>{
+    btnAutoRates.addEventListener('click', async () => {
       await updateRatesFromBNR();
     });
   }
 
   let last = (localStorage.getItem('lastPage') || 'lunar').toLowerCase();
-  if (!['lunar','utilitati','administratie','zilnic'].includes(last)) {
+  if (!['lunar', 'utilitati', 'administratie', 'zilnic'].includes(last)) {
     last = 'lunar';
   }
 
   loadPage(last);
-
 });
 
 // === COLUMN RESIZE ===
@@ -1170,11 +1324,19 @@ function applyAdminCost(){
 }
 
 function switchZilnicTab(tab, event) {
+	
+  // save selected tab
+  localStorage.setItem("zilnicTab", tab);
+	
+  // deactivate all buttons
   document.querySelectorAll(".zilnic-tab").forEach(btn => btn.classList.remove("active"));
   if (event?.target) event.target.classList.add("active");
 
-  const pageSuper = document.getElementById('pageSupermarket');
-  const pageCar   = document.getElementById('pageCar');
+  // hide all pages
+  document.getElementById("pageSupermarket").style.display = "none";
+  document.getElementById("pageCar").style.display = "none";
+  document.getElementById("pageBarsTrips").style.display = "none";
+  document.getElementById("pageWants").style.display = "none";
 
   const supForm   = document.querySelector('#zilnicSupermarket')?.closest('.formRow');
   const supCard   = document.getElementById('zilnicMediaRON')?.parentElement?.parentElement;
@@ -1188,8 +1350,12 @@ function switchZilnicTab(tab, event) {
   const carTables = document.getElementById('carTablesContainer');
 
   if (tab === 'supermarket') {
-    pageSuper.style.display = 'block';
-    pageCar.style.display   = 'none';
+	
+	// show selected
+    pageSupermarket.style.display = 'block';
+    pageCar.style.display         = 'none';
+	pageBarsTrips.style.display   = 'none';
+	pageWants.style.display       = 'none';
 
     if (content)   content.style.display   = "block";
     if (chart)     chart.style.display     = "block";
@@ -1205,11 +1371,15 @@ function switchZilnicTab(tab, event) {
     updateZilnicView?.();
     updateZilnicPie?.();
     return;
-  }
+  } 
 
   if (tab === 'car') {
-    pageSuper.style.display = 'none';
-    pageCar.style.display   = 'block';
+	
+	// show selected
+    pageSupermarket.style.display = 'none';
+    pageCar.style.display         = 'block';
+	pageBarsTrips.style.display   = 'none';
+	pageWants.style.display       = 'none';
 
     if (content)   content.style.display   = "none";
     if (chart)     chart.style.display     = "none";
@@ -1242,17 +1412,27 @@ function switchZilnicTab(tab, event) {
     }
   }
   
-  if (tab === 'iesiri') {
-    pageSuper.style.display = 'none';
-    pageCar.style.display   = 'none';
+  if (tab === 'BarsTrips') {
+	 
+	// show selected
+    pageSupermarket.style.display = 'none';
+    pageCar.style.display         = 'none';
+	pageBarsTrips.style.display   = 'block';
+	pageWants.style.display       = 'none';
+	
     document.getElementById('pageBarsTrips').style.display = 'block';
     document.getElementById('pageWants').style.display = 'none';
     return;
   }
 
-  if (tab === 'rasfat') {
-    pageSuper.style.display = 'none';
-    pageCar.style.display   = 'none';
+  if (tab === 'Wants') {
+	
+	// show selected
+    pageSupermarket.style.display = 'none';
+    pageCar.style.display         = 'none';
+	pageBarsTrips.style.display   = 'none';
+	pageWants.style.display       = 'block';
+	
     document.getElementById('pageBarsTrips').style.display = 'none';
     document.getElementById('pageWants').style.display = 'block';
     return;

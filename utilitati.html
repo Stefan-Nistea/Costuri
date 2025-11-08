@@ -1,3 +1,6 @@
+
+<!-- === Utilities page === -->
+
 <section id="utilitati" class="page">
 
   <div class="totalsContainer">
@@ -12,6 +15,7 @@
 
   <h3>Plăți utilități</h3>
   
+  <!-- Form -->
   <div class="formRow">
         <input id="utilPlataLuna" type="month" />
         <input id="utilPlataSuma" type="number" step="0.01" placeholder="Sumă" />
@@ -24,6 +28,13 @@
   </div>
   
   <div class="util-flex">
+    
+	<!-- Chart -->
+	<div class="util-chart">
+      <canvas id="chartUtilPlati" class="chart"></canvas>
+    </div>
+    
+	<!-- Table -->
     <div class="util-table">
       <table id="tableUtilPlati" class="services-table">
         <thead>
@@ -37,47 +48,59 @@
         <tbody></tbody>
       </table>
     </div>
-    <div class="util-chart">
-      <canvas id="chartUtilPlati" class="chart"></canvas>
-    </div>
+    
   </div>
 
   <h3>Citiri curent (kWh)</h3>
   
+  <!-- Form -->
   <div class="formRow">
-        <input id="utilCurentLuna" type="month" />
-        <input id="utilCurentValoare" type="number" step="0.01" placeholder="kWh" />
-        <button class="btn" onclick="addUtilCurent()">Adaugă citire curent</button>
+    <input id="utilCurentLuna" type="month" />
+    <input id="utilCurentValoare" type="number" step="0.01" placeholder="kWh" />
+    <button class="btn" onclick="addUtilCurent()">Adaugă citire curent</button>
   </div>
 	  
   <div class="util-flex">
-    <div class="util-table">
-      <table id="tableUtilCurent" class="services-table">
-        <thead>
-          <tr>
-            <th>Data citirii</th>
-            <th>Citire (kWh)</th>
-            <th>Diferență</th>
-            <th>Șterge</th>
-          </tr>
-        </thead>
-        <tbody></tbody>
-      </table>   
-    </div>
-    <div class="util-chart">
-      <canvas id="chartUtilCurent" class="chart"></canvas>
-    </div>
+    
+  <!-- Chart -->
+  <div class="util-chart">
+    <canvas id="chartUtilCurent" class="chart"></canvas>
+  </div>
+    
+  <!-- Table -->
+  <div class="util-table">
+    <table id="tableUtilCurent" class="services-table">
+      <thead>
+        <tr>
+          <th>Data citirii</th>
+          <th>Citire (kWh)</th>
+          <th>Diferență</th>
+          <th>Șterge</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>   
+  </div>
+    
   </div>
 
   <h3>Citiri gaz (m³)</h3>
   
+  <!-- Form -->
   <div class="formRow">
-        <input id="utilGazLuna" type="month" />
-        <input id="utilGazValoare" type="number" step="0.01" placeholder="m³" />
-        <button class="btn" onclick="addUtilGaz()">Adaugă citire gaz</button>
+    <input id="utilGazLuna" type="month" />
+    <input id="utilGazValoare" type="number" step="0.01" placeholder="m³" />
+    <button class="btn" onclick="addUtilGaz()">Adaugă citire gaz</button>
   </div>
 	  
   <div class="util-flex">
+    
+    <!-- Chart -->
+    <div class="util-chart">
+      <canvas id="chartUtilGaz" class="chart"></canvas>
+    </div>
+    
+    <!-- Table -->
     <div class="util-table">
       <table id="tableUtilGaz" class="services-table">
         <thead>
@@ -91,8 +114,7 @@
         <tbody></tbody>
       </table>
     </div>
-    <div class="util-chart">
-      <canvas id="chartUtilGaz" class="chart"></canvas>
-    </div>
+    
   </div>
+  
 </section>
