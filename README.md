@@ -1,3 +1,6 @@
+## Runing the URL:
+* https://stefan-nistea.github.io/Costuri/
+
 ## Running ExpanseFlow page (test version)
 
 Getting started: 
