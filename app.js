@@ -321,6 +321,7 @@ function updateAll() {
     if (typeof updateCarTotals === "function") updateCarTotals();
     if (typeof updateCarSummary === "function") updateCarSummary();
     if (typeof updateCarLastOdometru === "function") updateCarLastOdometru();
+    if (typeof updateCarMedia === "function") updateCarMedia(); // ✅ adaugă această linie
   }
 
   // --- Update averages ---
@@ -1574,6 +1575,23 @@ function updateZilnicView() {
   // --- Update average display ---
   const m = document.getElementById('zilnicMediaRON');
   if (m) m.innerText = `RON ${fmt(mediaGenerala)}`;
+  
+  // --- Sync the same average to Lunar page
+	const idx = data_lunar.servicii.findIndex(s => s.util_media_supermarket);
+	if (idx === -1) {
+	  let pos = data_lunar.servicii.findIndex(s => s.categorie && s.nume.toLowerCase().includes('supermarket'));
+	  if (pos === -1) pos = data_lunar.servicii.length;
+	  data_lunar.servicii.splice(pos + 1, 0, {
+		nume: 'Media supermarket',
+		cost: mediaGenerala,
+		moneda: 'RON',
+		activ: true,
+		util_media_supermarket: true
+	  });
+	} else {
+	  data_lunar.servicii[idx].cost = mediaGenerala;
+	}
+	saveDataLocal();
 
   // --- Update chart ---
   const labels = luni;
@@ -2426,6 +2444,7 @@ function addCarTranzactie() {
   saveDataLocal();
   renderCarTables();
   updateCarTotals();
+  updateCarMedia();
   updateCarSummary();
   updateCarLastOdometru();
 }
@@ -2625,10 +2644,6 @@ function updateCarSummary() {
   const summaryEl = document.getElementById('carSummaryText');
   if (summaryEl) summaryEl.innerHTML = txt;
 
-  // --- Update card showing total ---
-  const card = document.getElementById('carMediaRON');
-  if (card) card.innerText = `RON ${fmt(total)}`;
-
   // --- Update Car bar chart (trend over months) ---
   if (window.chartCarBars) {
     const months = [...new Set(data_car.tranzactii.map(t => t.luna))].sort();
@@ -2651,20 +2666,21 @@ function updateCarSummary() {
 
 /**
  * Updates the total car spending for the currently selected month.
- * The total is displayed in the "Media plăți mașină (RON)" card.
  */
 function updateCarTotals() {
-  const currentMonth = (document.getElementById('carData').value || '').slice(0, 7);
-  if (!currentMonth) return;
+  const rates = getRates();
 
+  // Determine the current month (e.g. "2025-11")
+  const currentMonth = new Date().toISOString().slice(0, 7);
+
+  // Calculate total car expenses for the current month (in RON)
   const total = data_car.tranzactii
-    .filter(t => t.tip === 'car' && t.luna === currentMonth)
-    .reduce((sum, t) => sum + (t.suma || 0), 0);
+    .filter(t => (t.data || t.luna || '').startsWith(currentMonth))
+    .reduce((sum, t) => sum + (t.cost_total || t.suma || 0) * (rates[t.moneda] || 1), 0);
 
-  const el = document.getElementById('carMediaRON');
-  if (el) el.innerText = `RON ${fmt(total)}`;
+  // Keep this function for analytics or charts
+  return total;
 }
-
 
 /**
  * Automatically calculates and displays the total cost (RON)
@@ -2693,28 +2709,93 @@ function updateCarLastOdometru() {
     : "Odometru";
 }
 
+/**
+ * Calculates and displays the average of total monthly car expenses.
+ * Each month is first summed (fuel + service/taxes), and the final card
+ * shows the average of those monthly totals.
+ * The same value is also synchronized to the "Lunar" page.
+ */
+function updateCarMedia() {
+  const rates = getRates();
+  const tranzactii = data_car.tranzactii || [];
+
+  // No data → display empty
+  if (!tranzactii.length) {
+    const m = document.getElementById('carMediaRON');
+    if (m) m.innerText = '—';
+    return;
+  }
+
+  // --- Group all transactions by month ---
+  const byMonth = {};
+  tranzactii.forEach(t => {
+    const luna = (t.luna || (t.data || '').slice(0, 7));
+    if (!luna) return;
+
+    const val = (t.cost_total || t.suma || 0) * (rates[t.moneda] || 1);
+    if (!byMonth[luna]) byMonth[luna] = 0;
+    byMonth[luna] += val;
+  });
+
+  // --- Compute the average of all monthly totals ---
+  const totaluriLunare = Object.values(byMonth);
+  const mediaGenerala = totaluriLunare.length
+    ? totaluriLunare.reduce((a, b) => a + b, 0) / totaluriLunare.length
+    : 0;
+
+  // Round to 2 decimals
+  const mediaFinala = parseFloat(mediaGenerala.toFixed(2));
+
+  // --- Display in card ---
+  const m = document.getElementById('carMediaRON');
+  if (m) m.innerText = `RON ${fmt(mediaGenerala)}`;
+
+  // --- Sync to "Lunar" page ---
+  const idx = data_lunar.servicii.findIndex(s => s.util_media_car === true);
+  if (idx === -1) {
+    let pos = data_lunar.servicii.findIndex(s => s.categorie && s.nume.toLowerCase().includes('auto'));
+    if (pos === -1) pos = data_lunar.servicii.length;
+    data_lunar.servicii.splice(pos + 1, 0, {
+      nume: 'Media Car',
+      cost: mediaGenerala,
+      moneda: 'RON',
+      activ: true,
+      util_media_car: true
+    });
+  } else {
+    data_lunar.servicii[idx].cost = mediaGenerala;
+  }
+
+  saveDataLocal();
+}
 
 /* ================================================
  * CAR PAGE — SYNC MONTHLY AVERAGE TO LUNAR PAGE
  * ================================================ */
 
 /**
- * Synchronizes the "Media Car" (average monthly car cost)
- * from the Car page summary card into the Lunar page table.
- * Automatically updates or inserts the "Media Car" line
- * in `data_lunar.servicii` to keep cross-page totals consistent.
+ * Syncs the car average (displayed in "Media plăți mașină (RON)")
+ * to the Lunar services table.
+ * Reads the numeric value directly from the card text.
+ * Inserts or updates the "Media Car" line under the Auto category.
  */
 function syncCarMediaToLunar() {
   const el = document.getElementById('carMediaRON');
   if (!el) return;
 
-  const raw = el.innerText.replace(/[^\d,.-]/g, "").replace(",", ".");
+  // Extract numeric value safely
+  const raw = el.innerText.replace(/[^\d.,-]/g, '').replace(',', '.');
   const val = parseFloat(raw) || 0;
 
+  // Find existing "Media Car" entry
   let idx = data_lunar.servicii.findIndex(s => s.util_media_car === true);
 
   if (idx === -1) {
-    data_lunar.servicii.push({
+    // Try to insert after "Auto" category if it exists
+    let pos = data_lunar.servicii.findIndex(s => s.categorie && s.nume.toLowerCase().includes('auto'));
+    if (pos === -1) pos = data_lunar.servicii.length;
+
+    data_lunar.servicii.splice(pos + 1, 0, {
       nume: "Media Car",
       cost: val,
       moneda: "RON",
@@ -2724,7 +2805,11 @@ function syncCarMediaToLunar() {
   } else {
     data_lunar.servicii[idx].cost = val;
   }
+
+  // Persist the change
+  saveDataLocal();
 }
+
 
 
 /* ================================================

@@ -63,6 +63,12 @@ Sections:
   box-sizing: border-box;
 }
 
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem;
+}
+
 html,
 body{
   height: 100%;
@@ -71,6 +77,10 @@ body{
   color: var(--text);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+section, .card, .chart, table {
+  margin-bottom: 2rem;
 }
 
 /* ===========================
@@ -265,13 +275,17 @@ main{
   align-items:center;
 }
 
-.rates-row input{
-  width: 120px;
-  padding: 8px 10px;
-  border: 1px solid var(--border);
-  border-radius: 10px;
+.formRow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 16px;
   background: #fff;
-  outline: none;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 12px 14px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
 }
 
 /* ===========================
@@ -284,6 +298,16 @@ main{
   justify-content:center;
   margin: 12px 0;
   flex-wrap: wrap;
+
+  background: transparent;
+  border: none;
+  box-shadow: none;
+}
+
+.formRow input,
+.formRow select,
+.formRow button {
+  margin: 2px 0;
 }
 
 .formRow.left-align{
@@ -293,13 +317,16 @@ main{
 .formRow input[type="text"],
 .formRow input[type="number"],
 .formRow input[type="month"],
-.formRow select{
+.formRow select {
   padding: 10px 12px;
   border: 1px solid var(--border);
   border-radius: 12px;
   min-width: 148px;
+  max-width: 180px;    
   background: #fff;
   font-weight: 600;
+  width: auto;     
+  flex: 0 0 auto; 
 }
 
 .note-small{
@@ -310,22 +337,24 @@ main{
 
 /* Primary button */
 .btn{
+  flex: 0 0 auto; 
   background: var(--accent);
   color: #fff;
-  border: 1px solid var(--accent-600);
+  border: none;          
   padding: 10px 14px;
   border-radius: 12px;
   cursor: pointer;
   font-weight: 800;
   letter-spacing: .2px;
-  box-shadow: 0 8px 18px rgba(39,193,122,0.25);
-  transition: transform .1s ease, box-shadow .2s ease, background .2s ease, filter .2s ease;
+  box-shadow: none;              
+  transition: transform .05s ease, background .2s ease;
+  width: auto;
 }
 
-.btn.small{
-  padding: 8px 10px;
-  font-size: 14px;
-  border-radius: 10px;
+.btn.small{ 
+	padding: 5px 8px; 
+	font-size: 13px; 
+	border-radius: 8px; 
 }
 
 .btn.ghost{
@@ -382,11 +411,10 @@ main{
   font-size: 13px;
 }
 
-.services-table th,
-.services-table td{
+.services-table th, .services-table td{
   border: 1px solid var(--border);
-  padding: 6px 8px;
-  font-size: 14px;
+  padding: 3px 6px;
+  font-size: 13px;
   text-align: center;
   vertical-align: middle;
   background: #fff;
@@ -408,13 +436,13 @@ main{
 /* Inline note textarea inside a table cell */
 .noteInput{
   width: 100%;
-  min-height: 10px;
+  min-height: 5px;
   resize: vertical;
-  padding: 6px 8px;
-  border-radius: 10px;
+  padding: 1px 2px;
+  border-radius: 8px;
   border: 1px solid var(--border);
-  font-size: 14px;
-  line-height: 1.25 !important;
+  font-size: 13px;
+  line-height: 1.1;
   background: #fff;
 }
 
@@ -445,10 +473,10 @@ main{
   background: #fff;
   border: 1px solid var(--danger);
   color: var(--danger);
-  padding: 6px 8px;
-  border-radius: 10px;
+  padding: 4px 6px;
+  border-radius: 8px;
   cursor: pointer;
-  transition: background .2s ease, color .2s ease;
+  transition: background .2s ease;
 }
 
 .deleteBtn:hover{
@@ -456,12 +484,13 @@ main{
 }
 
 .switchBtn{
-  padding: 8px 10px;
-  border-radius: 12px;
+  padding: 5px 8px;
+  border-radius: 8px;
   border: none;
   cursor: pointer;
-  font-weight: 800;
+  font-weight: 700;
   color: #fff;
+  font-size: 13px;
 }
 
 .switchBtn.active{
@@ -573,11 +602,20 @@ main{
 /* ===========================
    11. GENERIC HEADINGS
    =========================== */
+   
+h2 {
+  font-weight: 600;
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+  color: #222;
+}
 
 h3{
   color: #0f1f2e;
-  margin-top: 25px;
+  margin-top: 2rem;
+  margin-bottom: 1rem;
   text-align: center;
+  ont-weight: 600;
 }
 
 h3 + .util-flex{
@@ -599,6 +637,7 @@ h3 + .util-flex{
 /* ===========================
    12. LUNAR & ANUAL COLUMN WIDTHS
    =========================== */
+   
 
 /* Serviciu */
 #lunar .services-table th:nth-child(1),
@@ -650,6 +689,7 @@ h3 + .util-flex{
 #anual .services-table td:nth-child(5) {
   width: 100px;
   min-width: 50px;
+  height: 10px;
 }
 
 /* Active button */
@@ -880,13 +920,26 @@ h3 + .util-flex{
   margin: 18px auto 0;
 }
 
+#zilnic input,
+#zilnic select {
+  width: auto !important;
+  min-width: 120px;
+  max-width: 180px;
+  flex: 0 0 auto;
+  display: inline-flex;
+}
+
 /* ===========================
    18. CAR PAGE
    =========================== */
 
-#carForm input,
-#carForm select {
-  min-width: 130px;
+#carForm select,
+#carForm input {
+  width: auto !important;
+  min-width: 120px;
+  max-width: 180px;  
+  flex: 0 0 auto;  
+  display: inline-flex;   
 }
 
 #carCost {
