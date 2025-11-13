@@ -73,7 +73,7 @@ Sections:
   .container {
     max-width: 100%;
     width: 100%; 
-    padding: 1rem 0.5rem; 
+    padding: 1rem 0.1rem !important;
   }
 }
 
@@ -919,7 +919,7 @@ h3 + .util-flex{
 }
 
 #zilnic #zilnicTableContainer {
-  max-width: 70%;
+  max-width: 100%;
   margin: 0 auto;
 }
 
@@ -963,7 +963,7 @@ h3 + .util-flex{
 }
 
 #carTablesContainer {
-  max-width: 70%;
+  max-width: 100%;
   margin: 0 auto;
 }
 
