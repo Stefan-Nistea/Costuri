@@ -7,19 +7,19 @@
 	  <div class="totalsContainer">
 		<div class="totalsRow">
 		  <div class="totalCard">
-			<h4>Media plăți utilități (RON)</h4>
+			<h4 data-i18n="util_media_card">Media plăți utilități (RON)</h4>
 			<div id="utilitatiMediaRON" class="totalValues">—</div>
 			<div class="subtext">Se transferă automat în „Lunar” ca „Media utilități”.</div>
 		  </div>
 		</div>
 	  </div>
 
-	  <h3>Plăți utilități</h3>
+	  <h3 data-i18n="plati_utilitati">Plăți utilități</h3>
 	  
 	  <!-- Form -->
 	  <div class="formRow">
 			<input id="utilPlataLuna" type="month" />
-			<input id="utilPlataSuma" type="number" step="0.01" placeholder="Sumă" />
+			<input id="utilPlataSuma" type="number" step="0.01" placeholder="Sumă" data-i18n-placeholder="ph_suma" />
 			<select id="utilPlataMoneda">
 			  <option value="RON">RON</option>
 			  <option value="EUR">EUR</option>
@@ -40,10 +40,10 @@
 		  <table id="tableUtilPlati" class="services-table">
 			<thead>
 			  <tr>
-				<th>Luna plății</th>
-				<th>Sumă</th>
-				<th>Monedă</th>
-				<th>Șterge</th>
+				<th data-i18n="util_luna_platii">Luna plății</th>
+				<th data-i18n="util_suma">Sumă</th>
+				<th data-i18n="util_moneda">Monedă</th>
+				<th data-i18n="sterge">Șterge</th>	
 			  </tr>
 			</thead>
 			<tbody></tbody>
@@ -52,12 +52,12 @@
 		
 	  </div>
 
-	  <h3>Citiri curent (kWh)</h3>
+	  <h3 data-i18n="util_curent_titlu">Citiri curent (kWh)</h3>
 	  
 	  <!-- Form -->
 	  <div class="formRow">
 		<input id="utilCurentLuna" type="month" />
-		<input id="utilCurentValoare" type="number" step="0.01" placeholder="kWh" />
+		<input id="utilCurentValoare" type="number" step="0.01" placeholder="kWh" data-i18n-placeholder="ph_kwh" />
 		<button class="btn" onclick="addUtilCurent()">Adaugă citire curent</button>
 	  </div>
 		  
@@ -73,10 +73,10 @@
 		<table id="tableUtilCurent" class="services-table">
 		  <thead>
 			<tr>
-			  <th>Data citirii</th>
-			  <th>Citire (kWh)</th>
-			  <th>Diferență</th>
-			  <th>Șterge</th>
+			  <th data-i18n="util_curent_data">Data citirii</th>
+			  <th data-i18n="util_curent_valoare">Citire (kWh)</th>
+			  <th data-i18n="util_curent_diff">Diferență</th>
+			  <th data-i18n="sterge">Șterge</th>
 			</tr>
 		  </thead>
 		  <tbody></tbody>
@@ -85,12 +85,12 @@
 		
 	  </div>
 
-	  <h3>Citiri gaz (m³)</h3>
+	  <h3 data-i18n="util_gaz_titlu">Citiri gaz (m³)</h3>
 	  
 	  <!-- Form -->
 	  <div class="formRow">
 		<input id="utilGazLuna" type="month" />
-		<input id="utilGazValoare" type="number" step="0.01" placeholder="m³" />
+		<input id="utilGazValoare" type="number" step="0.01" placeholder="m³" data-i18n-placeholder="ph_m3" />
 		<button class="btn" onclick="addUtilGaz()">Adaugă citire gaz</button>
 	  </div>
 		  
@@ -106,10 +106,10 @@
 		  <table id="tableUtilGaz" class="services-table">
 			<thead>
 			  <tr>
-				<th>Data citirii</th>
-				<th>Citire (m³)</th>
-				<th>Diferență</th>
-				<th>Șterge</th>
+				<th data-i18n="util_gaz_data">Data citirii</th>
+				<th data-i18n="util_gaz_valoare">Citire (m³)</th>
+				<th data-i18n="util_gaz_diff">Diferență</th>
+				<th data-i18n="sterge">Șterge</th>
 			  </tr>
 			</thead>
 			<tbody></tbody>
