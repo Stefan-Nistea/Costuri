@@ -4,18 +4,20 @@
 <section id="administratie" class="page">
 	<div class="container">
   
-	  <h3 style="text-align: center;">Plăți administrație</h3>
+	  <h3 data-i18n="plati_administratie" style="text-align: center;">Plăți administrație</h3>
 	  
 	  <!-- Form -->
 	  <div class="formRow">
 			<input id="adminPlataLuna" type="month" />
-			<input id="adminPlataSuma" type="number" step="0.01" placeholder="Sumă" />
+			<input id="adminPlataSuma" type="number" step="0.01" placeholder="Sumă" data-i18n-placeholder="ph_suma" />
 			<select id="adminPlataMoneda">
 			  <option value="RON">RON</option>
 			  <option value="EUR">EUR</option>
 			  <option value="USD">USD</option>
 			</select>
-			<button class="btn" onclick="addAdminPlata()">Adaugă plată</button>
+			<button class="btn" 
+					onclick="addAdminPlata()" 
+					data-i18n="admin_plata_adauga">Adaugă plată</button>
 	  </div>
 	  
 	  <!-- Chart -->
@@ -29,10 +31,10 @@
 		  <table id="tableAdminPlati" class="services-table">
 			<thead>
 			  <tr>
-				<th>Luna plății</th>
-				<th>Sumă</th>
-				<th>Monedă</th>
-				<th>Șterge</th>
+				<th data-i18n="admin_luna_platii">Luna plății</th>
+				<th data-i18n="admin_suma">Sumă</th>
+				<th data-i18n="admin_moneda">Monedă</th>
+				<th data-i18n="sterge">Șterge</th>
 			  </tr>
 			</thead>
 			<tbody></tbody>
@@ -42,14 +44,17 @@
 		
 	  </div>
 
-	  <h3>Citiri apă (Administrație)</h3>
+	  <h3 data-i18n="admin_apa_titlu">Citiri apă (Administrație)</h3>
 	  
 	  <!-- Form -->
 	  <div class="formRow">
 			<input id="adminApaLuna" type="month" />
-			<input id="adminApaContor1" type="number" step="0.01" placeholder="Contor 1" />
-			<input id="adminApaContor2" type="number" step="0.01" placeholder="Contor 2" />
-			<button class="btn" onclick="addAdminApa()">Adaugă citire apă</button>
+			<input id="adminApaContor1" type="number" step="0.01" placeholder="Contor 1" data-i18n-placeholder="ph_contor1" />
+			<input id="adminApaContor2" type="number" step="0.01" placeholder="Contor 2" data-i18n-placeholder="ph_contor2" />
+			<button class="btn" 
+					onclick="addAdminApa()" 
+					data-i18n="admin_apa_adauga">Adaugă citire apă</button>
+
 	  </div>
 	  
 	  <!-- Chart -->
@@ -63,15 +68,15 @@
 		  <table id="tableAdminApa" class="services-table">
 			<thead>
 			  <tr>
-				<th>Luna citire</th>
-				<th>Contor 1</th>
-				<th>Diferență</th>
-				<th>Contor 2</th>
-				<th>Diferență 2</th>
-				<th>Consum Total</th>
-				<th>Cost Calculat</th>
-				<th>Cost Apa pe Factură</th>
-				<th>Șterge</th>
+				<th data-i18n="admin_apa_luna">Luna citire</th>
+					<th data-i18n="admin_apa_contor1">Contor 1</th>
+					<th data-i18n="admin_apa_diff1">Diferență</th>
+					<th data-i18n="admin_apa_contor2">Contor 2</th>
+					<th data-i18n="admin_apa_diff2">Diferență 2</th>
+					<th data-i18n="admin_apa_consum_total">Consum Total</th>
+					<th data-i18n="admin_apa_cost_calc">Cost Calculat</th>
+					<th data-i18n="admin_apa_cost_factura">Cost Apa pe Factură</th>
+					<th data-i18n="sterge">Șterge</th>
 			  </tr>
 			</thead>
 			<tbody></tbody>
@@ -81,12 +86,19 @@
 	  </div>
 
 	  <section class="rates-panel" style="margin-top:20px;">
-		<h3>Cost apă (lei / m³)</h3>	  
+
+		<h3 data-i18n="admin_cost_apa_titlu">Cost apă (lei / m³)</h3>
+	  
 		<div class="rates-row">
-		  <input id="adminCostPeMc" type="number" step="0.0001" placeholder="lei / m³" />
-		  <button class="btn small" onclick="applyAdminCost()">Aplică</button>
+		  <input id="adminCostPeMc" type="number" step="0.0001" placeholder="lei / m³" data-i18n-placeholder="ph_cost_apa" />
+		  <button class="btn small" 
+				  onclick="applyAdminCost()" 
+				  data-i18n="aplica">
+				Aplică
+		  </button>
+
 		</div>
-		<p class="note-small">
+		<p class="note-small" data-i18n="admin_cost_note">
 		  Folosit doar pentru calculul „Cost Calculat” din tabelul de mai sus.
 		</p>
 	  </section>

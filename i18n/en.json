@@ -1,0 +1,107 @@
+{
+  "nav_lunar": "Monthly",
+  "nav_utilitati": "Utilities",
+  "nav_administratie": "Administration",
+  "nav_zilnic": "Daily",
+
+  "app_title": "ExpenseFlow",
+  "app_tagline": "Personal finance overview",
+
+  "lunar_title": "MONTHLY",
+  "anual_title": "ANNUAL",
+  "lunar_title_lc": "Monthly",
+  "anual_title_lc": "Annual",
+
+  "serviciu": "Service",
+  "cost": "Cost",
+  "moneda": "Currency",
+  "note": "Notes",
+  "activ": "Active",
+  "drag": "Drag",
+  "sterge": "Delete",
+
+  "btn_add-service": "Add service",
+  "btn_add-category": "Add category",
+
+  "util_media_card": "Utilities average payments (RON)",
+  "util_plati_titlu": "Utility payments",
+  "util_luna_platii": "Payment month",
+  "util_suma": "Amount",
+  "util_moneda": "Currency",
+
+  "util_curent_titlu": "Electricity readings (kWh)",
+  "util_curent_data": "Reading date",
+  "util_curent_valoare": "Reading (kWh)",
+  "util_curent_diff": "Difference",
+
+  "util_gaz_titlu": "Gas readings (m³)",
+  "util_gaz_data": "Reading date",
+  "util_gaz_valoare": "Reading (m³)",
+  "util_gaz_diff": "Difference",
+
+  "admin_plati_titlu": "Administration payments",
+  "admin_plata_adauga": "Add payment",
+  "admin_luna_platii": "Payment month",
+  "admin_suma": "Amount",
+  "admin_moneda": "Currency",
+
+  "admin_apa_titlu": "Water readings (Administration)",
+  "admin_apa_adauga": "Add water reading",
+  "admin_apa_luna": "Reading month",
+  "admin_apa_contor1": "Meter 1",
+  "admin_apa_diff1": "Difference",
+  "admin_apa_contor2": "Meter 2",
+  "admin_apa_diff2": "Difference 2",
+  "admin_apa_consum_total": "Total usage",
+  "admin_apa_cost_calc": "Calculated cost",
+  "admin_apa_cost_factura": "Invoice water cost",
+
+  "admin_cost_apa_titlu": "Water cost (lei / m³)",
+  "admin_cost_note": "Used only for the calculated cost in the table above.",
+  "aplica": "Apply",
+
+  "zilnic_supermarket": "Supermarket",
+  "zilnic_car": "Car",
+  "zilnic_iesiri": "Trips",
+  "zilnic_rasfat": "Wants",
+
+  "zilnic_media_supermarket": "Supermarket average payments (RON)",
+  "zilnic_adauga_tranzactie": "Add transaction",
+
+  "luna": "Month",
+  "supermarket_col": "Supermarket",
+  "suma_ron": "Amount (RON)",
+
+  "zilnic_distributie_totala": "Total distribution",
+
+  "zilnic_media_car": "Car expense average (RON)",
+
+  "adauga": "Add",
+
+  "car_combustibil": "Fuel",
+  "car_service_taxe": "Service / Taxes",
+
+  "car_data": "Date",
+  "car_odo": "Odometer",
+  "car_fueltype": "Fuel type",
+  "car_litri": "Liters",
+  "car_pret_litru": "Price/liter",
+  "car_ron_km": "RON/km",
+  "car_cost_total": "Total cost",
+  "car_denumire": "Name",
+
+  "ph_ron": "RON",
+  "ph_litri": "Liters",
+  "ph_pret_litru": "Price/L",
+  "ph_denumire_car": "Ex: Inspection, RCA, Vignette...",
+  "ph_cost_total": "Total cost",
+  "ph_suma": "Amount",
+  "ph_kwh": "kWh",
+  "ph_m3": "m³",
+  "ph_contor1": "Meter 1",
+  "ph_contor2": "Meter 2",
+  "ph_cost_apa": "lei / m³",
+  "ph_nume_serviciu": "Service name",
+  "ph_cost": "Cost",
+  "ph_nume_categorie": "Category name"
+}

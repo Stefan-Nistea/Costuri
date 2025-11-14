@@ -119,6 +119,52 @@ let sortableAnual = null;
 // Current visible SPA "page" key: 'lunar' | 'utilitati' | 'administratie' | 'zilnic'
 let currentPage = 'lunar';
 
+
+/* =====================
+   Language System
+   ===================== */
+
+let currentLang = localStorage.getItem("lang") || "ro";
+
+function loadLanguage(lang) {
+  fetch(`i18n/${lang}.json`)
+    .then(r => r.json())
+    .then(texts => {
+      // 1) Inner text
+      document.querySelectorAll("[data-i18n]").forEach(el => {
+        const key = el.getAttribute("data-i18n");
+        if (texts[key]) el.textContent = texts[key];
+      });
+
+      // 2) Placeholders (input / textarea)
+      document.querySelectorAll("[data-i18n-placeholder]").forEach(el => {
+        const key = el.getAttribute("data-i18n-placeholder");
+        if (texts[key]) el.placeholder = texts[key];
+      });
+
+      // 3) Value
+      document.querySelectorAll("[data-i18n-value]").forEach(el => {
+        const key = el.getAttribute("data-i18n-value");
+        if (texts[key]) el.value = texts[key];
+      });
+
+      // 4) <option> from <select>
+      document.querySelectorAll("[data-i18n-option]").forEach(el => {
+        const key = el.getAttribute("data-i18n-option");
+        if (texts[key]) el.textContent = texts[key];
+      });
+
+      localStorage.setItem("lang", lang);
+      currentLang = lang;
+    })
+    .catch(err => {
+      console.error("Language load error:", err);
+    });
+}
+
+window.loadLanguage = loadLanguage;
+
+
 /* =================
  * LOCAL STORAGE I/O
  * ================= */
@@ -2322,6 +2368,9 @@ async function loadPage(page) {
 
     // --- Final data/UI refresh ---
     updateAll();
+
+	// --- Apply language AFTER page injection ---
+	loadLanguage(currentLang);
 
   } catch (e) {
     console.error('Error loading page:', page, e);
