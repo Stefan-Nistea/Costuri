@@ -4,7 +4,7 @@
 <section id="administratie" class="page">
 	<div class="container">
   
-	  <h3 data-i18n="plati_administratie" style="text-align: center;">Plăți administrație</h3>
+	  <h3 style="text-align: center;" data-i18n="admin_reading_titlu">Plăți administrație</h3>
 	  
 	  <!-- Form -->
 	  <div class="formRow">
@@ -17,7 +17,9 @@
 			</select>
 			<button class="btn" 
 					onclick="addAdminPlata()" 
-					data-i18n="admin_plata_adauga">Adaugă plată</button>
+					data-i18n="admin_plata_adauga">
+				Adaugă plată
+			</button>
 	  </div>
 	  
 	  <!-- Chart -->
@@ -53,7 +55,9 @@
 			<input id="adminApaContor2" type="number" step="0.01" placeholder="Contor 2" data-i18n-placeholder="ph_contor2" />
 			<button class="btn" 
 					onclick="addAdminApa()" 
-					data-i18n="admin_apa_adauga">Adaugă citire apă</button>
+					data-i18n="admin_apa_adauga">
+				Adaugă citire apă
+			</button>
 
 	  </div>
 	  
@@ -104,29 +108,33 @@
 	  </section>
 	  
 	  <section class="rates-panel" aria-label="Curs valutar folosit pentru conversii">
-	    <h3>Curs valutar (folosit pentru conversie în RON)</h3>
-	    <div class="rates-row">
-		  <label for="rateEUR">
-		    EUR → RON
-		    <input id="rateEUR" type="number" step="0.0001" value="5.08" />
-		  </label>
 
-		  <label for="rateUSD">
-		    USD → RON
-		    <input id="rateUSD" type="number" step="0.0001" value="4.40" />
-		  </label>
+		  <h3 data-i18n="rates_title">Curs valutar (folosit pentru conversie în RON)</h3>
 
-		  <button id="applyRates" class="btn small">Aplică manual</button>
-		  <button id="autoRates" class="btn small ghost">Actualizează din BNR</button>
-	    </div>
+		  <div class="rates-row">
 
-	    <p id="ratesInfo" class="note-small">Ultima actualizare automată: —</p>
-	    <p class="note-small">
-		  Valorile se preiau automat de la
-		  <a href="https://www.bnr.ro/nbrfxrates.xml" target="_blank" rel="noopener">
-		    BNR
-		  </a>
-	    </p>
+			<label for="rateEUR">
+			  <span data-i18n="eur_ron">EUR → RON</span>
+			  <input id="rateEUR" type="number" step="0.0001" value="5.08" />
+			</label>
+
+			<label for="rateUSD">
+			  <span data-i18n="usd_ron">USD → RON</span>
+			  <input id="rateUSD" type="number" step="0.0001" value="4.40" />
+			</label>
+
+			<button id="applyRates" class="btn small" data-i18n="apply_manual">Aplică manual</button>
+			<button id="autoRates" class="btn small ghost" data-i18n="update_bnr">Actualizează din BNR</button>
+
+		  </div>
+
+		  <p id="ratesInfo" class="note-small" data-i18n="last_update">Ultima actualizare automată: —</p>
+
+		  <p class="note-small">
+			<span data-i18n="rates_source">Valorile se preiau automat de la</span>
+			<a href="https://www.bnr.ro/nbrfxrates.xml" target="_blank" rel="noopener">BNR</a>
+		  </p>
+
 	  </section>
  
 	</div>
