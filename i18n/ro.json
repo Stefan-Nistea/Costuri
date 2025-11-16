@@ -1,0 +1,133 @@
+{
+  "activ": "Activ",
+  "adauga": "Adaugă",
+
+  "admin_apa_adauga": "Adaugă citire apă",
+  "admin_apa_contor1": "Contor 1",
+  "admin_apa_contor2": "Contor 2",
+  "admin_apa_consum_total": "Consum Total",
+  "admin_apa_cost_calc": "Cost Calculat",
+  "admin_apa_cost_factura": "Cost Apa pe Factură",
+  "admin_apa_diff1": "Diferență",
+  "admin_apa_diff2": "Diferență 2",
+  "admin_apa_luna": "Luna citire",
+  "admin_apa_titlu": "Citiri apă (Administrație)",
+
+  "admin_cost_apa_titlu": "Cost apă (lei / m³)",
+  "admin_cost_note": "Folosit doar pentru calculul „Cost Calculat” din tabelul de mai sus.",
+
+  "admin_luna_platii": "Luna plății",
+  "admin_moneda": "Monedă",
+  "admin_plata_adauga": "Adaugă plată",
+  "admin_plati_titlu": "Plăți administrație",
+  "admin_reading_titlu": "Plăți administrație",
+  "admin_suma": "Sumă",
+
+  "anual_title": "ANUAL",
+  "anual_title_lc": "Anual",
+
+  "app_tagline": "Finanțe personale",
+  "app_title": "ExpenseFlow",
+
+  "apply_manual": "Aplică manual",
+
+  "btn_add-category": "Adaugă categorie",
+  "btn_add-service": "Adaugă serviciu",
+
+  "car_combustibil": "Combustibil",
+  "car_cost_total": "Cost total",
+  "car_data": "Data",
+  "car_denumire": "Denumire",
+  "car_fueltype": "Tip carburant",
+  "car_litri": "Litri",
+  "car_odo": "Odometru",
+  "car_pret_litru": "Preț/litru",
+  "car_ron_km": "RON/km",
+  "car_service_taxe": "Service / Taxe",
+
+  "card_subtitle_obligatii-lunare": "Lunar + 1/12 din anual",
+  "card_title_obligatii-lunare": "Obligații lunare (RON)",
+  "card_title_plati-lunare": "Plăți lunare",
+  "card_title_total-lunar": "Total anual",
+
+  "cost": "Cost",
+
+  "drag": "Drag",
+
+  "eur_ron": "EUR → RON",
+
+  "last_update": "Ultima actualizare automată: —",
+
+  "luna": "Lună",
+
+  "lunar_title": "LUNAR",
+  "lunar_title_lc": "Lunar",
+
+  "moneda": "Monedă",
+
+  "nav_administratie": "Administrație",
+  "nav_lunar": "Lunar",
+  "nav_utilitati": "Utilități",
+  "nav_zilnic": "Zilnic",
+
+  "note": "Note",
+
+  "ph_contor1": "Contor 1",
+  "ph_contor2": "Contor 2",
+  "ph_cost": "Cost",
+  "ph_cost_apa": "lei / m³",
+  "ph_denumire_car": "Ex: Revizie, RCA, Vignetă...",
+  "ph_kwh": "kWh",
+  "ph_litri": "Litri",
+  "ph_m3": "m³",
+  "ph_nume_categorie": "Nume categorie",
+  "ph_nume_serviciu": "Nume serviciu",
+  "ph_pret_litru": "Preț/litru",
+  "ph_ron": "RON",
+  "ph_suma": "Sumă",
+  "ph_cost_total": "Cost total",
+
+  "rates_source": "Valorile se preiau automat de la",
+  "rates_title": "Curs valutar (folosit pentru conversie în RON)",
+
+  "serviciu": "Serviciu",
+
+  "sterge": "Șterge",
+
+  "supermarket_col": "Supermarket",
+
+  "suma_ron": "Sumă (RON)",
+
+  "update_bnr": "Actualizează din BNR",
+
+  "usd_ron": "USD → RON",
+
+  "util_curent_adauga": "Adaugă citire curent",
+  "util_curent_data": "Data citirii",
+  "util_curent_diff": "Diferență",
+  "util_curent_titlu": "Citiri curent (kWh)",
+  "util_curent_valoare": "Citire (kWh)",
+
+  "util_gaz_adauga": "Adaugă citire gaz",
+  "util_gaz_data": "Data citirii",
+  "util_gaz_diff": "Diferență",
+  "util_gaz_titlu": "Citiri gaz (m³)",
+  "util_gaz_valoare": "Citire (m³)",
+
+  "util_luna_platii": "Luna plății",
+  "util_media_card": "Media plăți utilități (RON)",
+  "util_media_card_subtext": "Se transferă automat în „Lunar” ca „Media utilități”.",
+  "util_moneda": "Monedă",
+  "util_plata_adauga": "Adaugă plată",
+  "util_plati_utilitati": "Plăți utilități",
+  "util_suma": "Sumă",
+
+  "zilnic_adauga_tranzactie": "Adaugă tranzacție",
+  "zilnic_car": "Mașină",
+  "zilnic_distributie_totala": "Distribuție totală",
+  "zilnic_iesiri": "Excursie",
+  "zilnic_media_car": "Media plăți mașină (RON)",
+  "zilnic_media_supermarket": "Media plăți supermarket (RON)",
+  "zilnic_rasfat": "Dorinte",
+  "zilnic_supermarket": "Supermarket"
+}

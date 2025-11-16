@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="ro">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -17,39 +18,64 @@
   <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
 </head>
+
 <body id="zoomWrapper">
 
-<header class="app-header">
-  <div class="app-brand">
-    <h1>ExpenseFlow</h1>
-    <span class="app-tagline">Personal finance overview</span>
+<header id="topbar">
+
+	<div class="top-title">
+		<h1 data-i18n="app_title">ExpenseFlow</h1>
+		<span class="app-tagline" data-i18n="app_tagline">Personal finance overview</span>
+	</div>
+
+  <div class="top-left">
+    <nav class="nav-pages">
+
+      <button id="btnLunar" 
+			  class="nav-btn" 
+			  onclick="loadPage('lunar')"
+			  data-i18n="nav_lunar">
+		Lunar
+	  </button>
+
+      <button id="btnUtilitati" 
+			  class="nav-btn" 
+			  onclick="loadPage('utilitati')"
+			  data-i18n="nav_utilitati">
+		Utilități
+	  </button>
+
+      <button id="btnAdministratie" 
+			  class="nav-btn" 
+			  onclick="loadPage('administratie')"
+			  data-i18n="nav_administratie">
+		Administrație
+	  </button>
+
+      <button id="btnZilnic" 
+			  class="nav-btn" 
+			  onclick="loadPage('zilnic')"
+			  data-i18n="nav_zilnic">
+		Zilnic 
+	  </button>
+
+    </nav>
   </div>
 
-  <nav class="main-nav" aria-label="Pagini principale">
-    <button id="btnLunar"
-            class="nav-btn active"
-            data-page="lunar">
-      Lunar
-    </button>
+  <div class="top-right">
 
-    <button id="btnUtilitati"
-            class="nav-btn"
-            data-page="utilitati">
-      Utilități
-    </button>
+    <button class="lang-btn" 
+			onclick="loadLanguage('ro')">
+		RO
+	</button>
 
-    <button id="btnAdministratie"
-            class="nav-btn"
-            data-page="administratie">
-      Administrație
-    </button>
+    <button class="lang-btn" 
+			onclick="loadLanguage('en')">
+		EN
+	</button>
 
-    <button id="btnZilnic"
-            class="nav-btn"
-            data-page="zilnic">
-      Zilnic
-    </button>
-  </nav>
+  </div>
+
 </header>
 
 <main id="content" role="main">

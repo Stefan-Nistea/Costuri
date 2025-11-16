@@ -119,6 +119,80 @@ let sortableAnual = null;
 // Current visible SPA "page" key: 'lunar' | 'utilitati' | 'administratie' | 'zilnic'
 let currentPage = 'lunar';
 
+
+/* =====================
+   Language System
+   ===================== */
+
+// Detect the best language to use at startup
+function detectInitialLanguage() {
+
+  // 1. Check if a language was already saved by the user
+  const saved = localStorage.getItem("appLang");
+  if (saved) return saved;
+
+  // 2. Read browser language (example: "en-US" → "en")
+  const browserLang = navigator.language?.substring(0, 2).toLowerCase();
+
+  // 3. Accept only "ro" or "en" for this app
+  if (browserLang === "ro") return "ro";
+  if (browserLang === "en") return "en";
+
+  // 4. Fallback language
+  return "en";
+}
+
+let currentLang = localStorage.getItem("lang") || "ro";
+
+// Cache for both languages to avoid repeated fetch requests
+const i18nCache = {};
+
+// Load and apply translations for the selected language with fallback support
+async function loadLanguage(lang) {
+
+  // Load primary language into cache
+  if (!i18nCache[lang]) {
+    const response = await fetch(`i18n/${lang}.json?v=${Date.now()}`);
+    i18nCache[lang] = await response.json();
+  }
+
+  // Determine fallback language (EN <-> RO)
+  const fallbackLang = lang === "ro" ? "en" : "ro";
+
+  // Load fallback language if not already cached
+  if (!i18nCache[fallbackLang]) {
+    const responseFallback = await fetch(`i18n/${fallbackLang}.json?v=${Date.now()}`);
+    i18nCache[fallbackLang] = await responseFallback.json();
+  }
+
+  const primaryTexts   = i18nCache[lang];
+  const fallbackTexts  = i18nCache[fallbackLang];
+
+  // Apply translations for normal text elements
+  document.querySelectorAll("[data-i18n]").forEach(el => {
+    const key = el.getAttribute("data-i18n");
+
+    // Priority order: primary language → fallback → keep existing
+    if (primaryTexts[key]) el.textContent = primaryTexts[key];
+    else if (fallbackTexts[key]) el.textContent = fallbackTexts[key];
+  });
+
+  // Apply translations for placeholders
+  document.querySelectorAll("[data-i18n-placeholder]").forEach(el => {
+    const key = el.getAttribute("data-i18n-placeholder");
+
+    if (primaryTexts[key]) el.placeholder = primaryTexts[key];
+    else if (fallbackTexts[key]) el.placeholder = fallbackTexts[key];
+  });
+
+  // Store language preference
+  currentLang = lang;
+  localStorage.setItem("appLang", lang);
+}
+
+window.loadLanguage = loadLanguage;
+
+
 /* =================
  * LOCAL STORAGE I/O
  * ================= */
@@ -887,6 +961,8 @@ function updateTotalsUI() {
   const obligEl = document.getElementById('obligatiiLunare');
   if (obligEl)
     obligEl.innerText = `RON ${fmt(oblig)}`;
+
+  loadLanguage(currentLang);
 }
 
 
@@ -935,7 +1011,7 @@ function syncUtilitatiMediaToLunar() {
 
     // Insert a new auto-calculated line
     data_lunar.servicii.splice(pos + 1, 0, {
-      nume: 'Media utilități',
+      nume: currentLang === "en" ? "Utilities Average" : "Media Utilități",
       cost: media,
       moneda: 'RON',
       activ: true,
@@ -943,7 +1019,7 @@ function syncUtilitatiMediaToLunar() {
     });
   } else {
     // Update the existing automatic line
-    data_lunar.servicii[idx].cost = media;
+    data_lunar.servicii[idx].nume = currentLang === "en" ? "Utilities Average" : "Media Utilități";
   }
 }
 
@@ -965,6 +1041,9 @@ function syncAdministratieToLunar() {
   // Convert the latest amount to RON using exchange rates
   const ron = last ? (last.suma || 0) * (rates[last.moneda] || 1) : 0;
 
+  // Localized label: RO vs EN
+  const label = currentLang === "en" ? "Administration" : "Administrație";
+
   // Look for an existing automatic administration row
   let idx = data_lunar.servicii.findIndex(s => s.util_admin);
 
@@ -975,9 +1054,9 @@ function syncAdministratieToLunar() {
     );
     if (pos === -1) pos = data_lunar.servicii.length;
 
-    // Insert new "Administratie" auto-calculated line
+    // Insert new auto-calculated line
     data_lunar.servicii.splice(pos + 1, 0, {
-      nume: 'Administratie',
+      nume: label,
       cost: ron,
       moneda: 'RON',
       activ: true,
@@ -985,12 +1064,14 @@ function syncAdministratieToLunar() {
       note: ''
     });
   } else {
-    // Update the existing automatic entry
-    data_lunar.servicii[idx].cost = ron;
+    // Update the existing automatic entry (including translated name)
+    data_lunar.servicii[idx].nume   = label;
+    data_lunar.servicii[idx].cost   = ron;
     data_lunar.servicii[idx].moneda = 'RON';
-    data_lunar.servicii[idx].activ = true;
+    data_lunar.servicii[idx].activ  = true;
   }
 }
+
 
 
 /* ================================================
@@ -1017,18 +1098,22 @@ function syncSupermarketMediaToLunar() {
   // Find or create the supermarket average row
   let idx = data_lunar.servicii.findIndex(s => s.util_media_supermarket === true);
 
+  const label = currentLang === "en" ? "Supermarket Average" : "Media Supermarket";
+
   if (idx === -1) {
     data_lunar.servicii.push({
-      nume: "Media supermarket",
+      nume: label,
       cost: val,
       moneda: "RON",
       activ: true,
       util_media_supermarket: true
     });
   } else {
+    data_lunar.servicii[idx].nume = label; 
     data_lunar.servicii[idx].cost = val;
   }
 }
+
 
 
 /* ==============================================
@@ -1582,7 +1667,7 @@ function updateZilnicView() {
 	  let pos = data_lunar.servicii.findIndex(s => s.categorie && s.nume.toLowerCase().includes('supermarket'));
 	  if (pos === -1) pos = data_lunar.servicii.length;
 	  data_lunar.servicii.splice(pos + 1, 0, {
-		nume: 'Media supermarket',
+		nume: 'Media Supermarket',
 		cost: mediaGenerala,
 		moneda: 'RON',
 		activ: true,
@@ -2290,7 +2375,13 @@ async function loadPage(page) {
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
 
     const html = await res.text();
-    document.getElementById('content').innerHTML = html;
+    const contentDiv = document.getElementById('content');
+
+    // Inject page HTML
+    contentDiv.innerHTML = html;
+
+    // --- Apply language BEFORE any updateAll() regenerates content ---
+    loadLanguage(currentLang);
 
     // --- Page-specific initialization for "Zilnic" ---
     if (page === 'zilnic') {
@@ -2302,26 +2393,30 @@ async function loadPage(page) {
           document.getElementById('carAltFields').style.display = isFuel ? 'none' : 'flex';
           switchCarTable(isFuel ? 'fuel' : 'alt');
         };
-        carTip.onchange = rebind; // Bind event listener
-        rebind(); // Initialize immediately
+        carTip.onchange = rebind;
+        rebind();
       }
     }
 
     // --- Update active navigation button ---
     document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
-    const activeBtn = document.getElementById(`btn${page.charAt(0).toUpperCase() + page.slice(1)}`);
+    const activeBtn = document.getElementById(
+      `btn${page.charAt(0).toUpperCase() + page.slice(1)}`
+    );
     if (activeBtn) activeBtn.classList.add('active');
 
     // --- Track current page and persist state ---
     currentPage = page;
     saveDataLocal();
 
-    // --- Initialize charts and UI resizing ---
+    // --- Initialize charts & column resizing ---
     initChartsFor(page);
     setTimeout(enableColumnResize, 0);
 
-    // --- Final data/UI refresh ---
+    // --- Final full UI + data refresh AFTER translation ---
     updateAll();
+
+	setTimeout(() => loadLanguage(currentLang), 10);
 
   } catch (e) {
     console.error('Error loading page:', page, e);
@@ -2330,7 +2425,9 @@ async function loadPage(page) {
         Eroare la încărcarea paginii <b>${page}.html</b>.
       </p>`;
   }
+
 }
+
 
 /* ============================================
  * APP INITIALIZATION — EVENT BINDINGS & STARTUP
@@ -2342,21 +2439,25 @@ async function loadPage(page) {
  * sets up rate update controls, and restores the last visited page.
  */
 document.addEventListener('DOMContentLoaded', () => {
-  // --- Load persisted data ---
+  // Load saved data
   loadDataLocal();
 
-  // --- Navigation buttons ---
+  // Detect language first
+  currentLang = detectInitialLanguage();
+  loadLanguage(currentLang);
+
+  // Navigation buttons
   document.querySelectorAll('.nav-btn').forEach(btn => {
     const page = btn.getAttribute('data-page');
     if (!page) return;
     btn.addEventListener('click', () => loadPage(page));
   });
 
-  // --- Manual rates refresh ---
+  // Manual rates refresh
   const btnRates = document.getElementById('applyRates');
   if (btnRates) btnRates.addEventListener('click', updateAll);
 
-  // --- Automatic BNR rates update ---
+  // Auto BNR update
   const btnAutoRates = document.getElementById('autoRates');
   if (btnAutoRates) {
     btnAutoRates.addEventListener('click', async () => {
@@ -2364,15 +2465,15 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // --- Restore last visited page ---
+  // Load last visited page
   let last = (localStorage.getItem('lastPage') || 'lunar').toLowerCase();
   if (!['lunar', 'utilitati', 'administratie', 'zilnic'].includes(last)) {
     last = 'lunar';
   }
 
-  // --- Load the last or default page ---
   loadPage(last);
 });
+
 
 
 /* ================================================
@@ -2783,33 +2884,32 @@ function syncCarMediaToLunar() {
   const el = document.getElementById('carMediaRON');
   if (!el) return;
 
-  // Extract numeric value safely
-  const raw = el.innerText.replace(/[^\d.,-]/g, '').replace(',', '.');
+  // Extract and clean numeric value
+  let raw = el.innerText.replace("RON", "").trim();
+  if (raw === "—" || raw === "" || raw === "-") return;
+  raw = raw.replace(/\./g, "").replace(",", ".");
+  
   const val = parseFloat(raw) || 0;
 
-  // Find existing "Media Car" entry
+  // Localized label
+  const label = currentLang === "en" ? "Car Average" : "Media Mașină";
+
+  // Find or create the car average row
   let idx = data_lunar.servicii.findIndex(s => s.util_media_car === true);
 
   if (idx === -1) {
-    // Try to insert after "Auto" category if it exists
-    let pos = data_lunar.servicii.findIndex(s => s.categorie && s.nume.toLowerCase().includes('auto'));
-    if (pos === -1) pos = data_lunar.servicii.length;
-
-    data_lunar.servicii.splice(pos + 1, 0, {
-      nume: "Media Car",
+    data_lunar.servicii.push({
+      nume: label,
       cost: val,
       moneda: "RON",
       activ: true,
       util_media_car: true
     });
   } else {
+    data_lunar.servicii[idx].nume = label; // update on language change
     data_lunar.servicii[idx].cost = val;
   }
-
-  // Persist the change
-  saveDataLocal();
 }
-
 
 
 /* ================================================

@@ -147,6 +147,91 @@ section, .card, .chart, table {
 }
 
 /* ===========================
+   Topbar Responsive Layout
+   =========================== */
+
+#topbar {
+  background: linear-gradient(0deg, rgba(255,255,255,0.94), rgba(255,255,255,0.94));
+  backdrop-filter: saturate(120%) blur(2px);
+  border-bottom: 1px solid var(--border);
+  padding: 12px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.nav-pages {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.top-right {
+  display: flex;
+  gap: 8px;
+}
+
+.lang-btn {
+  padding: 6px 12px;
+  font-weight: 700;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: #fff;
+  cursor: pointer;
+}
+
+.top-title {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.top-title h1 {
+  font-size: 26px;
+  margin: 0;
+  font-weight: 800;
+}
+
+.top-title .app-tagline {
+  font-size: 13px;
+  opacity: 0.7;
+  margin-top: 2px;
+}
+
+.lang-btn:hover {
+  background: var(--accent-100);
+}
+
+/* --- Mobile behavior (sub 700px) --- */
+@media (max-width: 700px) {
+  #topbar {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .top-right {
+    order: -1;
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  .nav-pages {
+    justify-content: center;
+    width: 100%;
+  }
+
+  .top-title {
+    width: 100%;
+    text-align: center;
+    order: -1;
+  }
+}
+
+
+/* ===========================
    4. LAYOUT
    =========================== */
 
@@ -390,8 +475,7 @@ main{
   }
 
   #zilnic .formRow input,
-  #zilnic .formRow select,
-  #zilnic .formRow button {
+  #zilnic .formRow select {
     width: 80%;
     max-width: 1000px;
   }
@@ -645,16 +729,15 @@ h3 + .util-flex{
 /* ===========================
    12. LUNAR & ANUAL COLUMN WIDTHS
    =========================== */
-   
 
 /* Serviciu */
 #lunar .services-table th:nth-child(1),
 #lunar .services-table td:nth-child(1),
 #anual .services-table th:nth-child(1),
 #anual .services-table td:nth-child(1) {
-  width: 90px;
-  max-width: 140px;
-  min-width: 90px;
+  min-width: 70px;
+  white-space: normal;
+  word-break: break-word;
 }
 
 /* Cost */
@@ -673,9 +756,9 @@ h3 + .util-flex{
 #lunar .services-table td:nth-child(3),
 #anual .services-table th:nth-child(3),
 #anual .services-table td:nth-child(3) {
-  width: 50px;
-  max-width: 60px;
-  min-width: 60px;
+  width: 75px;
+  max-width: 75px;
+  min-width: 75px;
   text-align: center;
 }
 
@@ -706,8 +789,8 @@ h3 + .util-flex{
 #anual .services-table th:nth-child(6),
 #anual .services-table td:nth-child(6) {
   width: 60px;
-  max-width: 70px;
-  min-width: 70px;
+  max-width: 60px;
+  min-width: 60px;
 }
 
 /* Drag button */
@@ -738,6 +821,7 @@ h3 + .util-flex{
 #lunar .col-panel:last-child {
   width: calc(50% - 12px);
   max-width: none;
+  overflow-x: auto;
 }
 
 #lunar .two-cols {
@@ -748,16 +832,17 @@ h3 + .util-flex{
   gap: 20px;
   width: 100%;
   box-sizing: border-box;
-  overflow: hidden;
+  overflow: auto;
 }
 
 #lunar .col-panel {
   flex: 0 0 calc(50% - 10px);
-  min-width: 0;
+  min-width: 300px;
+  overflow-x: auto;
 }
 
 #lunar .services-table {
-  min-width: 100%;
+  width: 100%;
   table-layout: auto;
   border-collapse: collapse;
   border-spacing: 0;
@@ -936,6 +1021,7 @@ h3 + .util-flex{
   flex: 0 0 auto;
   display: inline-flex;
 }
+
 
 /* ===========================
    18. CAR PAGE
