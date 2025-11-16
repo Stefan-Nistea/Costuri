@@ -503,6 +503,13 @@ function formatPerCurrencyString(sums) {
     .join('  |  ');                             // Separate visually
 }
 
+
+function setDefaultMonth(id){
+  const ym = new Date().toISOString().slice(0,7);
+  const el = document.getElementById(id);
+  if (el) el.value = ym;
+}
+
 /* =========================
  * DAILY TABLE FUNCTIONALITY
  * ========================= */
@@ -2392,6 +2399,12 @@ async function loadPage(page) {
         Eroare la încărcarea paginii <b>${page}.html</b>.
       </p>`;
   }
+
+  setDefaultMonth("adminPlataLuna");
+  setDefaultMonth("utilPlataLuna");
+  setDefaultMonth("utilCurentLuna");
+  setDefaultMonth("utilGazLuna");
+  setDefaultMonth("adminApaLuna");
 
 }
 

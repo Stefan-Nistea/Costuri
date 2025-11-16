@@ -214,8 +214,12 @@ section, .card, .chart, table {
   .top-right {
     order: -1;
     width: 100%;
-    display: flex;
-    justify-content: flex-end;
+    justify-content: center;
+    position: relative;
+    left: 0;
+    transform: none;
+    top: 0;
+    margin-bottom: 6px;
   }
 
   .nav-pages {
