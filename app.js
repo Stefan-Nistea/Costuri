@@ -365,10 +365,7 @@ function applyAdminCost() {
 
 function updateAll() {
   // --- Keep cross-page data synced ---
-  if (typeof syncUtilitatiMediaToLunar === "function") syncUtilitatiMediaToLunar();
-  if (typeof syncAdministratieToLunar === "function") syncAdministratieToLunar();
-  if (typeof syncSupermarketMediaToLunar === "function") syncSupermarketMediaToLunar();
-  if (typeof syncCarMediaToLunar === "function") syncCarMediaToLunar();
+  syncAllToLunar();
 
   // --- Refresh main tables ---
   if (typeof renderTable === "function") renderTable("lunar");
@@ -392,10 +389,9 @@ function updateAll() {
     if (typeof updateZilnicPie === "function") updateZilnicPie();
 
     if (typeof renderCarTables === "function") renderCarTables();
-    if (typeof updateCarTotals === "function") updateCarTotals();
     if (typeof updateCarSummary === "function") updateCarSummary();
     if (typeof updateCarLastOdometru === "function") updateCarLastOdometru();
-    if (typeof updateCarMedia === "function") updateCarMedia(); // ✅ adaugă această linie
+    if (typeof updateCarMedia === "function") updateCarMedia();
   }
 
   // --- Update averages ---
@@ -990,130 +986,120 @@ function computeUtilitatiMediaRON() {
   return total / data_utilitati.plati.length;
 }
 
-/**
- * Synchronizes the calculated average utilities value with the "Lunar" table.
- * If the "Media utilități" row exists, updates its cost;
- * otherwise, inserts a new auto-calculated row right after the "Utilități" category.
- */
-function syncUtilitatiMediaToLunar() {
-  const media = computeUtilitatiMediaRON();
 
-  // Find existing automatic "media utilități" entry
-  let idx = data_lunar.servicii.findIndex(s => s.util_media);
+function insertOrUpdateAutoRow({ flag, labelRO, labelEN, cost }) {
+  const arr = data_lunar.servicii;
+  const idx = arr.findIndex(s => s[flag] === true);
+
+  const label = currentLang === "en" ? labelEN : labelRO;
 
   if (idx === -1) {
-    // Find where to insert (after "Utilități" category if found)
-    let pos = data_lunar.servicii.findIndex(
-      s => s.categorie && s.nume.toLowerCase().includes('utilitati')
-    );
+    // Category insert positions
+    let pos = arr.findIndex(s => s.categorie && s.nume.toLowerCase().includes('utilitati'));
 
-    if (pos === -1) pos = data_lunar.servicii.length;
+    if (flag === 'util_media_supermarket') 
+      pos = arr.findIndex(s => s.categorie && s.nume.toLowerCase().includes('supermarket'));
 
-    // Insert a new auto-calculated line
-    data_lunar.servicii.splice(pos + 1, 0, {
-      nume: currentLang === "en" ? "Utilities Average" : "Media Utilități",
-      cost: media,
+    if (flag === 'util_media_car') 
+      pos = arr.findIndex(s => s.categorie && s.nume.toLowerCase().includes('auto'));
+
+    if (flag === 'util_admin')
+      pos = arr.findIndex(s => s.categorie && s.nume.toLowerCase().includes('utilitati'));
+
+    if (pos === -1) pos = arr.length;
+
+    arr.splice(pos + 1, 0, {
+      nume: label,
+      cost: cost,
       moneda: 'RON',
       activ: true,
-      util_media: true
+      [flag]: true
     });
   } else {
-    // Update the existing automatic line
-    data_lunar.servicii[idx].nume = currentLang === "en" ? "Utilities Average" : "Media Utilități";
+    arr[idx].nume = label;
+    arr[idx].cost = cost;
+    arr[idx].moneda = 'RON';
+    arr[idx].activ = true;
   }
 }
 
-// === ADMIN: SYNC WITH MONTHLY ===
 
-/**
- * Synchronizes the latest administration payment with the "Lunar" table.
- * - Finds the most recent administration record.
- * - Converts it to RON using the current exchange rates.
- * - Updates or inserts an automatic row ("Administratie") in the monthly data.
- */
-function syncAdministratieToLunar() {
+function syncAllToLunar() {
   const rates = getRates();
 
-  // Sort administration payments by month to find the most recent one
-  const sorted = [...data_administratie.plati].sort((a, b) => a.luna.localeCompare(b.luna));
-  const last = sorted[sorted.length - 1];
+  // UTILITATI
+  const utilMedia = computeUtilitatiMediaRON();
+  insertOrUpdateAutoRow({
+    flag: 'util_media',
+    labelRO: 'Media Utilități',
+    labelEN: 'Utilities Average',
+    cost: utilMedia
+  });
 
-  // Convert the latest amount to RON using exchange rates
-  const ron = last ? (last.suma || 0) * (rates[last.moneda] || 1) : 0;
+  // ADMINISTRATIE (cea mai recenta plata)
+  const adminSorted = [...data_administratie.plati].sort((a,b)=>a.luna.localeCompare(b.luna));
+  const lastAdmin = adminSorted[adminSorted.length-1];
+  const adminRON = lastAdmin ? (lastAdmin.suma || 0) * (rates[lastAdmin.moneda] || 1) : 0;
 
-  // Localized label: RO vs EN
-  const label = currentLang === "en" ? "Administration" : "Administrație";
+  insertOrUpdateAutoRow({
+    flag: 'util_admin',
+    labelRO: 'Administrație',
+    labelEN: 'Administration',
+    cost: adminRON
+  });
 
-  // Look for an existing automatic administration row
-  let idx = data_lunar.servicii.findIndex(s => s.util_admin);
+	// === SUPERMARKET ===
+	let smMedia = 0;
+	const smMonths = {};
 
-  if (idx === -1) {
-    // If not found, insert after the "Utilități" category (if it exists)
-    let pos = data_lunar.servicii.findIndex(
-      s => s.categorie && s.nume.toLowerCase().includes('utilitati')
-    );
-    if (pos === -1) pos = data_lunar.servicii.length;
+	data_zilnic.tranzactii
+	  .filter(t => t.tip === 'supermarket')
+	  .forEach(t => {
+		const luna = t.luna;
+		const val = (t.suma || 0) * (rates[t.moneda] || 1);
 
-    // Insert new auto-calculated line
-    data_lunar.servicii.splice(pos + 1, 0, {
-      nume: label,
-      cost: ron,
-      moneda: 'RON',
-      activ: true,
-      util_admin: true,
-      note: ''
-    });
-  } else {
-    // Update the existing automatic entry (including translated name)
-    data_lunar.servicii[idx].nume   = label;
-    data_lunar.servicii[idx].cost   = ron;
-    data_lunar.servicii[idx].moneda = 'RON';
-    data_lunar.servicii[idx].activ  = true;
-  }
+		if (!smMonths[luna]) smMonths[luna] = 0;
+		smMonths[luna] += val;
+	  });
+
+	const smVals = Object.values(smMonths);
+	if (smVals.length) smMedia = smVals.reduce((a, b) => a + b, 0) / smVals.length;
+
+	insertOrUpdateAutoRow({
+	  flag: 'util_media_supermarket',
+	  labelRO: 'Media Supermarket',
+	  labelEN: 'Supermarket Average',
+	  cost: smMedia
+	});
+
+
+	// === CAR ===
+	let carMedia = 0;
+	const carMonths = {};
+
+	data_car.tranzactii
+	  .filter(t => t.tip === 'car')
+	  .forEach(t => {
+		const luna = t.luna || (t.data ? t.data.slice(0, 7) : '');
+		if (!luna) return;
+
+		const val = (t.suma || t.cost_total || 0) * (rates[t.moneda] || 1);
+
+		if (!carMonths[luna]) carMonths[luna] = 0;
+		carMonths[luna] += val;
+	  });
+
+	const carVals = Object.values(carMonths);
+	if (carVals.length) carMedia = carVals.reduce((a, b) => a + b, 0) / carVals.length;
+
+	insertOrUpdateAutoRow({
+	  flag: 'util_media_car',
+	  labelRO: 'Media Car',
+	  labelEN: 'Car Average',
+	  cost: carMedia
+	});
+
 }
-
-
-
-/* ================================================
- * SYNC — SUPERMARKET AVERAGE TO LUNAR PAGE
- * ================================================ */
-
-/**
- * Synchronizes the calculated supermarket monthly average
- * (from the "Zilnic" page) with the "Lunar" page data model.
- * Extracts the numeric RON value from the summary element,
- * updates or creates an auto-generated service entry in "data_lunar".
- */
-function syncSupermarketMediaToLunar() {
-  const el = document.getElementById('zilnicMediaRON');
-  if (!el) return;
-
-  // Extract and clean numeric value
-  let raw = el.innerText.replace("RON", "").trim();
-  if (raw === "—" || raw === "" || raw === "-") return;
-  raw = raw.replace(/\./g, "").replace(",", ".");
-  
-  const val = parseFloat(raw) || 0;
-
-  // Find or create the supermarket average row
-  let idx = data_lunar.servicii.findIndex(s => s.util_media_supermarket === true);
-
-  const label = currentLang === "en" ? "Supermarket Average" : "Media Supermarket";
-
-  if (idx === -1) {
-    data_lunar.servicii.push({
-      nume: label,
-      cost: val,
-      moneda: "RON",
-      activ: true,
-      util_media_supermarket: true
-    });
-  } else {
-    data_lunar.servicii[idx].nume = label; 
-    data_lunar.servicii[idx].cost = val;
-  }
-}
-
 
 
 /* ==============================================
@@ -1190,7 +1176,6 @@ function addUtilPlata() {
   data_utilitati.plati.push({ luna, suma, moneda });
 
   // Update the linked "Lunar" table and UI
-  syncUtilitatiMediaToLunar();
   updateAll();
 }
 
@@ -1211,7 +1196,6 @@ function deleteUtilPlata(luna, suma, moneda) {
   if (i > -1) data_utilitati.plati.splice(i, 1);
 
   // Resync automatic average and refresh
-  syncUtilitatiMediaToLunar();
   updateAll();
 }
 
@@ -1459,7 +1443,6 @@ function addAdminPlata() {
   data_administratie.plati.push({ luna, suma, moneda });
 
   // Sync with "Lunar" and update UI
-  syncAdministratieToLunar();
   updateAll();
 }
 
@@ -1536,7 +1519,6 @@ function deleteAdminPlata(luna, suma, moneda) {
 
   if (i > -1) data_administratie.plati.splice(i, 1);
 
-  syncAdministratieToLunar();
   updateAll();
 }
 
@@ -1660,23 +1642,6 @@ function updateZilnicView() {
   // --- Update average display ---
   const m = document.getElementById('zilnicMediaRON');
   if (m) m.innerText = `RON ${fmt(mediaGenerala)}`;
-  
-  // --- Sync the same average to Lunar page
-	const idx = data_lunar.servicii.findIndex(s => s.util_media_supermarket);
-	if (idx === -1) {
-	  let pos = data_lunar.servicii.findIndex(s => s.categorie && s.nume.toLowerCase().includes('supermarket'));
-	  if (pos === -1) pos = data_lunar.servicii.length;
-	  data_lunar.servicii.splice(pos + 1, 0, {
-		nume: 'Media Supermarket',
-		cost: mediaGenerala,
-		moneda: 'RON',
-		activ: true,
-		util_media_supermarket: true
-	  });
-	} else {
-	  data_lunar.servicii[idx].cost = mediaGenerala;
-	}
-	saveDataLocal();
 
   // --- Update chart ---
   const labels = luni;
@@ -2033,7 +1998,7 @@ function renderZilnicTable() {
         ${fmt(t.suma)}
       </td>
       <td>
-        <button class="deleteBtn" onclick="deleteZilnicTranzactie(${i})">🗑️</button>
+        <button class="deleteBtn" onclick="deleteZilnicTranzactie(${t._id})">🗑️</button>
       </td>
     `;
 
@@ -2060,6 +2025,7 @@ function addZilnicTranzactie() {
 
   // Append new transaction
   data_zilnic.tranzactii.push({
+    _id: Date.now(),   // ← nou
     tip: 'supermarket',
     luna,
     supermarket,
@@ -2095,8 +2061,9 @@ function updateZilnicSuma(index, newVal) {
  
  * @param {number} index - Index of the transaction to delete.
  */
-function deleteZilnicTranzactie(index) {
-  data_zilnic.tranzactii.splice(index, 1);
+function deleteZilnicTranzactie(id) {
+  const idx = data_zilnic.tranzactii.findIndex(t => t._id === id);
+  if (idx > -1) data_zilnic.tranzactii.splice(idx, 1);
   updateAll();
 }
 
@@ -2550,18 +2517,6 @@ function addCarTranzactie() {
   updateCarLastOdometru();
 }
 
-
-/**
- * Auto-calculates total cost for a fuel entry based on liters and price per liter.
- * Updates the displayed RON value live as the user types.
- */
-function calcCarCost() {
-  const litri = parseFloat(document.getElementById('carLitri').value) || 0;
-  const pret  = parseFloat(document.getElementById('carPret').value) || 0;
-  const out   = document.getElementById('carCost');
-  if (out) out.value = (litri * pret).toFixed(2) + ' RON';
-}
-
 // Bind live update for cost fields
 ['carLitri', 'carPret'].forEach(id => {
   const el = document.getElementById(id);
@@ -2851,64 +2806,6 @@ function updateCarMedia() {
   const m = document.getElementById('carMediaRON');
   if (m) m.innerText = `RON ${fmt(mediaGenerala)}`;
 
-  // --- Sync to "Lunar" page ---
-  const idx = data_lunar.servicii.findIndex(s => s.util_media_car === true);
-  if (idx === -1) {
-    let pos = data_lunar.servicii.findIndex(s => s.categorie && s.nume.toLowerCase().includes('auto'));
-    if (pos === -1) pos = data_lunar.servicii.length;
-    data_lunar.servicii.splice(pos + 1, 0, {
-      nume: 'Media Car',
-      cost: mediaGenerala,
-      moneda: 'RON',
-      activ: true,
-      util_media_car: true
-    });
-  } else {
-    data_lunar.servicii[idx].cost = mediaGenerala;
-  }
-
-  saveDataLocal();
-}
-
-/* ================================================
- * CAR PAGE — SYNC MONTHLY AVERAGE TO LUNAR PAGE
- * ================================================ */
-
-/**
- * Syncs the car average (displayed in "Media plăți mașină (RON)")
- * to the Lunar services table.
- * Reads the numeric value directly from the card text.
- * Inserts or updates the "Media Car" line under the Auto category.
- */
-function syncCarMediaToLunar() {
-  const el = document.getElementById('carMediaRON');
-  if (!el) return;
-
-  // Extract and clean numeric value
-  let raw = el.innerText.replace("RON", "").trim();
-  if (raw === "—" || raw === "" || raw === "-") return;
-  raw = raw.replace(/\./g, "").replace(",", ".");
-  
-  const val = parseFloat(raw) || 0;
-
-  // Localized label
-  const label = currentLang === "en" ? "Car Average" : "Media Mașină";
-
-  // Find or create the car average row
-  let idx = data_lunar.servicii.findIndex(s => s.util_media_car === true);
-
-  if (idx === -1) {
-    data_lunar.servicii.push({
-      nume: label,
-      cost: val,
-      moneda: "RON",
-      activ: true,
-      util_media_car: true
-    });
-  } else {
-    data_lunar.servicii[idx].nume = label; // update on language change
-    data_lunar.servicii[idx].cost = val;
-  }
 }
 
 
