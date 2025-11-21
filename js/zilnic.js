@@ -396,9 +396,10 @@ function switchZilnicTab(tab, event) {
       const isFuel = carTip.value === 'benzina';
       switchCarTable(isFuel ? 'fuel' : 'alt');
     }
+	
     return;
   }
-
+  
   // --- BARS & TRIPS TAB ---
   if (tab === 'BarsTrips') {
     pageSupermarket.style.display = 'none';

@@ -129,5 +129,13 @@
   "zilnic_media_car": "Car expense average (RON)",
   "zilnic_media_supermarket": "Supermarket average payments (RON)",
   "zilnic_rasfat": "Wants",
-  "zilnic_supermarket": "Supermarket"
+  "zilnic_supermarket": "Supermarket",
+  
+  "car_rezumat_titlu": "Car expenses summary",
+  "car_rezumat_autotransfer": "Automatically synced to “Monthly” as “Car Average”.",
+
+  "car_consum_mediu": "Average consumption",
+
+  "car_combustibil_label": "Fuel",
+  "car_service_taxe_label": "Service & taxes"
 }
