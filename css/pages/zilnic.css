@@ -1,0 +1,142 @@
+/* ==========================================================================
+   ZILNIC.CSS - Styles for the Daily expenses page
+   --------------------------------------------------------------------------
+   Reason:
+   - Contains all UI rules exclusive to the “Zilnic” page.
+   - Includes tab system styling, scrollable table container, chart cards,
+     and page-specific responsive tweaks.
+   - Keeps this complex page isolated from other CSS.
+   ========================================================================== */
+   
+/* =============================
+		ZILNIC - TAB SELECTOR
+   ============================= */
+
+.zilnic-tabs {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 14px;
+}
+
+.zilnic-tab {
+  padding: 6px 14px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: transparent;
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+  transition: border-color .15s ease, color .15s ease, background-color .15s ease;
+  color: var(--muted);
+}
+
+.zilnic-tab:hover {
+  border-color: var(--accent-600);
+}
+
+.zilnic-tab.active {
+  border-color: var(--accent-600);
+  color: var(--accent-600);
+}
+
+/* Zilnic visual summary card */
+#zilnicVizual {
+  max-width: 600px;
+  margin: 24px auto;
+  padding: 16px 20px;
+  background: #ffffff;
+  border-radius: var(--radius);
+  box-shadow: 0 4px 14px rgba(0,0,0,0.08);
+}
+
+#zilnicSummary {
+  margin-top: 4px;
+  font-size: 15px;
+  font-weight: 600;
+  text-align: center;
+  opacity: 0.9;
+  line-height: 1.45;
+}
+
+/* ===========================
+		ZILNIC - CHARTS
+   =========================== */
+
+.zilnic-charts {
+  display: flex;
+  gap: 24px;
+  margin-top: 32px;
+  flex-wrap: wrap;
+}
+
+.chart-card {
+  flex: 1;
+  min-width: 320px;
+  background: #fff;
+  border-radius: var(--radius);
+  padding: 16px 18px;
+  text-align: center;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.08);
+  transition: transform .15s ease, box-shadow .15s ease;
+
+  transition: transform .15s ease, box-shadow .15s ease;
+  cursor: pointer;
+}
+
+.chart-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 20px rgba(0,0,0,0.06);
+}
+
+.chart-card h4 {
+  margin-bottom: 12px;
+  font-size: 15px;
+  font-weight: 600;
+  opacity: 0.9;
+}
+
+/* ZILNIC table scrollable container */
+#zilnicTableContainer {
+  max-height: 700px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  box-shadow: 0 4px 14px rgba(0,0,0,0.05);
+  background: #fff;
+  position: relative;
+}
+
+#zilnicTable {
+  border-collapse: collapse;
+  width: 90%;
+  table-layout: fixed;
+}
+
+#zilnicTable thead th {
+  position: sticky;
+  top: 0;
+  background: #f8faf9;
+  z-index: 5;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.08);
+}
+
+#zilnic #zilnicTableContainer {
+  max-width: 100%;
+  margin: 0 auto;
+}
+
+#zilnic .zilnic-charts {
+  max-width: 600px;
+  margin: 18px auto 0;
+}
+
+#zilnic input,
+#zilnic select {
+  width: auto !important;
+  min-width: 120px;
+  max-width: 180px;
+  flex: 0 0 auto;
+  display: inline-flex;
+}

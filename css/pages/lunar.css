@@ -1,0 +1,108 @@
+/* ==========================================================================
+   LUNAR.CSS - Monthly summary page styling
+   --------------------------------------------------------------------------
+   Reason:
+   - Contains layout, column widths, scroll behavior, and responsive rules
+     used only on the Monthly (Lunar) page.
+   ========================================================================== */
+
+/* ==================================
+		Lunar & Anual column widths
+   ================================== */
+
+/* Serviciu */
+#lunar .services-table th:nth-child(1),
+#lunar .services-table td:nth-child(1),
+#anual .services-table th:nth-child(1),
+#anual .services-table td:nth-child(1) {
+  min-width: 70px;
+  white-space: normal;
+  word-break: break-word;
+}
+
+/* Cost */
+#lunar .services-table th:nth-child(2),
+#lunar .services-table td:nth-child(2),
+#anual .services-table th:nth-child(2),
+#anual .services-table td:nth-child(2) {
+  width: 50px;
+  max-width: 100px;
+  min-width: 50px;
+  text-align: center;
+}
+
+/* Moneda */
+#lunar .services-table th:nth-child(3),
+#lunar .services-table td:nth-child(3),
+#anual .services-table th:nth-child(3),
+#anual .services-table td:nth-child(3) {
+  width: 75px;
+  max-width: 75px;
+  min-width: 75px;
+  text-align: center;
+}
+
+/* % */
+#lunar .services-table th:nth-child(4),
+#lunar .services-table td:nth-child(4),
+#anual .services-table th:nth-child(4),
+#anual .services-table td:nth-child(4) {
+  width: 50px;
+  max-width: 50px;
+  min-width: 50px;
+  text-align: center;
+}
+
+/* Note */
+#lunar .services-table th:nth-child(5),
+#lunar .services-table td:nth-child(5),
+#anual .services-table th:nth-child(5),
+#anual .services-table td:nth-child(5) {
+  width: 100px;
+  min-width: 50px;
+  height: 10px;
+}
+
+/* Active button */
+#lunar .services-table th:nth-child(6),
+#lunar .services-table td:nth-child(6),
+#anual .services-table th:nth-child(6),
+#anual .services-table td:nth-child(6) {
+  width: 50px;
+  text-align: center;
+}
+
+/* ==================================
+		Lunar chart layout override
+   ================================== */
+
+#lunar .col-panel .chart {
+  width: 75%;
+  max-width: 520px;
+  height: auto;
+  margin: 18px auto 18px;
+}
+
+/* ===========================
+		Responsive - Lunar
+   =========================== */
+
+@media (max-width: 1400px) {
+  #lunar .two-cols {
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: flex-start !important;
+    gap: 20px !important;
+  }
+
+  #lunar .col-panel,
+  #lunar .col-panel:first-child,
+  #lunar .col-panel:last-child {
+    flex: 0 0 100% !important;
+    max-width: 100% !important;
+  }
+
+  #lunar .services-table {
+    width: 100% !important;
+  }
+}
