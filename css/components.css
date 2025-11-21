@@ -1,0 +1,378 @@
+/* ==========================================================================
+   COMPONENTS.CSS - Reusable UI components
+   --------------------------------------------------------------------------
+   Reason:
+   - Contains styling for UI elements reused across multiple pages:
+     buttons, form inputs, tables, cards, labels.
+   - Ensures shared visual appearance and consistent interaction patterns.
+   - Keeps component-level rules separate from layout and page-specific CSS.
+   ========================================================================== */
+   
+/* ===========================
+	  TOTALS (summary cards)
+   =========================== */
+
+.totalsContainer{
+  margin-bottom: 18px;
+}
+
+.totalsRow{
+  display:flex;
+  gap:12px;
+  flex-wrap:wrap;
+}
+
+/* Summary card for key metrics (averages, totals) */
+.totalCard{
+  background: var(--bg-soft);
+  padding: 16px 16px 14px;
+  border-radius: var(--radius);
+  flex: 1;
+  min-width: 240px;
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow);
+  text-align: center;
+  transition: transform .15s ease, box-shadow .15s ease;
+}
+
+.totalCard:hover{
+  transform: scale(1.015);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+
+.totalCard h4{
+  margin: 0 0 6px;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--muted);
+  letter-spacing: .2px;
+}
+
+.totalValues{
+  font-weight: 800;
+  font-size: 22px;
+  margin-top: 6px;
+  color: #0b1220;
+}
+
+.subtext{
+  font-size: 12px;
+  color: var(--muted);
+  margin-top: 6px;
+}
+
+/* ================================
+		PANELS (rates, settings)
+   ================================ */
+
+.rates-panel{
+  background: var(--bg-soft);
+  padding: 14px;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  border: 1px solid var(--border);
+  margin-bottom: 18px;
+}
+
+.rates-panel h3{
+  margin: 0 0 10px;
+  font-size: 16px;
+  color: #1f2a37;
+}
+
+.rates-row{
+  display:flex;
+  gap:10px;
+  align-items:center;
+  flex-wrap:wrap;
+}
+
+.rates-row label{
+  font-weight: 700;
+  color: var(--muted);
+  display:flex;
+  gap:8px;
+  align-items:center;
+}
+
+.formRow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 16px;
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 12px 14px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+}
+
+/* ================================
+		FORMS / INPUTS / BUTTONS
+   ================================ */
+
+.formRow{
+  display:flex;
+  gap:10px;
+  justify-content:center;
+  margin: 12px 0;
+  flex-wrap: wrap;
+
+  background: transparent;
+  border: none;
+  box-shadow: none;
+}
+
+.formRow input,
+.formRow select,
+.formRow button {
+  margin: 2px 0;
+}
+
+.formRow.left-align{
+  justify-content: flex-start !important;
+}
+
+.formRow input[type="text"],
+.formRow input[type="number"],
+.formRow input[type="month"],
+.formRow select {
+  padding: 10px 12px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  min-width: 148px;
+  max-width: 180px;    
+  background: #fff;
+  font-weight: 600;
+  width: auto;     
+  flex: 0 0 auto; 
+}
+
+.note-small{
+  font-size: 12px;
+  color: var(--muted);
+  margin-top: 6px;
+}
+
+/* Primary button */
+.btn{
+  flex: 0 0 auto; 
+  background: var(--accent);
+  color: #fff;
+  border: none;          
+  padding: 10px 14px;
+  border-radius: 12px;
+  cursor: pointer;
+  font-weight: 800;
+  letter-spacing: .2px;
+  box-shadow: none;              
+  transition: transform .08s ease, background-color .15s ease;
+  width: auto;
+}
+
+.btn.small{ 
+	padding: 5px 8px; 
+	font-size: 13px; 
+	border-radius: 8px; 
+}
+
+.btn.ghost{
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--muted);
+  box-shadow: none;
+}
+
+.btn:hover{
+  transform: scale(1.03);
+  filter: none;
+}
+
+.btn:active{
+  transform: scale(0.97);
+}
+
+/* Center input rows for narrow screens (Zilnic page) */
+@media (max-width: 1500px) {
+  #zilnic .formRow {
+    justify-content: center !important;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  #zilnic .formRow input,
+  #zilnic .formRow select {
+    width: 80%;
+    max-width: 1000px;
+  }
+}
+
+/* ======================
+		TABLES
+   ====================== */
+
+.services-table{
+  width:100%;
+  border-collapse: collapse;
+  margin: 8px 0 10px;
+  background: transparent;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.06);
+  border-radius: var(--radius);
+
+  table-layout: auto;
+}
+
+.services-table thead th{
+  background: #fbfcfe;
+  color: #4b5563;
+  font-weight: 800;
+  border-bottom: 1px solid var(--border);
+  padding: 10px 8px;
+  font-size: 13px;
+}
+
+.services-table th, .services-table td{
+  border: 1px solid var(--border);
+  padding: 3px 6px;
+  font-size: 13px;
+  text-align: center;
+  vertical-align: middle;
+  background: #fff;
+}
+
+.services-table tbody tr:nth-child(even){
+  background: #fbfdff;
+}
+
+.services-table tbody tr:hover{
+  background-color: rgba(0,0,0,0.04);
+  transition: background-color .15s ease;
+}
+
+.services-table td:first-child,
+.services-table th:first-child{
+  text-align: center !important;
+}
+
+/* Inline note textarea inside a table cell */
+.noteInput{
+  width: 100%;
+  min-height: 5px;
+  resize: vertical;
+  padding: 1px 2px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  font-size: 13px;
+  line-height: 1.1;
+  background: #fff;
+}
+
+/* Draggable handle column */
+.dragHandle{
+  cursor: grab;
+  font-size: 18px;
+  user-select: none;
+}
+
+/* Column resizer placeholder (if implemented) */
+.services-table th{
+  position: relative;
+}
+
+.services-table th .col-resizer{
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 6px;
+  height: 100%;
+  cursor: col-resize;
+  user-select: none;
+  z-index: 10; 
+  background: transparent;
+}
+
+/* Delete & Switch buttons in table cells */
+.deleteBtn{
+  background: #fff;
+  border: 1px solid var(--danger);
+  color: var(--danger);
+  padding: 4px 6px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background .2s ease;
+}
+
+.deleteBtn:hover{
+  background: var(--danger-100);
+}
+
+.switchBtn{
+  padding: 5px 8px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  font-weight: 700;
+  color: #fff;
+  font-size: 13px;
+}
+
+.switchBtn.active{
+  background: var(--accent);
+}
+
+.switchBtn.inactive{
+  background: var(--danger);
+}
+
+/* Responsive tables for small screens (Zilnic) */
+@media (max-width: 700px) {
+  #zilnic table.services-table {
+    display: block;
+    width: 100%;
+    overflow-x: auto;
+    white-space: nowrap;
+    border-radius: 12px;
+  }
+
+  #zilnic table.services-table th,
+  #zilnic table.services-table td {
+    font-size: 12px;
+    padding: 6px 6px;
+  }
+}
+
+/* ===========================
+		GENERIC HEADINGS
+   =========================== */
+   
+h2 {
+  font-weight: 600;
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+  color: #222;
+}
+
+h3{
+  color: #0f1f2e;
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+  text-align: center;
+  ont-weight: 600;
+}
+
+h3 + .util-flex{
+  margin-top: 6px;
+}
+
+/* Numeric column width hint */
+.services-table th:nth-child(2),
+.services-table td:nth-child(2){
+  width: 110px;
+}
+
+.services-table td:nth-child(2) input[type="number"]{
+  width: 100%;
+  box-sizing: border-box;
+  text-align: center;
+}

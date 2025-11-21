@@ -1,0 +1,179 @@
+/* ==========================================================================
+   CAR.CSS - Styles for the Car expenses page
+   --------------------------------------------------------------------------
+   Reason:
+   - Contains fuel/service input layout, car tables, sticky headers,
+     summary cards, responsive behavior, and unique page logic.
+   - The Car page has a distinct structure that justifies its own file.
+   ========================================================================== */
+   
+   
+/* ===========================
+			CAR PAGE
+   =========================== */
+
+#carForm select,
+#carForm input {
+  width: auto !important;
+  min-width: 120px;
+  max-width: 180px;  
+  flex: 0 0 auto;  
+  display: inline-flex;   
+}
+
+#carCost {
+  background: #f0f3f1;
+  font-weight: 700;
+}
+
+/* CAR tables wrapper */
+#carTables .car-table-wrap{
+  max-height: 700px;
+  overflow: auto;
+  border-radius: var(--radius);
+}
+
+#carTablesContainer {
+  max-width: 100%;
+  margin: 0 auto;
+}
+
+#carTablesContainer .car-table-wrap {
+  max-height: 700px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  box-shadow: 0 4px 14px rgba(0,0,0,0.05);
+  background: #fff;
+}
+
+#carTables .services-table thead th{
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
+/* Summary card under Car tables */
+.summary-card{
+  max-width: 600px;
+  margin: 24px auto;
+  padding: 16px 20px;
+  background: #ffffff;
+  border-radius: var(--radius);
+  box-shadow: 0 4px 14px rgba(0,0,0,0.08);
+}
+
+.summary-card .sum{
+  margin-top: 4px;
+  font-size: 15px;
+  font-weight: 600;
+  text-align: center;
+  opacity: 0.9;
+  line-height: 1.45;
+}
+
+.summary-card .sum .month{
+  font-weight: 700;
+  color: #1f2a37;
+}
+
+.summary-card .sum .total{
+  font-weight: 700;
+}
+
+.summary-card .sum .meta{
+  opacity: .9;
+  display:block;
+  margin-top: 2px;
+}
+
+.summary-card .sum .break{
+  opacity: .85;
+  display:block;
+  margin-top: 2px;
+}
+
+#carSummaryText {
+  font-size: 15px;
+  font-weight: 600;
+  text-align: center;
+  opacity: 0.9;
+  line-height: 1.45;
+}
+
+#carSummaryText .month {
+  font-weight: 700;
+  color: #1f2a37;
+}
+
+#carSummaryText .total {
+  font-weight: 700;
+  color: #27c17a;
+}
+
+#carSummaryText .meta,
+#carSummaryText .break {
+  opacity: .85;
+  display: block;
+  margin-top: 3px;
+}
+
+/* CAR form stable layout (2-row approach) */
+#carForm {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  align-items: center;
+  width: 100%;
+}
+
+/* Fuel / Service field containers */
+#carFuelFields,
+#carAltFields {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+}
+
+/* Generic compact inputs */
+#carForm select,
+#carForm input {
+  min-width: 130px;
+}
+
+#carFuelFields input,
+#carFuelFields select,
+#carFuelFields span {
+  flex: 0 0 auto;
+}
+
+/* Fixed ordering for fuel fields (2-row layout) */
+#carData      { order: 1; flex: 0 0 150px; }
+#carOdometru  { order: 2; flex: 0 0 130px; }
+#carLastOdo   { order: 3; flex: 0 0 100px; text-align:center; }
+#carLitri     { order: 4; flex: 0 0 120px; }
+#carFuelType  { order: 5; flex: 0 0 150px; }
+#carPret      { order: 6; flex: 0 0 120px; }
+
+#carForm .btn {
+  width: auto !important;
+  padding: 9px 16px;
+  white-space: nowrap;
+  margin-top: 4px;
+}
+
+#carFuelFields {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.fuelRow {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  justify-content: center;
+}

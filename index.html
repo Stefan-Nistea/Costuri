@@ -1,87 +1,116 @@
 <!DOCTYPE html>
 <html lang="ro">
 
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ExpenseFlow</title>
+	<head>
+	    <meta charset="UTF-8">
+	    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	    <title>ExpenseFlow</title>
 
-  <!-- Meta -->
-  <meta name="description" content="ExpenseFlow — dashboard personal pentru abonamente, utilități, administrație și cheltuieli zilnice.">
-  <meta name="author" content="Stefan Nistea">
+	    <!-- Meta -->
+	    <meta name="description" content="ExpenseFlow — dashboard personal pentru abonamente, utilități, administrație și cheltuieli zilnice.">
+	    <meta name="author" content="Stefan Nistea">
 
-  <!-- Styles -->
-  <link rel="stylesheet" href="style.css">
+	    <!-- Styles -->
+	    <link rel="stylesheet" href="css/base.css">
+		<link rel="stylesheet" href="css/layout.css">
+		<link rel="stylesheet" href="css/components.css">
+		<link rel="stylesheet" href="css/charts.css">
 
-  <!-- Vendor scripts -->
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
-</head>
+		<!-- Page-specific -->
+		<link rel="stylesheet" href="css/pages/zilnic.css">
+		<link rel="stylesheet" href="css/pages/car.css">
+		<link rel="stylesheet" href="css/pages/utilitati.css">
+		<link rel="stylesheet" href="css/pages/lunar.css">
+		<link rel="stylesheet" href="css/pages/anual.css">
 
-<body id="zoomWrapper">
 
-<header id="topbar">
+	    <!-- Vendor scripts -->
+	    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+	    <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
+	    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
+	</head>
 
-	<div class="top-title">
-		<h1 data-i18n="app_title">ExpenseFlow</h1>
-		<span class="app-tagline" data-i18n="app_tagline">Personal finance overview</span>
-	</div>
+	<body id="zoomWrapper">
 
-  <div class="top-left">
-    <nav class="nav-pages">
+		<header id="topbar">
 
-      <button id="btnLunar" 
-			  class="nav-btn" 
-			  onclick="loadPage('lunar')"
-			  data-i18n="nav_lunar">
-		Lunar
-	  </button>
+			<div class="top-title">
+				<h1 data-i18n="app_title">ExpenseFlow</h1>
+				<span class="app-tagline" data-i18n="app_tagline">Personal finance overview</span>
+			</div>
 
-      <button id="btnUtilitati" 
-			  class="nav-btn" 
-			  onclick="loadPage('utilitati')"
-			  data-i18n="nav_utilitati">
-		Utilități
-	  </button>
+		  <div class="top-left">
+			<nav class="nav-pages">
 
-      <button id="btnAdministratie" 
-			  class="nav-btn" 
-			  onclick="loadPage('administratie')"
-			  data-i18n="nav_administratie">
-		Administrație
-	  </button>
+			  <button id="btnLunar" 
+					  class="nav-btn" 
+					  onclick="loadPage('lunar')"
+					  data-i18n="nav_lunar">
+				Lunar
+			  </button>
 
-      <button id="btnZilnic" 
-			  class="nav-btn" 
-			  onclick="loadPage('zilnic')"
-			  data-i18n="nav_zilnic">
-		Zilnic 
-	  </button>
+			  <button id="btnUtilitati" 
+					  class="nav-btn" 
+					  onclick="loadPage('utilitati')"
+					  data-i18n="nav_utilitati">
+				Utilități
+			  </button>
 
-    </nav>
-  </div>
+			  <button id="btnAdministratie" 
+					  class="nav-btn" 
+					  onclick="loadPage('administratie')"
+					  data-i18n="nav_administratie">
+				Administrație
+			  </button>
 
-  <div class="top-right">
+			  <button id="btnZilnic" 
+					  class="nav-btn" 
+					  onclick="loadPage('zilnic')"
+					  data-i18n="nav_zilnic">
+				Zilnic 
+			  </button>
 
-    <button class="lang-btn" 
-			onclick="loadLanguage('ro')">
-		RO
-	</button>
+			</nav>
+		  </div>
 
-    <button class="lang-btn" 
-			onclick="loadLanguage('en')">
-		EN
-	</button>
+		  <div class="top-right">
 
-  </div>
+			<button class="lang-btn" 
+					onclick="loadLanguage('ro')">
+				RO
+			</button>
 
-</header>
+			<button class="lang-btn" 
+					onclick="loadLanguage('en')">
+				EN
+			</button>
 
-<main id="content" role="main">
-  <!-- The active page is dinamicaly injected via app.js -->
-</main>
+		  </div>
 
-<script src="app.js"></script>
-</body>
+		</header>
+
+		<main id="content" role="main">
+		  <!-- The active page is dinamicaly injected via app.js -->
+		</main>
+
+		<!-- Core infrastructure (must load first) -->
+		<script src="js/core.js" defer></script>
+
+		<!-- Sync engine (depends on core) -->
+		<script src="js/sync.js" defer></script>
+
+		<!-- Page modules -->
+		<script src="js/lunar_anual.js" defer></script>
+		<script src="js/utilitati.js" defer></script>
+		<script src="js/administratie.js" defer></script>
+		<script src="js/zilnic.js" defer></script>
+		<script src="js/car.js" defer></script>
+
+		<!-- Charts initializer -->
+		<script src="js/charts.js" defer></script>
+
+		<!-- UI helpers (zoom, scroll effects, capitalize, etc.) -->
+		<script src="js/ui.js" defer></script>
+		
+	</body>
 </html>

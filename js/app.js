@@ -2405,6 +2405,8 @@ async function loadPage(page) {
   setDefaultMonth("utilCurentLuna");
   setDefaultMonth("utilGazLuna");
   setDefaultMonth("adminApaLuna");
+  setDefaultMonth("zilnicLuna");
+  setDefaultMonth("carData");
 
 }
 

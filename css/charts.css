@@ -1,0 +1,62 @@
+/* ==========================================================================
+   CHARTS.CSS - Chart visual styling
+   --------------------------------------------------------------------------
+   Reason:
+   - Contains all rules related to chart sizing, spacing, and positioning.
+   - Includes dedicated overrides for pages that render charts differently.
+   - Keeps chart-specific styling isolated for easier maintenance.
+   ========================================================================== */
+   
+/* ===========================
+			CHARTS
+   =========================== */
+   
+/* Base chart styling */
+.chart {
+  display: block;
+  max-width: 50%;
+  width: 50%;
+  margin: 18px auto 0;
+}
+
+/* Utilitati & Administratie — initial sizing */
+#utilitati canvas.chart,
+#administratie canvas.chart {
+  width: 100%;
+  max-width: 360px;
+  height: 240px;
+  margin: 0;
+}
+
+#administratie .util-flex,
+#utilitati .util-flex {
+  flex-direction: column;
+  align-items: stretch;
+  gap: 14px;
+}
+
+/* Utilitati & Administratie — refined override */
+#utilitati canvas.chart,
+#administratie canvas.chart {
+  width: 100%;
+  max-width: 600px;
+  height: 350px !important;
+  margin: 10px auto 0;
+}
+
+/* Lunar page charts */
+#lunar .col-panel .chart {
+  width: 75%;
+  max-width: 520px;
+  height: auto;
+  margin: 18px auto 18px;
+}
+
+/* Zilnic page main chart */
+#zilnic canvas#chartZilnic {
+  display: block;
+  width: 100% !important;
+  max-width: 700px !important;
+  height: auto !important;
+  margin: 12px auto !important;
+}
