@@ -133,8 +133,16 @@
   
   "car_rezumat_titlu": "Rezumat cheltuieli mașină",
   "car_rezumat_autotransfer": "Se transferă automat în „Lunar” ca „Media Car”.",
+  "zilnic_rezumat_autotransfer": "Se transferă automat în „Lunar” ca „Media supermarket”.",
 
   "car_consum_mediu": "Consum mediu",
+  "fuel_benzina_95": "Benzină 95",
+  "fuel_benzina_98": "Benzină 98",
+  "fuel_motorina_std": "Motorină standard",
+  "fuel_motorina_premium": "Motorină premium",
+  "fuel_gpl": "GPL",
+  "car_pret_per_km": "Preț / km",
+
 
   "car_combustibil_label": "Combustibil",
   "car_service_taxe_label": "Service & taxe"

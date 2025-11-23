@@ -133,8 +133,15 @@
   
   "car_rezumat_titlu": "Car expenses summary",
   "car_rezumat_autotransfer": "Automatically synced to “Monthly” as “Car Average”.",
+  "zilnic_rezumat_autotransfer": "Automatically synced to “Monthly” as “Supermarket Average”.",
 
   "car_consum_mediu": "Average consumption",
+  "fuel_benzina_95": "Gasoline 95",
+  "fuel_benzina_98": "Gasoline 98",
+  "fuel_motorina_std": "Diesel standard",
+  "fuel_motorina_premium": "Diesel premium",
+  "fuel_gpl": "LPG",
+  "car_pret_per_km": "Cost per km",
 
   "car_combustibil_label": "Fuel",
   "car_service_taxe_label": "Service & taxes"
