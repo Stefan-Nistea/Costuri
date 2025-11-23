@@ -166,6 +166,16 @@ function renderAdminApa() {
     chartAdminApa.data.datasets[0].data = consumuri;
     chartAdminApa.update();
   }
+  
+  // === Set placeholders with last values ===
+  const last = items[items.length - 1];
+  if (last) {
+    const c1 = document.getElementById("adminApaContor1");
+    const c2 = document.getElementById("adminApaContor2");
+
+    if (c1) c1.placeholder = `${fmt(last.contor1)} m³`;
+    if (c2) c2.placeholder = `${fmt(last.contor2)} m³`;
+  }
 
   // Persist latest data state
   saveDataLocal();

@@ -145,6 +145,13 @@ function renderUtilCurent() {
     chartUtilCurent.data.datasets[0].data = diffs;
     chartUtilCurent.update();
   }
+  
+  // Set placeholder to last known reading (persists after refresh)
+  const last = items[items.length - 1];
+  if (last) {
+    const inp = document.getElementById("utilCurentValoare");
+    if (inp) inp.placeholder = `${fmt(last.valoare)} kWh`;
+  }
 
   // Save all data locally
   saveDataLocal();
@@ -231,6 +238,13 @@ function renderUtilGaz() {
     chartUtilGaz.data.labels = labels;
     chartUtilGaz.data.datasets[0].data = diffs;
     chartUtilGaz.update();
+  }
+  
+  // Set placeholder to last known reading (persists after refresh)
+  const last = items[items.length - 1];
+  if (last) {
+    const inp = document.getElementById("utilGazValoare");
+    if (inp) inp.placeholder = `${fmt(last.valoare)} m³`;
   }
 
   // Persist updated data
