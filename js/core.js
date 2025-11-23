@@ -142,7 +142,6 @@ function detectInitialLanguage() {
   return "en";
 }
 
-
 let currentLang = localStorage.getItem("lang") || "ro";
 
 // Cache for both languages to avoid repeated fetch requests
@@ -596,6 +595,7 @@ async function loadPage(page) {
   setDefaultMonth("carData");
 
 }
+
 
 /**
  * Main initialization routine executed after DOM is fully loaded.

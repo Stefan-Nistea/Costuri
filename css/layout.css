@@ -117,7 +117,7 @@ h3 + .util-flex{
 }
 
 .services-table td:nth-child(2) input[type="number"]{
-  width: 100%;
+  width: auto;
   box-sizing: border-box;
   text-align: center;
 }
@@ -154,7 +154,8 @@ h3 + .util-flex{
   }
 
   .services-table {
-    width: 100%;
+    width: auto;
+	max-width: 100%;
     margin-left: 0;
     margin-right: 0;
   }
@@ -182,7 +183,8 @@ h3 + .util-flex{
   }
 
   #lunar .services-table {
-    width: 100% !important;
+    width: auto !important;
+    max-width: 100%;
     margin: 0 auto !important;
   }
 }

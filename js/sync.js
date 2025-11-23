@@ -230,4 +230,5 @@ function updateAll() {
   saveDataLocal();
 
   console.log("All data updated (full sync).");
+
 }
