@@ -383,6 +383,8 @@ function switchZilnicTab(tab, event) {
     updateCarSummary();
     updateCarLastOdometru();
 
+	setTimeout(() => loadLanguage(currentLang), 0);
+
     // Bind change event for car fuel/service selector
     const carTip = document.getElementById('carTip');
     if (carTip) {
@@ -396,9 +398,10 @@ function switchZilnicTab(tab, event) {
       const isFuel = carTip.value === 'benzina';
       switchCarTable(isFuel ? 'fuel' : 'alt');
     }
+	
     return;
   }
-
+  
   // --- BARS & TRIPS TAB ---
   if (tab === 'BarsTrips') {
     pageSupermarket.style.display = 'none';

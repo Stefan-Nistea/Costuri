@@ -96,14 +96,14 @@ function insertOrUpdateAutoRow({ flag, labelRO, labelEN, cost }) {
 
     arr.splice(pos + 1, 0, {
       nume: label,
-      cost: cost,
+      cost: Number(cost.toFixed(2)),
       moneda: 'RON',
       activ: true,
       [flag]: true
     });
   } else {
     arr[idx].nume = label;
-    arr[idx].cost = cost;
+    arr[idx].cost = Number(cost.toFixed(2));
     arr[idx].moneda = 'RON';
     arr[idx].activ = true;
   }
@@ -230,4 +230,5 @@ function updateAll() {
   saveDataLocal();
 
   console.log("All data updated (full sync).");
+
 }

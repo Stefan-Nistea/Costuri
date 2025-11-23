@@ -142,7 +142,6 @@ function detectInitialLanguage() {
   return "en";
 }
 
-
 let currentLang = localStorage.getItem("lang") || "ro";
 
 // Cache for both languages to avoid repeated fetch requests
@@ -597,6 +596,7 @@ async function loadPage(page) {
 
 }
 
+
 /**
  * Main initialization routine executed after DOM is fully loaded.
  * Loads data from localStorage, binds navigation buttons dynamically,
@@ -638,13 +638,3 @@ document.addEventListener('DOMContentLoaded', () => {
   loadPage(last);
 });
 
-/* ============================================
-   GLOBAL EXPORTS — Expose infrastructure APIs
-   --------------------------------------------
-   Makes core functionality accessible globally
-   so that other modules and page HTML can call
-   the router and language loader.
-   ============================================ */
-   
-window.loadPage = loadPage;
-window.loadLanguage = loadLanguage;

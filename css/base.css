@@ -78,6 +78,16 @@ section, .card, .chart, table {
   margin-bottom: 2rem;
 }
 
+/* Center text inside all inputs across all pages */
+input[type="number"],
+input[type="text"],
+input[type="month"],
+input[type="date"],
+input[type="time"] {
+  text-align: center;
+}
+
+
 /* ===========================
 		HEADER / NAVIGATION
    =========================== */

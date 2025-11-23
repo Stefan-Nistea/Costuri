@@ -7,72 +7,6 @@
    ========================================================================== */
 
 /* ==================================
-		Lunar & Anual column widths
-   ================================== */
-
-/* Serviciu */
-#lunar .services-table th:nth-child(1),
-#lunar .services-table td:nth-child(1),
-#anual .services-table th:nth-child(1),
-#anual .services-table td:nth-child(1) {
-  min-width: 70px;
-  white-space: normal;
-  word-break: break-word;
-}
-
-/* Cost */
-#lunar .services-table th:nth-child(2),
-#lunar .services-table td:nth-child(2),
-#anual .services-table th:nth-child(2),
-#anual .services-table td:nth-child(2) {
-  width: 50px;
-  max-width: 100px;
-  min-width: 50px;
-  text-align: center;
-}
-
-/* Moneda */
-#lunar .services-table th:nth-child(3),
-#lunar .services-table td:nth-child(3),
-#anual .services-table th:nth-child(3),
-#anual .services-table td:nth-child(3) {
-  width: 75px;
-  max-width: 75px;
-  min-width: 75px;
-  text-align: center;
-}
-
-/* % */
-#lunar .services-table th:nth-child(4),
-#lunar .services-table td:nth-child(4),
-#anual .services-table th:nth-child(4),
-#anual .services-table td:nth-child(4) {
-  width: 50px;
-  max-width: 50px;
-  min-width: 50px;
-  text-align: center;
-}
-
-/* Note */
-#lunar .services-table th:nth-child(5),
-#lunar .services-table td:nth-child(5),
-#anual .services-table th:nth-child(5),
-#anual .services-table td:nth-child(5) {
-  width: 100px;
-  min-width: 50px;
-  height: 10px;
-}
-
-/* Active button */
-#lunar .services-table th:nth-child(6),
-#lunar .services-table td:nth-child(6),
-#anual .services-table th:nth-child(6),
-#anual .services-table td:nth-child(6) {
-  width: 50px;
-  text-align: center;
-}
-
-/* ==================================
 		Lunar chart layout override
    ================================== */
 
@@ -83,26 +17,100 @@
   margin: 18px auto 18px;
 }
 
+#lunar .services-table {
+  width: auto !important;
+  max-width: 100%;
+  table-layout: auto !important;
+}
+
+#lunar table.services-table {
+  margin: 0 auto;
+}
+
 /* ===========================
 		Responsive - Lunar
    =========================== */
 
 @media (max-width: 1400px) {
-  #lunar .two-cols {
-    flex-direction: column !important;
-    align-items: center !important;
-    justify-content: flex-start !important;
-    gap: 20px !important;
-  }
-
   #lunar .col-panel,
   #lunar .col-panel:first-child,
   #lunar .col-panel:last-child {
-    flex: 0 0 100% !important;
+	flex: 0 0 100% !important;
     max-width: 100% !important;
+    width: 100%;
+    max-width: 900px;
+    margin: 0 auto 30px auto;
+  }
+
+
+  #lunar .services-table {
+    width: auto !important;
+    max-width: 100%;
+	margin: 0 auto !important;
+  }
+}
+
+/* LUNAR: horizontal scroll on very narrow screens */
+@media (max-width: 650px) {
+  #lunar .col-panel {
+    padding: 0 8px !important;
   }
 
   #lunar .services-table {
-    width: 100% !important;
+    display: block !important;
+    overflow-x: auto !important;
+    white-space: nowrap !important;
+    border-radius: 12px;
+    border: 1px solid var(--border);
+    box-shadow: 0 4px 14px rgba(0,0,0,0.06);
+  }
+
+  #lunar .services-table thead th,
+  #lunar .services-table td {
+    font-size: 12px !important;
+    padding: 6px 8px !important;
+  }
+
+  #lunar .two-cols {
+    align-items: stretch !important;
   }
 }
+
+
+/* ============================================================================
+   LUNAR PAGE — Compact View Mode
+   ----------------------------------------------------------------------------
+   Compact mode reduces tables to the four essential columns:
+     1. Service
+     2. Cost
+     3. Percentage
+     4. Active
+
+   The table structure in lunar.html is:
+     1 = Serviciu
+     2 = Cost
+     3 = Monedă
+     4 = %
+     5 = Note
+     6 = Activ
+     7 = Drag
+     8 = Șterge
+   ============================================================================ */
+.lunar-compact table th:nth-child(3),
+.lunar-compact table td:nth-child(3),
+.lunar-compact table th:nth-child(5),
+.lunar-compact table td:nth-child(5),
+.lunar-compact table th:nth-child(7),
+.lunar-compact table td:nth-child(7),
+.lunar-compact table th:nth-child(8),
+.lunar-compact table td:nth-child(8) {
+  display: none !important;
+}
+
+/* Small toggle button styling */
+.small-btn {
+  padding: 6px 10px;
+  font-size: 13px;
+  margin-bottom: 15px;
+}
+

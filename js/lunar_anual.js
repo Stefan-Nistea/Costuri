@@ -397,6 +397,8 @@ function renderTable(type) {
 
   // --- SAVE CHANGES LOCALLY ---
   saveDataLocal();
+  
+  enableColumnResize();
 }
 
 
@@ -441,3 +443,54 @@ function updateTotalsUI() {
 
   loadLanguage(currentLang);
 }
+
+// =======================================
+// 		Compact View Toggle (Lunar Page)
+// =======================================
+
+let lunarCompact = false;
+
+/* Update button text depending on language + current mode */
+function updateLunarCompactButton() {
+  const btn = document.getElementById("lunarCompactToggle");
+  if (!btn) return;
+
+  if (lunarCompact) {
+    btn.textContent = currentLang === "ro" ? "Vezi tabele: Extinse" : "View: extended tables";
+  } else {
+    btn.textContent = currentLang === "ro" ? "Vezi tabele: Compacte" : "View: compact tables";
+  }
+}
+
+/* Toggle compact/extended mode */
+function toggleLunarCompact() {
+  lunarCompact = !lunarCompact;
+
+  const sec = document.getElementById("lunar");
+  
+  // FIX: Verificăm dacă secțiunea 'lunar' există în DOM
+  if (sec) {
+    if (lunarCompact) {
+      sec.classList.add("lunar-compact");
+    } else {
+      sec.classList.remove("lunar-compact");
+    }
+  }
+
+  updateLunarCompactButton();
+  localStorage.setItem("lunarCompactMode", lunarCompact ? "1" : "0");
+}
+
+/* On page load */
+window.addEventListener("DOMContentLoaded", () => {
+  lunarCompact = localStorage.getItem("lunarCompactMode") === "1";
+
+  if (lunarCompact) {
+    document.getElementById("lunar").classList.add("lunar-compact");
+  }
+
+  updateLunarCompactButton();
+
+  const btn = document.getElementById("lunarCompactToggle");
+  if (btn) btn.onclick = toggleLunarCompact;
+});

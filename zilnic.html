@@ -5,7 +5,7 @@
 	<div class="container">
 	
 	  <!-- SELECTOR CATEGORII -->
-	  <div class="zilnic-tabs" style="display:flex; justify-content:center; gap:10px; margin-top:12px;">
+	  <div class="zilnic-tabs" >
 		
 		<button class="zilnic-tab active" onclick="switchZilnicTab('supermarket', event)" data-i18n="zilnic_supermarket">Supermarket</button>
 		<button class="zilnic-tab" onclick="switchZilnicTab('car', event)" data-i18n="zilnic_car">Car</button>
@@ -23,7 +23,9 @@
 			<div class="totalCard">
 			  <h4 data-i18n="zilnic_media_supermarket">Media plăți supermarket (RON)</h4>
 			  <div id="zilnicMediaRON" class="totalValues">—</div>
-			  <div class="subtext">Se transferă automat în „Lunar” ca „Media supermarket”.</div>
+			  <div class="subtext" data-i18n="zilnic_rezumat_autotransfer">
+				Se transferă automat în „Lunar” ca „Media supermarket”.
+			  </div>
 			</div>
 		  </div>
 		</div>
@@ -58,7 +60,7 @@
 		<!-- TABEL SUPERMARKET -->
 		<div id="zilnicContent" style="margin-top:34px;">
 		  <div id="zilnicTableContainer" style="margin-top:10px;">
-			<table id="zilnicTable" class="services-table" style="width:100%; border-collapse:collapse;">
+			<table id="zilnicTable" class="services-table" >
 			  <thead>
 				<tr>
 				  <th data-i18n="luna">Lună</th>
@@ -95,7 +97,9 @@
 			<div class="totalCard">
 			  <h4 data-i18n="zilnic_media_car">Media plăți mașină (RON)</h4>
 			  <div id="carMediaRON" class="totalValues">—</div>
-			  <div class="subtext">Se transferă automat în „Lunar” ca „Media Car”.</div>
+			  <div class="subtext" data-i18n="car_rezumat_autotransfer">
+				Se transferă automat în „Lunar” ca „Media Car”.
+			  </div>
 			</div>
 		  </div>
 		</div>
@@ -106,8 +110,8 @@
 		<!-- USER INPUT ZONE -->
 		<div id="carForm" class="formRow" style="margin-top:20px;">
 		  <select id="carTip">
-			<option value="benzina">Combustibil</option>
-			<option value="alt">Service / Taxe</option>
+			<option value="benzina" data-i18n="car_combustibil">Combustibil</option>
+			<option value="alt" data-i18n="car_service_taxe">Service / Taxe</option>
 		  </select>
 
 		  <div id="carFuelFields">
@@ -120,12 +124,13 @@
 			  <div class="fuelRow">
 				<input id="carLitri" type="number" step="0.01" placeholder="Liters" data-i18n-placeholder="ph_litri" />
 				<select id="carFuelType">
-				  <option>Benzină 95</option>
-				  <option>Benzină 98</option>
-				  <option>Motorină standard</option>
-				  <option>Motorină premium</option>
-				  <option>GPL</option>
+				  <option data-i18n="fuel_benzina_95">Benzină 95</option>
+				  <option data-i18n="fuel_benzina_98">Benzină 98</option>
+				  <option data-i18n="fuel_motorina_std">Motorină standard</option>
+				  <option data-i18n="fuel_motorina_premium">Motorină premium</option>
+				  <option data-i18n="fuel_gpl">GPL</option>
 				</select>
+
 				<input id="carPret" type="number" step="0.01" placeholder="Price/L" data-i18n-placeholder="ph_pret_litru" />
 			  </div>
 		  </div>
@@ -144,15 +149,17 @@
 		<div class="totalsContainer" style="margin-top:18px;">
 		  <div class="totalsRow" style="justify-content:center;">
 			<div class="totalCard" style="max-width:600px; width:100%;">
-			  <h4>Rezumat cheltuieli mașină</h4>
+			  <h4 data-i18n="car_rezumat_titlu" >Rezumat cheltuieli mașină</h4>
 			  <div id="carSummaryText" class="totalValues" style="font-size:15px; line-height:1.45; text-align:center;"></div>
-			  <div class="subtext">Se transferă automat în „Lunar” ca „Media Car”.</div>
+			  <div class="subtext" data-i18n="car_rezumat_autotransfer">
+				Se transferă automat în „Lunar” ca „Media Car”.
+			  </div>
 			</div>
 		  </div>
 		</div>
 
 		<!-- TABEL + TABURI INTERNE -->
-		<div id="carSwitch" class="zilnic-tabs" style="display:flex; justify-content:center; gap:10px; margin-top:18px;">
+		<div id="carSwitch" class="zilnic-tabs" >
 		  
 		  <button id="carTabFuelBtn" class="zilnic-tab active" data-i18n="car_combustibil">Combustibil</button>
 		  <button id="carTabServBtn" class="zilnic-tab" data-i18n="car_service_taxe">Service / Taxe</button>
@@ -163,7 +170,7 @@
 		<div id="carTablesContainer" style="margin-top:20px;">
 
 		  <div id="carTableFuelWrap" class="car-table-wrap" style="display:block;">
-			<table id="carTableFuel" class="services-table" style="width:100%; border-collapse:collapse;">
+			<table id="carTableFuel" class="services-table" >
 			  <thead>
 				<tr>
 				    <th data-i18n="car_data">Data</th>
@@ -181,7 +188,7 @@
 		  </div>
 
 		  <div id="carTableAltWrap" class="car-table-wrap" style="display:none;">
-			<table id="carTableAlt" class="services-table" style="width:100%; border-collapse:collapse;">
+			<table id="carTableAlt" class="services-table" >
 			  <thead>
 				<tr>
 				  <th data-i18n="car_data">Data</th>

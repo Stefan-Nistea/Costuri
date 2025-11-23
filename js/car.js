@@ -308,10 +308,18 @@ function updateCarSummary() {
   const txt = `
     <span class="month">${formatLunaAn(currentMonth)}</span>: 
     <span class="total">RON ${fmt(total)}</span>
-    <span class="meta">Consum mediu: <b>${avg ? avg.toFixed(2) : '—'}</b> lei/km</span>
+    <span class="meta">
+	  <span data-i18n="car_consum_mediu"></span> :
+	  <b>${avg ? avg.toFixed(2) : '—'}</b>
+	  <span data-i18n="car_lei_pe_km"></span>
+	</span>
     <span class="break">
-      Combustibil: RON ${fmt(totalFuel)} • Service & taxe: RON ${fmt(totalAlt)}
-    </span>
+		<span data-i18n="car_combustibil_label"></span> :
+		<span></span> ${fmt(totalFuel)}
+		•
+		<span data-i18n="car_service_taxe_label"></span>:
+		<span></span> ${fmt(totalAlt)}
+	</span>
   `;
 
   const summaryEl = document.getElementById('carSummaryText');
