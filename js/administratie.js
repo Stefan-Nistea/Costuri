@@ -198,6 +198,42 @@ function addAdminPlata() {
 
 
 /**
+ * Adds or updates water meter readings (Contor 1 and Contor 2)
+ * for a specific month. Ensures both fields are valid numbers.
+ * Initializes "cost_factura" with 0 when a new record is created.
+ */
+function addAdminApa() {
+  const luna = document.getElementById('adminApaLuna').value;
+  const c1 = parseFloat(document.getElementById('adminApaContor1').value);
+  const c2 = parseFloat(document.getElementById('adminApaContor2').value);
+
+  // Validate input
+  if (!luna || isNaN(c1) || isNaN(c2)) {
+    alert('Completează luna și contoarele');
+    return;
+  }
+
+  // Check if entry for this month already exists
+  const existingIndex = data_administratie.apa.findIndex(x => x.luna === luna);
+
+  if (existingIndex > -1) {
+    data_administratie.apa[existingIndex].contor1 = c1;
+    data_administratie.apa[existingIndex].contor2 = c2;
+  } else {
+    data_administratie.apa.push({
+      luna,
+      contor1: c1,
+      contor2: c2,
+      cost_factura: 0
+    });
+  }
+
+  renderAdminApa();
+  saveDataLocal();
+}
+
+
+/**
  * Updates the invoice cost for a specific month in the water readings section.
  * Parses and sanitizes the new value, saves changes, and re-renders the table.
  
