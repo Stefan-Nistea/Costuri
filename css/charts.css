@@ -19,15 +19,6 @@
   margin: 18px auto 0;
 }
 
-/* Utilitati & Administratie — initial sizing */
-#utilitati canvas.chart,
-#administratie canvas.chart {
-  width: 100%;
-  max-width: 360px;
-  height: 240px;
-  margin: 0;
-}
-
 #administratie .util-flex,
 #utilitati .util-flex {
   flex-direction: column;

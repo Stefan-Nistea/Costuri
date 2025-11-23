@@ -456,9 +456,9 @@ function updateLunarCompactButton() {
   if (!btn) return;
 
   if (lunarCompact) {
-    btn.textContent = currentLang === "ro" ? "Extended" : "Extended";
+    btn.textContent = currentLang === "ro" ? "Vezi tabele: Extinse" : "View: extended tables";
   } else {
-    btn.textContent = currentLang === "ro" ? "Compact" : "Compact";
+    btn.textContent = currentLang === "ro" ? "Vezi tabele: Compacte" : "View: compact tables";
   }
 }
 
@@ -480,9 +480,6 @@ function toggleLunarCompact() {
   updateLunarCompactButton();
   localStorage.setItem("lunarCompactMode", lunarCompact ? "1" : "0");
 }
-
-/* Expose if needed */
-window.toggleLunarCompact = toggleLunarCompact;
 
 /* On page load */
 window.addEventListener("DOMContentLoaded", () => {

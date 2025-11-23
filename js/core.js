@@ -638,13 +638,3 @@ document.addEventListener('DOMContentLoaded', () => {
   loadPage(last);
 });
 
-/* ============================================
-   GLOBAL EXPORTS — Expose infrastructure APIs
-   --------------------------------------------
-   Makes core functionality accessible globally
-   so that other modules and page HTML can call
-   the router and language loader.
-   ============================================ */
-   
-window.loadPage = loadPage;
-window.loadLanguage = loadLanguage;

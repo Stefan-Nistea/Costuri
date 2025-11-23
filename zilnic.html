@@ -5,7 +5,7 @@
 	<div class="container">
 	
 	  <!-- SELECTOR CATEGORII -->
-	  <div class="zilnic-tabs" style="display:flex; justify-content:center; gap:10px; margin-top:12px;">
+	  <div class="zilnic-tabs" >
 		
 		<button class="zilnic-tab active" onclick="switchZilnicTab('supermarket', event)" data-i18n="zilnic_supermarket">Supermarket</button>
 		<button class="zilnic-tab" onclick="switchZilnicTab('car', event)" data-i18n="zilnic_car">Car</button>
@@ -60,7 +60,7 @@
 		<!-- TABEL SUPERMARKET -->
 		<div id="zilnicContent" style="margin-top:34px;">
 		  <div id="zilnicTableContainer" style="margin-top:10px;">
-			<table id="zilnicTable" class="services-table" style="width:100%; border-collapse:collapse;">
+			<table id="zilnicTable" class="services-table" >
 			  <thead>
 				<tr>
 				  <th data-i18n="luna">Lună</th>
@@ -159,7 +159,7 @@
 		</div>
 
 		<!-- TABEL + TABURI INTERNE -->
-		<div id="carSwitch" class="zilnic-tabs" style="display:flex; justify-content:center; gap:10px; margin-top:18px;">
+		<div id="carSwitch" class="zilnic-tabs" >
 		  
 		  <button id="carTabFuelBtn" class="zilnic-tab active" data-i18n="car_combustibil">Combustibil</button>
 		  <button id="carTabServBtn" class="zilnic-tab" data-i18n="car_service_taxe">Service / Taxe</button>
@@ -170,7 +170,7 @@
 		<div id="carTablesContainer" style="margin-top:20px;">
 
 		  <div id="carTableFuelWrap" class="car-table-wrap" style="display:block;">
-			<table id="carTableFuel" class="services-table" style="width:100%; border-collapse:collapse;">
+			<table id="carTableFuel" class="services-table" >
 			  <thead>
 				<tr>
 				    <th data-i18n="car_data">Data</th>
@@ -188,7 +188,7 @@
 		  </div>
 
 		  <div id="carTableAltWrap" class="car-table-wrap" style="display:none;">
-			<table id="carTableAlt" class="services-table" style="width:100%; border-collapse:collapse;">
+			<table id="carTableAlt" class="services-table" >
 			  <thead>
 				<tr>
 				  <th data-i18n="car_data">Data</th>
