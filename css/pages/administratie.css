@@ -1,0 +1,16 @@
+/**
+ * ADMINISTRATION PAGE STYLES
+ * --------------------------
+ * Page-specific layout and styling for the Administration module.
+ * Includes alignment rules, spacing, container sizing and
+ * visual adjustments unique to the Administration page.
+ */
+ 
+/* Center the water cost section and match table width */
+#administratie .rates-panel:first-of-type {
+  max-width: 900px;
+  width: fit-content;
+  margin: 30px auto;
+  padding: 20px;
+  box-sizing: border-box;
+}
