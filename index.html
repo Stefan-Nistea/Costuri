@@ -27,6 +27,36 @@
 	    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 	    <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
 	    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
+		
+		<!-- Google Identity Services -->
+		<script src="https://accounts.google.com/gsi/client" async defer></script>
+		
+		<!-- Firebase v9 compat (global firebase object) -->
+		<script src="https://www.gstatic.com/firebasejs/9.6.11/firebase-app-compat.js"></script>
+		<script src="https://www.gstatic.com/firebasejs/9.6.11/firebase-auth-compat.js"></script>
+		<script src="https://www.gstatic.com/firebasejs/9.6.11/firebase-firestore-compat.js"></script>
+
+		<!-- Firebase config (MUST run before core.js) -->
+		<script src="js/firebase.js"></script>
+
+		<!-- Core infrastructure (must load first) -->
+		<script src="js/core.js" defer></script>
+
+		<!-- Sync engine (depends on core) -->
+		<script src="js/sync.js" defer></script>
+
+		<!-- Page modules -->
+		<script src="js/lunar_anual.js" defer></script>
+		<script src="js/utilitati.js" defer></script>
+		<script src="js/administratie.js" defer></script>
+		<script src="js/zilnic.js" defer></script>
+		<script src="js/car.js" defer></script>
+
+		<!-- Charts initializer -->
+		<script src="js/charts.js" defer></script>
+
+		<!-- UI helpers (zoom, scroll effects, capitalize, etc.) -->
+		<script src="js/ui.js" defer></script>
 	</head>
 
 	<body id="zoomWrapper">
@@ -95,25 +125,6 @@
 		<main id="content" role="main">
 
 		</main>
-
-		<!-- Core infrastructure (must load first) -->
-		<script src="js/core.js" defer></script>
-
-		<!-- Sync engine (depends on core) -->
-		<script src="js/sync.js" defer></script>
-
-		<!-- Page modules -->
-		<script src="js/lunar_anual.js" defer></script>
-		<script src="js/utilitati.js" defer></script>
-		<script src="js/administratie.js" defer></script>
-		<script src="js/zilnic.js" defer></script>
-		<script src="js/car.js" defer></script>
-
-		<!-- Charts initializer -->
-		<script src="js/charts.js" defer></script>
-
-		<!-- UI helpers (zoom, scroll effects, capitalize, etc.) -->
-		<script src="js/ui.js" defer></script>
 		
 	</body>
 </html>

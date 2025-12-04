@@ -8,8 +8,18 @@
   <!-- Google Identity Services -->
   <script src="https://accounts.google.com/gsi/client" async defer></script>
 
-  <link rel="stylesheet" href="css/login.css" />
+  <!-- Firebase v9 compat (global firebase object) -->
+  <script src="https://www.gstatic.com/firebasejs/9.6.11/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.11/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.11/firebase-firestore-compat.js"></script>
+
+  <!-- Firebase config (must load BEFORE login.js) -->
+  <script src="js/firebase.js"></script>
+
+  <!-- Login logic (must load LAST, after firebase.js) -->
   <script src="js/login.js" defer></script>
+
+  <link rel="stylesheet" href="css/login.css" />
 </head>
 
 <body>

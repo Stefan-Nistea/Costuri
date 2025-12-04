@@ -268,6 +268,59 @@ function loadDataLocal() {
 }
 
 
+// === FIRESTORE SYNC ===
+
+async function cloudLoadUserData(uid) {
+  const ref = db.collection("users").doc(uid);
+  const docSnap = await ref.get();
+
+  if (!docSnap.exists) return null;
+  return docSnap.data();
+}
+
+async function cloudSaveUserData(uid) {
+  const ref = db.collection("users").doc(uid);
+
+  await ref.set({
+    data_lunar,
+    data_anual,
+    data_utilitati,
+    data_administratie,
+    data_zilnic,
+    data_car,
+    last_updated: Date.now()
+  });
+}
+
+async function syncWithCloud() {
+  const token = localStorage.getItem("userGoogleToken");
+  const uid   = localStorage.getItem("userID");
+
+  if (!token || !uid) return; // visitor mode
+
+  console.log("Sync: Loading cloud data…");
+
+  const cloud = await cloudLoadUserData(uid);
+
+  if (cloud) {
+    console.log("Sync: Cloud → Local");
+    // Cloud → LocalStorage
+    data_lunar        = cloud.data_lunar;
+    data_anual        = cloud.data_anual;
+    data_utilitati    = cloud.data_utilitati;
+    data_administratie= cloud.data_administratie;
+    data_zilnic       = cloud.data_zilnic;
+    data_car          = cloud.data_car;
+
+    saveDataLocal();
+  } else {
+    console.log("Sync: Local → Cloud (first login)");
+    // First login → save everything
+    await cloudSaveUserData(uid);
+  }
+}
+
+
 /**
  * Persist current in-memory state into localStorage.
  * Called after each mutating operation or global update.
@@ -284,6 +337,9 @@ function saveDataLocal() {
   } catch (err) {
     console.error("Failed to write to localStorage:", err);
   }
+  
+  const uid = localStorage.getItem("userID");
+  if (uid) cloudSaveUserData(uid);
 }
 
 
@@ -610,40 +666,65 @@ async function loadPage(page) {
  * sets up rate update controls, and restores the last visited page.
  */
 document.addEventListener('DOMContentLoaded', () => {
-  // Load saved data
+  // 1. Load saved data from localStorage 
   loadDataLocal();
 
-  // Detect language first
+  // 2. Detect and apply initial language
   currentLang = detectInitialLanguage();
   loadLanguage(currentLang);
 
-  // Navigation buttons
-  document.querySelectorAll('.nav-btn').forEach(btn => {
-    const page = btn.getAttribute('data-page');
-    if (!page) return;
-    btn.addEventListener('click', () => loadPage(page));
-  });
+  // 3. Wait for Firebase Auth to initialize BEFORE touching Firestore
+  firebase.auth().onAuthStateChanged(user => {
+    
+    // Check if the app is running in visitor mode 
+    const isVisitor = localStorage.getItem("visitorMode") === "true";
+    
+    if (user && !isVisitor) {
+        // Case 1: Authenticated user
+        localStorage.setItem("userID", user.uid);
+        console.log("Firebase User State Confirmed. Starting cloud sync.");
 
-  // Manual rates refresh
-  const btnRates = document.getElementById('applyRates');
-  if (btnRates) btnRates.addEventListener('click', updateAll);
+        syncWithCloud().then(() => {
+            // After cloud sync (Cloud → Local), refresh the UI
+            updateAll();
+        });
 
-  // Auto BNR update
-  const btnAutoRates = document.getElementById('autoRates');
-  if (btnAutoRates) {
-    btnAutoRates.addEventListener('click', async () => {
-      await updateRatesFromBNR();
+    } else {
+        // Case 2: User not logged in OR visitor mode
+        // Only update UI based on local data
+        console.log("Firebase User State: Not logged in or visitor mode. Skipping cloud sync.");
+        updateAll();
+    }
+
+    // 4. Navigation buttons & rates setup 
+    document.querySelectorAll('.nav-btn').forEach(btn => {
+      const page = btn.getAttribute('data-page');
+      if (!page) return;
+      btn.addEventListener('click', () => loadPage(page));
     });
-  }
 
-  // Load last visited page
-  let last = (localStorage.getItem('lastPage') || 'lunar').toLowerCase();
-  if (!['lunar', 'utilitati', 'administratie', 'zilnic'].includes(last)) {
-    last = 'lunar';
-  }
+    // Manual rates refresh
+    const btnRates = document.getElementById('applyRates');
+    if (btnRates) btnRates.addEventListener('click', updateAll);
 
-  loadPage(last);
+    // Automatic BNR exchange rate update
+    const btnAutoRates = document.getElementById('autoRates');
+    if (btnAutoRates) {
+      btnAutoRates.addEventListener('click', async () => {
+        await updateRatesFromBNR();
+      });
+    }
+
+    // 5. Load last visited page 
+    let last = (localStorage.getItem('lastPage') || 'lunar').toLowerCase();
+    if (!['lunar', 'utilitati', 'administratie', 'zilnic'].includes(last)) {
+      last = 'lunar';
+    }
+
+    loadPage(last);
+  });
 });
+
 
 // === LOGOUT HANDLER ===
 function logoutUser() {
