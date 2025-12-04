@@ -1,0 +1,71 @@
+
+
+body {
+  margin: 0;
+  padding: 0;
+  background: #f3f7f4;
+  font-family: system-ui, sans-serif;
+  display: flex;
+  height: 100vh;
+  justify-content: center;
+  align-items: center;
+}
+
+.login-wrapper {
+  width: 100%;
+  max-width: 450px;
+  padding: 20px;
+}
+
+.login-card {
+  background: #ffffff;
+  border-radius: 18px;
+  padding: 35px 30px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+  text-align: center;
+}
+
+h1 {
+  margin-bottom: 8px;
+  font-size: 26px;
+  color: #2b2f2c;
+}
+
+.subtitle {
+  color: #666;
+  margin-bottom: 22px;
+}
+
+.google-btn {
+  margin-top: 10px;
+  margin-bottom: 20px;
+}
+
+.visitor-btn {
+  width: 100%;
+  padding: 12px 0;
+  background: none;
+  border: 1px solid #aaa;
+  border-radius: 12px;
+  font-size: 15px;
+  cursor: pointer;
+  color: #555;
+  text-decoration: underline;
+  transition: background 0.2s ease;
+}
+
+.visitor-btn:hover {
+  background: #f0f0f0;
+}
+
+.divider {
+  margin: 25px 0;
+  border: none;
+  border-top: 1px solid #ddd;
+}
+
+.info-text {
+  font-size: 13px;
+  color: #777;
+  margin-top: 18px;
+}

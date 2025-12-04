@@ -7,6 +7,13 @@
  * This module must load first, before all others.
  */
 
+// === AUTH GUARD: Redirect to login if not authenticated ===
+if (!localStorage.getItem("userGoogleToken") &&
+    !localStorage.getItem("visitorMode")) {
+    window.location.href = "login.html";
+}
+
+
 /* ============================================
    SEED DATA — Base application datasets
    --------------------------------------------
@@ -638,3 +645,16 @@ document.addEventListener('DOMContentLoaded', () => {
   loadPage(last);
 });
 
+// === LOGOUT HANDLER ===
+function logoutUser() {
+  // Remove auth info
+  localStorage.removeItem("userGoogleToken");
+  localStorage.removeItem("visitorMode");
+
+  // Clean all stored data 
+  localStorage.clear();
+
+  // Redirect back to login page
+  window.location.href = "login.html";
+}
+window.logoutUser = logoutUser;
