@@ -270,14 +270,16 @@ function loadDataLocal() {
 
 // === FIRESTORE SYNC ===
 
+// === Load user data from Firestore ===
 async function cloudLoadUserData(uid) {
   const ref = db.collection("users").doc(uid);
-  const docSnap = await ref.get();
+  const snap = await ref.get();
 
-  if (!docSnap.exists) return null;
-  return docSnap.data();
+  if (!snap.exists) return null;
+  return snap.data();
 }
 
+// === Save user data to Firestore (safe merge) ===
 async function cloudSaveUserData(uid) {
   const ref = db.collection("users").doc(uid);
 
@@ -289,35 +291,40 @@ async function cloudSaveUserData(uid) {
     data_zilnic,
     data_car,
     last_updated: Date.now()
-  });
+  }, { merge: true }); // merge prevents accidental deletion
 }
 
+// === Synchronize local data with Firestore ===
 async function syncWithCloud() {
-  const token = localStorage.getItem("userGoogleToken");
-  const uid   = localStorage.getItem("userID");
+  const user = firebase.auth().currentUser;
+  if (!user) return; // visitor mode → skip cloud sync
 
-  if (!token || !uid) return; // visitor mode
+  const uid = user.uid;
+  console.log("Sync: loading cloud data…");
 
-  console.log("Sync: Loading cloud data…");
-
+  // 1. Load existing cloud data
   const cloud = await cloudLoadUserData(uid);
 
   if (cloud) {
-    console.log("Sync: Cloud → Local");
-    // Cloud → LocalStorage
-    data_lunar        = cloud.data_lunar;
-    data_anual        = cloud.data_anual;
-    data_utilitati    = cloud.data_utilitati;
-    data_administratie= cloud.data_administratie;
-    data_zilnic       = cloud.data_zilnic;
-    data_car          = cloud.data_car;
+    console.log("Sync: Cloud → Local merge");
+
+    // Merge Cloud → Local only if cloud fields exist
+    data_lunar         = cloud.data_lunar         ?? data_lunar;
+    data_anual         = cloud.data_anual         ?? data_anual;
+    data_utilitati     = cloud.data_utilitati     ?? data_utilitati;
+    data_administratie = cloud.data_administratie ?? data_administratie;
+    data_zilnic        = cloud.data_zilnic        ?? data_zilnic;
+    data_car           = cloud.data_car           ?? data_car;
 
     saveDataLocal();
   } else {
-    console.log("Sync: Local → Cloud (first login)");
-    // First login → save everything
-    await cloudSaveUserData(uid);
+    console.log("Sync: First login detected → Local → Cloud");
   }
+
+  // 2. Save merged result back into Firestore (always)
+  await cloudSaveUserData(uid);
+
+  console.log("Sync: Completed.");
 }
 
 
@@ -337,9 +344,7 @@ function saveDataLocal() {
   } catch (err) {
     console.error("Failed to write to localStorage:", err);
   }
-  
-  const uid = localStorage.getItem("userID");
-  if (uid) cloudSaveUserData(uid);
+
 }
 
 
@@ -726,16 +731,37 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 
-// === LOGOUT HANDLER ===
-function logoutUser() {
-  // Remove auth info
-  localStorage.removeItem("userGoogleToken");
-  localStorage.removeItem("visitorMode");
+// === LOGOUT HANDLER (Safe cloud save + full local cleanup) ===
+async function logoutUser() {
+  const user = firebase.auth().currentUser;
+  console.log("Logout initiated…");
 
-  // Clean all stored data 
+  // If a real authenticated user exists → save data to cloud before clearing
+  if (user) {
+    try {
+      console.log("Saving user data to cloud before logout…");
+      await cloudSaveUserData(user.uid);
+      console.log("Cloud save completed.");
+    } catch (err) {
+      console.warn("Cloud save failed during logout:", err);
+      // Do not block logout; proceed anyway.
+    }
+  } else {
+    console.log("Visitor logout → no cloud save required.");
+  }
+
+  // Sign out from Firebase Auth (if applicable)
+  try {
+    await firebase.auth().signOut();
+  } catch (err) {
+    console.warn("Sign-out error (ignored):", err);
+  }
+
+  // Clear all local data (both users and visitors)
   localStorage.clear();
 
   // Redirect back to login page
   window.location.href = "login.html";
 }
+
 window.logoutUser = logoutUser;
