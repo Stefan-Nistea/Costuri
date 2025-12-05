@@ -677,6 +677,17 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // Check if the app is running in visitor mode 
     const isVisitor = localStorage.getItem("visitorMode") === "true";
+	
+	const userDisp = document.getElementById("userDisplay");
+
+    if (user) {
+        const email = user.email || "";
+        const name = user.displayName || "";
+
+        userDisp.textContent = name || email;
+    } else {
+        userDisp.textContent = "Guest"; // guest / no user
+    }
     
     if (user && !isVisitor) {
         // Case 1: Authenticated user

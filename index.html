@@ -22,6 +22,9 @@
 		<link rel="stylesheet" href="css/pages/utilitati.css">
 		<link rel="stylesheet" href="css/pages/lunar.css">
 		<link rel="stylesheet" href="css/pages/administratie.css">
+		
+		<!-- AUTH GUARD — MUST BE FIRST SCRIPT -->
+		<script src="js/auth-guard.js"></script>
 
 	    <!-- Vendor scripts -->
 	    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -79,6 +82,8 @@
 					onclick="loadLanguage('en')">
 				EN
 			</button>
+			
+			<div id="userDisplay" class="user-display"></div>
 			
 			<button class="logout-btn" onclick="logoutUser()">
 				Logout
