@@ -109,3 +109,33 @@ input[type="time"] {
   letter-spacing: .2px;
   color: #1d2939;
 }
+
+.user-display {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 32px;
+
+  padding: 0 14px;
+  border-radius: 20px;
+
+  background: rgba(0,0,0,0.06);
+  border: 1px solid rgba(0,0,0,0.1);
+
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text);
+
+  backdrop-filter: blur(3px);
+  white-space: nowrap;
+
+  margin: 0 12px;
+  min-width: 120px;
+
+  transition: background .2s ease, border-color .2s ease;
+}
+
+.user-display:hover {
+  background: rgba(0,0,0,0.1);
+  border-color: rgba(0,0,0,0.15);
+}
