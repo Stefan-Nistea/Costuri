@@ -25,8 +25,10 @@
 <body>
   <div class="login-wrapper">
     <div class="login-card">
-      <h1>Welcome to ExpenseFlow</h1>
-      <p class="subtitle">Choose a Login option</p>
+		
+	  <h1> ExpenseFlow </h1>
+      <h2 id="login_title">Welcome!</h2>
+      <p id="login_subtitle" class="subtitle">Choose a Login option</p>
 
       <!-- Google Login -->
       <div id="g_id_onload"
@@ -36,24 +38,34 @@
         data-auto_prompt="false">
       </div>
 
-      <div class="google-btn">
-        <div class="g_id_signin"
-          data-type="standard"
-          data-shape="rectangular"
-          data-theme="outline"
-          data-text="signin_with"
-          data-size="large">
-        </div>
-      </div>
+      <button id="customGoogleBtn" class="google-custom-btn">
+		<img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="">
+		Sign in with Google
+	  </button>
 
       <hr class="divider" />
 
       <!-- Visitor Mode -->
-      <button class="visitor-btn" onclick="continueAsVisitor()">Continue as visitor</button>
+      <button class="visitor-btn" onclick="continueAsVisitor()" id="visitor_btn">
+		Continue as visitor
+	  </button>
 
-      <p class="info-text">
-        Visitor mode keeps data only locally and will be lost when you close the browser.
-      </p>
+	  <p class="info-text" id="visitor_info">
+		Visitor mode keeps data only locally and will be lost when you close the browser.
+	  </p>
+
+	  <p class="legal-text">
+		<span id="legal_text">By continuing, you agree to the</span>
+		<a id="link_terms" href="terms.html" target="_blank">Terms</a>
+		<span id="legal_and">and</span>
+		<a id="link_privacy" href="privacy.html" target="_blank">Privacy Policy</a>.
+	  </p>
+
+	  <div class="lang-switch">
+		<button data-lang="en">EN</button>
+		<button data-lang="ro">RO</button>
+	  </div>
+
     </div>
   </div>
 </body>
