@@ -7,12 +7,6 @@
  * This module must load first, before all others.
  */
 
-// === AUTH GUARD: Redirect to login if not authenticated ===
-if (!localStorage.getItem("userGoogleToken") &&
-    !localStorage.getItem("visitorMode")) {
-    window.location.href = "login.html";
-}
-
 
 /* ============================================
    SEED DATA — Base application datasets
@@ -707,17 +701,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
     } else {
         // Case 2: User not logged in OR visitor mode
-        // Only update UI based on local data
         console.log("Firebase User State: Not logged in or visitor mode. Skipping cloud sync.");
         updateAll();
     }
 
     // 4. Navigation buttons & rates setup 
     document.querySelectorAll('#mainNav .main-nav-btn').forEach(btn => {
-	  const page = btn.getAttribute('data-page');
-	  if (!page) return;
-	  btn.addEventListener('click', () => loadPage(page));
-	});
+      const page = btn.getAttribute('data-page');
+      if (!page) return;
+      btn.addEventListener('click', () => loadPage(page));
+    });
 
     // Manual rates refresh
     const btnRates = document.getElementById('applyRates');
@@ -731,7 +724,17 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     }
 
-    // 5. Load last visited page 
+    // 5. Load initial page (THIS IS NEW + CORRECT)
+    const hasAuth = localStorage.getItem("userGoogleToken") || 
+                    localStorage.getItem("visitorMode");
+
+    if (!hasAuth) {
+      // User is not authenticated → load login
+      loadPage("login");
+      return;
+    }
+
+    // User authenticated → load last visited page
     let last = (localStorage.getItem('lastPage') || 'lunar').toLowerCase();
     if (!['lunar', 'utilitati', 'administratie', 'zilnic'].includes(last)) {
       last = 'lunar';
