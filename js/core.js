@@ -702,11 +702,11 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // 4. Navigation buttons & rates setup 
-    document.querySelectorAll('.nav-btn').forEach(btn => {
-      const page = btn.getAttribute('data-page');
-      if (!page) return;
-      btn.addEventListener('click', () => loadPage(page));
-    });
+    document.querySelectorAll('#mainNav .main-nav-btn').forEach(btn => {
+	  const page = btn.getAttribute('data-page');
+	  if (!page) return;
+	  btn.addEventListener('click', () => loadPage(page));
+	});
 
     // Manual rates refresh
     const btnRates = document.getElementById('applyRates');

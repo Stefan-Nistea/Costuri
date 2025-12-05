@@ -300,6 +300,7 @@
   padding: 4px 6px;
   border-radius: 8px;
   cursor: pointer;
+  border: none;
   transition: background .2s ease;
 }
 
@@ -307,22 +308,39 @@
   background: var(--danger-100);
 }
 
-.switchBtn{
-  padding: 5px 8px;
-  border-radius: 8px;
-  border: none;
+/* ON / OFF */
+/* Base */
+.switchBtn {
+  padding: 2px 6px;
+  border-radius: 6px;
+  font-weight: 600;
   cursor: pointer;
-  font-weight: 700;
-  color: #fff;
-  font-size: 13px;
+  transition: opacity .15s ease, transform .15s ease;
+  border: none;
+  background: transparent !important;
+  min-width: auto;
 }
 
-.switchBtn.active{
-  background: var(--accent);
+/* ON state */
+.switchBtn.active {
+  color: var(--accent-600);
 }
 
-.switchBtn.inactive{
-  background: var(--danger);
+/* OFF state */
+.switchBtn.inactive {
+  color: var(--danger);
+}
+
+/* Hover feedback */
+.switchBtn:hover {
+  opacity: 0.75;
+  transform: translateY(-1px);
+}
+
+/* Click feedback */
+.switchBtn:active {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 /* Responsive tables for small screens (Zilnic) */
