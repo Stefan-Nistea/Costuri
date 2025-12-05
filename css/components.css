@@ -9,7 +9,7 @@
    ========================================================================== */
    
 /* ===========================
-	  TOTALS (summary cards)
+	 TOTALS (summary cards)
    =========================== */
 
 .totalsContainer{
@@ -61,9 +61,9 @@
   margin-top: 6px;
 }
 
-/* ================================
-		PANELS (rates, settings)
-   ================================ */
+/* ============================
+	 PANELS (rates, settings)
+   ============================ */
 
 .rates-panel{
   background: var(--bg-soft);
@@ -108,9 +108,9 @@
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
 }
 
-/* ================================
-		FORMS / INPUTS / BUTTONS
-   ================================ */
+/* ============================
+	 FORMS / INPUTS / BUTTONS
+   ============================ */
 
 .formRow{
   display:flex;
@@ -208,9 +208,9 @@
   }
 }
 
-/* ======================
-		TABLES
-   ====================== */
+/* =============
+     TABLES
+   ============= */
 
 .services-table{
   width:100%;
@@ -232,7 +232,8 @@
   font-size: 13px;
 }
 
-.services-table th, .services-table td{
+.services-table th,
+.services-table td {
   border: 1px solid var(--border);
   padding: 3px 6px;
   font-size: 13px;
@@ -300,6 +301,7 @@
   padding: 4px 6px;
   border-radius: 8px;
   cursor: pointer;
+  border: none;
   transition: background .2s ease;
 }
 
@@ -307,22 +309,38 @@
   background: var(--danger-100);
 }
 
-.switchBtn{
-  padding: 5px 8px;
-  border-radius: 8px;
-  border: none;
+/* ON / OFF */
+/* Base */
+.switchBtn {
+  padding: 1px 3px;
+  border-radius: 6px;
+  font-weight: 600;
   cursor: pointer;
-  font-weight: 700;
-  color: #fff;
-  font-size: 13px;
+  transition: opacity .15s ease, transform .15s ease;
+  border: none;
+  background: transparent !important;
 }
 
-.switchBtn.active{
-  background: var(--accent);
+/* ON state */
+.switchBtn.active {
+  color: var(--accent-600);
 }
 
-.switchBtn.inactive{
-  background: var(--danger);
+/* OFF state */
+.switchBtn.inactive {
+  color: var(--danger);
+}
+
+/* Hover feedback */
+.switchBtn:hover {
+  opacity: 0.75;
+  transform: translateY(-1px);
+}
+
+/* Click feedback */
+.switchBtn:active {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 /* Responsive tables for small screens (Zilnic) */
@@ -365,14 +383,24 @@ h3 + .util-flex{
   margin-top: 6px;
 }
 
-/* Numeric column width hint */
-.services-table th:nth-child(2),
-.services-table td:nth-child(2){
-  width: 110px;
-}
-
 .services-table td:nth-child(2) input[type="number"]{
   width: 100%;
   box-sizing: border-box;
   text-align: center;
+}
+
+
+.logout-btn {
+    background: #eee;
+    border: 1px solid #ccc;
+    padding: 6px 14px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: 600;
+    margin-left: 10px;
+    transition: background 0.2s ease;
+}
+
+.logout-btn:hover {
+    background: #e4e4e4;
 }

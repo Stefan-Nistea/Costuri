@@ -27,70 +27,17 @@
 	    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 	    <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
 	    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
-	</head>
+		
+		<!-- Google Identity Services -->
+		<script src="https://accounts.google.com/gsi/client" async defer></script>
+		
+		<!-- Firebase v9 compat (global firebase object) -->
+		<script src="https://www.gstatic.com/firebasejs/9.6.11/firebase-app-compat.js"></script>
+		<script src="https://www.gstatic.com/firebasejs/9.6.11/firebase-auth-compat.js"></script>
+		<script src="https://www.gstatic.com/firebasejs/9.6.11/firebase-firestore-compat.js"></script>
 
-	<body id="zoomWrapper">
-
-		<header id="topbar">
-
-			<div class="top-title">
-				<h1 data-i18n="app_title">ExpenseFlow</h1>
-				<span class="app-tagline" data-i18n="app_tagline">Personal finance overview</span>
-			</div>
-
-		  <div class="top-left">
-			<nav class="nav-pages">
-
-			  <button id="btnLunar" 
-					  class="nav-btn" 
-					  data-page="lunar"
-					  data-i18n="nav_lunar">
-				Lunar
-			  </button>
-
-			  <button id="btnUtilitati" 
-					  class="nav-btn" 
-					  data-page="utilitati"
-					  data-i18n="nav_utilitati">
-				Utilități
-			  </button>
-
-			  <button id="btnAdministratie" 
-					  class="nav-btn" 
-					  data-page="administratie"
-					  data-i18n="nav_administratie">
-				Administrație
-			  </button>
-
-			  <button id="btnZilnic" 
-					  class="nav-btn" 
-					  data-page="zilnic"
-					  data-i18n="nav_zilnic">
-				Zilnic 
-			  </button>
-
-			</nav>
-		  </div>
-
-		  <div class="top-right">
-
-			<button class="lang-btn" 
-					onclick="loadLanguage('ro')">
-				RO
-			</button>
-
-			<button class="lang-btn" 
-					onclick="loadLanguage('en')">
-				EN
-			</button>
-
-		  </div>
-
-		</header>
-
-		<main id="content" role="main">
-		  <!-- The active page is dinamicaly injected via app.js -->
-		</main>
+		<!-- Firebase config (MUST run before core.js) -->
+		<script src="js/firebase.js"></script>
 
 		<!-- Core infrastructure (must load first) -->
 		<script src="js/core.js" defer></script>
@@ -110,6 +57,68 @@
 
 		<!-- UI helpers (zoom, scroll effects, capitalize, etc.) -->
 		<script src="js/ui.js" defer></script>
+	</head>
+
+	<body id="zoomWrapper">
+
+		<header id="topbar">
+
+			<div class="top-title">
+				<h1 data-i18n="app_title">ExpenseFlow</h1>
+				<span class="app-tagline" data-i18n="app_tagline">Personal finance overview</span>
+			</div>
+
+		  <div class="top-right">
+
+			<button class="lang-btn" 
+					onclick="loadLanguage('ro')">
+				RO
+			</button>
+
+			<button class="lang-btn" 
+					onclick="loadLanguage('en')">
+				EN
+			</button>
+			
+			<button class="logout-btn" onclick="logoutUser()">
+				Logout
+			</button>
+			
+		  </div>
+
+		</header>
+		
+		<nav id="mainNav">
+			
+			<button class="main-nav-btn" 
+					data-page="lunar" 
+					data-i18n="nav_lunar">
+				Lunar
+			</button>
+			
+			<button class="main-nav-btn" 
+					data-page="utilitati" 
+					data-i18n="nav_utilitati">
+				Utilități
+			</button>
+			
+			<button class="main-nav-btn" 
+					data-page="administratie" 
+					data-i18n="nav_administratie">
+				Administrație
+			</button>
+			
+			<button class="main-nav-btn" 
+					data-page="zilnic" 
+					data-i18n="nav_zilnic">
+				Zilnic
+			</button>
+			
+		</nav>
+
+		<main id="content" role="main">
+
+		</main>
 		
 	</body>
 </html>

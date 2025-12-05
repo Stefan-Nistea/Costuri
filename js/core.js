@@ -7,6 +7,13 @@
  * This module must load first, before all others.
  */
 
+// === AUTH GUARD: Redirect to login if not authenticated ===
+if (!localStorage.getItem("userGoogleToken") &&
+    !localStorage.getItem("visitorMode")) {
+    window.location.href = "login.html";
+}
+
+
 /* ============================================
    SEED DATA — Base application datasets
    --------------------------------------------
@@ -261,6 +268,66 @@ function loadDataLocal() {
 }
 
 
+// === FIRESTORE SYNC ===
+
+// === Load user data from Firestore ===
+async function cloudLoadUserData(uid) {
+  const ref = db.collection("users").doc(uid);
+  const snap = await ref.get();
+
+  if (!snap.exists) return null;
+  return snap.data();
+}
+
+// === Save user data to Firestore (safe merge) ===
+async function cloudSaveUserData(uid) {
+  const ref = db.collection("users").doc(uid);
+
+  await ref.set({
+    data_lunar,
+    data_anual,
+    data_utilitati,
+    data_administratie,
+    data_zilnic,
+    data_car,
+    last_updated: Date.now()
+  }, { merge: true }); // merge prevents accidental deletion
+}
+
+// === Synchronize local data with Firestore ===
+async function syncWithCloud() {
+  const user = firebase.auth().currentUser;
+  if (!user) return; // visitor mode → skip cloud sync
+
+  const uid = user.uid;
+  console.log("Sync: loading cloud data…");
+
+  // 1. Load existing cloud data
+  const cloud = await cloudLoadUserData(uid);
+
+  if (cloud) {
+    console.log("Sync: Cloud → Local merge");
+
+    // Merge Cloud → Local only if cloud fields exist
+    data_lunar         = cloud.data_lunar         ?? data_lunar;
+    data_anual         = cloud.data_anual         ?? data_anual;
+    data_utilitati     = cloud.data_utilitati     ?? data_utilitati;
+    data_administratie = cloud.data_administratie ?? data_administratie;
+    data_zilnic        = cloud.data_zilnic        ?? data_zilnic;
+    data_car           = cloud.data_car           ?? data_car;
+
+    saveDataLocal();
+  } else {
+    console.log("Sync: First login detected → Local → Cloud");
+  }
+
+  // 2. Save merged result back into Firestore (always)
+  await cloudSaveUserData(uid);
+
+  console.log("Sync: Completed.");
+}
+
+
 /**
  * Persist current in-memory state into localStorage.
  * Called after each mutating operation or global update.
@@ -277,6 +344,7 @@ function saveDataLocal() {
   } catch (err) {
     console.error("Failed to write to localStorage:", err);
   }
+
 }
 
 
@@ -460,7 +528,7 @@ function enableColumnResize() {
       th.appendChild(resizer);
 
       // Minimum width (fallback 60px)
-      const minW = parseInt(getComputedStyle(th).minWidth) || 60;
+      const minW = parseInt(getComputedStyle(th).minWidth) || 40;
 
       // Restore saved column width from localStorage
       const savedWidth = localStorage.getItem(`colWidth_${tableIndex}_${colIndex}`);
@@ -603,38 +671,97 @@ async function loadPage(page) {
  * sets up rate update controls, and restores the last visited page.
  */
 document.addEventListener('DOMContentLoaded', () => {
-  // Load saved data
+  // 1. Load saved data from localStorage 
   loadDataLocal();
 
-  // Detect language first
+  // 2. Detect and apply initial language
   currentLang = detectInitialLanguage();
   loadLanguage(currentLang);
 
-  // Navigation buttons
-  document.querySelectorAll('.nav-btn').forEach(btn => {
-    const page = btn.getAttribute('data-page');
-    if (!page) return;
-    btn.addEventListener('click', () => loadPage(page));
+  // 3. Wait for Firebase Auth to initialize BEFORE touching Firestore
+  firebase.auth().onAuthStateChanged(user => {
+    
+    // Check if the app is running in visitor mode 
+    const isVisitor = localStorage.getItem("visitorMode") === "true";
+    
+    if (user && !isVisitor) {
+        // Case 1: Authenticated user
+        localStorage.setItem("userID", user.uid);
+        console.log("Firebase User State Confirmed. Starting cloud sync.");
+
+        syncWithCloud().then(() => {
+            // After cloud sync (Cloud → Local), refresh the UI
+            updateAll();
+        });
+
+    } else {
+        // Case 2: User not logged in OR visitor mode
+        // Only update UI based on local data
+        console.log("Firebase User State: Not logged in or visitor mode. Skipping cloud sync.");
+        updateAll();
+    }
+
+    // 4. Navigation buttons & rates setup 
+    document.querySelectorAll('#mainNav .main-nav-btn').forEach(btn => {
+	  const page = btn.getAttribute('data-page');
+	  if (!page) return;
+	  btn.addEventListener('click', () => loadPage(page));
+	});
+
+    // Manual rates refresh
+    const btnRates = document.getElementById('applyRates');
+    if (btnRates) btnRates.addEventListener('click', updateAll);
+
+    // Automatic BNR exchange rate update
+    const btnAutoRates = document.getElementById('autoRates');
+    if (btnAutoRates) {
+      btnAutoRates.addEventListener('click', async () => {
+        await updateRatesFromBNR();
+      });
+    }
+
+    // 5. Load last visited page 
+    let last = (localStorage.getItem('lastPage') || 'lunar').toLowerCase();
+    if (!['lunar', 'utilitati', 'administratie', 'zilnic'].includes(last)) {
+      last = 'lunar';
+    }
+
+    loadPage(last);
   });
-
-  // Manual rates refresh
-  const btnRates = document.getElementById('applyRates');
-  if (btnRates) btnRates.addEventListener('click', updateAll);
-
-  // Auto BNR update
-  const btnAutoRates = document.getElementById('autoRates');
-  if (btnAutoRates) {
-    btnAutoRates.addEventListener('click', async () => {
-      await updateRatesFromBNR();
-    });
-  }
-
-  // Load last visited page
-  let last = (localStorage.getItem('lastPage') || 'lunar').toLowerCase();
-  if (!['lunar', 'utilitati', 'administratie', 'zilnic'].includes(last)) {
-    last = 'lunar';
-  }
-
-  loadPage(last);
 });
 
+
+// === LOGOUT HANDLER (Safe cloud save + full local cleanup) ===
+async function logoutUser() {
+  const user = firebase.auth().currentUser;
+  console.log("Logout initiated…");
+
+  // If a real authenticated user exists → save data to cloud before clearing
+  if (user) {
+    try {
+      console.log("Saving user data to cloud before logout…");
+      await cloudSaveUserData(user.uid);
+      console.log("Cloud save completed.");
+    } catch (err) {
+      console.warn("Cloud save failed during logout:", err);
+      // Do not block logout; proceed anyway.
+    }
+  } else {
+    console.log("Visitor logout → no cloud save required.");
+  }
+
+  // Sign out from Firebase Auth (if applicable)
+  try {
+    await firebase.auth().signOut();
+  } catch (err) {
+    console.warn("Sign-out error (ignored):", err);
+  }
+
+  // Clear all local data (both users and visitors)
+  localStorage.clear();
+
+  // Redirect back to login page
+  window.location.href = "login.html";
+}
+
+window.logoutUser = logoutUser;
