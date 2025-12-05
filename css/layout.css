@@ -8,9 +8,9 @@
    - Independent from component styling; acts as the skeleton of the UI.
    ========================================================================== */
    
-/* ===========================
-			LAYOUT
-   =========================== */
+/* =========
+	LAYOUT
+   ========= */
 
 main{
   max-width: 90%;
@@ -34,7 +34,7 @@ main{
 
 .col-panel{
   flex: 1 1 0;
-  min-width: 0;
+  min-width: 10px;
 }
 
 /* Section titles used on tables */
@@ -59,9 +59,9 @@ main{
   }
 }
 
-/* ===========================
-   10. UTILITY LAYOUTS (tables + charts)
-   =========================== */
+/* =====================
+     UTILITY LAYOUTS 
+   ===================== */
 
 .util-flex{
   display: flex;
@@ -87,9 +87,9 @@ main{
   align-items: flex-start;
 }
 
-/* ===========================
-   11. GENERIC HEADINGS
-   =========================== */
+/* ====================
+     GENERIC HEADINGS
+   ==================== */
    
 h2 {
   font-weight: 600;
@@ -110,21 +110,15 @@ h3 + .util-flex{
   margin-top: 6px;
 }
 
-/* Numeric column width hint */
-.services-table th:nth-child(2),
-.services-table td:nth-child(2){
-  width: 110px;
-}
-
 .services-table td:nth-child(2) input[type="number"]{
   width: auto;
   box-sizing: border-box;
   text-align: center;
 }
 
-/* ===========================
-   14. DESKTOP-WIDE LAYOUT
-   =========================== */
+/* =======================
+     DESKTOP-WIDE LAYOUT
+   ======================= */
 
 @media (min-width: 1000px) {
   main {
@@ -166,18 +160,18 @@ h3 + .util-flex{
   to   { opacity: 1; transform: translateY(0); }
 }
 
-/* ===========================
-   19. ZOOM FUNCTIONALITY WRAPPER
-   =========================== */
+/* ==============================
+     ZOOM FUNCTIONALITY WRAPPER
+   ============================== */
 
 #zoomWrapper {
   transform-origin: top center;
   transition: transform 0.12s ease-out;
 }
 
-/* ===========================
-   TOP HEADER — clean version
-   =========================== */
+/* ==============================
+     TOP HEADER — clean version
+   ==============================*/
 
 #topbar {
   background: rgba(255,255,255,0.92);
@@ -244,9 +238,9 @@ h3 + .util-flex{
   opacity: 1;
 }
 
-/* ===========================
-   MAIN NAV — page-level nav
-   =========================== */
+/* =============================
+     MAIN NAV — page-level nav
+   ============================= */
 
 #mainNav {
   background: var(--bg-soft);

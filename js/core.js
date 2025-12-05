@@ -528,7 +528,7 @@ function enableColumnResize() {
       th.appendChild(resizer);
 
       // Minimum width (fallback 60px)
-      const minW = parseInt(getComputedStyle(th).minWidth) || 60;
+      const minW = parseInt(getComputedStyle(th).minWidth) || 40;
 
       // Restore saved column width from localStorage
       const savedWidth = localStorage.getItem(`colWidth_${tableIndex}_${colIndex}`);

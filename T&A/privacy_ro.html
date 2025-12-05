@@ -1,108 +1,40 @@
 <!DOCTYPE html>
 <html lang="ro">
 <head>
-  <meta charset="UTF-8">
-  <title>Politica de Confidențialitate – ExpenseFlow</title>
-  <style>
-    body { font-family: system-ui, sans-serif; padding: 30px; line-height: 1.6; max-width: 800px; margin: auto; }
-    h1, h2 { margin-top: 25px; }
-  </style>
+<meta charset="UTF-8">
+<title>Politica de Confidențialitate – ExpenseFlow</title>
+<style>body{font-family:system-ui,sans-serif;padding:30px;line-height:1.6;max-width:850px;margin:auto;}h1,h2,h3{margin-top:25px;}</style>
 </head>
 <body>
-
 <h1>Politica de Confidențialitate</h1>
 <p>Ultima actualizare: Ianuarie 2025</p>
-
-<p>
-ExpenseFlow este o aplicație personală pentru urmărirea cheltuielilor. Este un proiect necomercial, oferit „ca atare”. 
-Această Politică de Confidențialitate explică modul în care datele sunt colectate și procesate, în conformitate cu Regulamentul General privind Protecția Datelor (GDPR).
-</p>
-
+<p>ExpenseFlow este un instrument necomercial pentru urmărirea cheltuielilor. Această politică descrie modul de colectare și procesare a datelor conform GDPR.</p>
 <h2>1. Operator de date</h2>
-<p>
-Operatorul de date este dezvoltatorul aplicației.  
-Pentru orice solicitări legate de date (acces, ștergere, clarificări), poți contacta dezvoltatorul prin profilul GitHub asociat proiectului.
-</p>
-
-<h2>2. Ce date sunt colectate</h2>
-
-<h3>2.1. Dacă te conectezi cu Google</h3>
-<p>Sunt procesate următoarele informații:</p>
-<ul>
-  <li><strong>Google User ID (UID)</strong> – extras din tokenul Google („sub”)</li>
-  <li>Datele financiare introduse de tine în aplicație</li>
-</ul>
-<p>
-Nu se colectează adresa de email, nume, poză de profil sau alte date personale.
-</p>
-
-<h3>2.2. Modul Vizitator</h3>
-<p>
-În modul vizitator nu este trimisă nicio informație către server.  
-Toate datele sunt stocate doar local în browser prin <strong>localStorage</strong>.
-</p>
-
-<h2>3. Scopul prelucrării</h2>
-<p>Datele sunt procesate exclusiv pentru:</p>
-<ul>
-  <li>Conectare și acces la datele personale</li>
-  <li>Salvarea cheltuielilor pentru utilizare ulterioară</li>
-  <li>Funcționalitatea aplicației (grafice, statistici, sumar lunar)</li>
-</ul>
-
-<h2>4. Temeiul juridic (GDPR Art. 6)</h2>
-<ul>
-  <li><strong>Art. 6(1)(b)</strong> – necesar pentru furnizarea serviciului</li>
-  <li><strong>Art. 6(1)(a)</strong> – consimțământul tău atunci când alegi autentificarea Google</li>
-</ul>
-
-<h2>5. Unde sunt stocate datele</h2>
-<p>
-Dacă te conectezi cu Google, datele sunt stocate în <strong>Firebase Firestore (Google Cloud)</strong>, asociate UID-ului tău Google.
-</p>
-
-<p>
-În modul vizitator, datele sunt stocate doar local.
-</p>
-
+<p>Operatorul de date este dezvoltatorul aplicației, contactabil prin profilul GitHub.</p>
+<h2>2. Date colectate</h2>
+<h3>2.1 Autentificare Google</h3>
+<p>Se procesează UID-ul Google și datele financiare introduse.</p>
+<h3>2.2 Modul vizitator</h3>
+<p>Datele sunt stocate doar local prin localStorage.</p>
+<h3>2.3 Date de analiză (opțional)</h3>
+<p>Statistici anonimizate colectate prin Google Analytics cu anonimizarea IP.</p>
+<h3>2.4 Date pentru reclame (opțional)</h3>
+<p>Se pot afișa reclame nepersonalizate fără profilare.</p>
+<h2>3. Scopul procesării</h2>
+<p>Autentificare, salvarea datelor, continuitatea sesiunii, statistici anonime.</p>
+<h2>4. Temeiul legal</h2>
+<ul><li>GDPR Art.6(1)(b)</li><li>GDPR Art.6(1)(a)</li></ul>
+<h2>5. Stocare</h2>
+<p>Datele sunt păstrate în Firebase Firestore.</p>
 <h2>6. Cookie-uri</h2>
-<p>
-ExpenseFlow nu setează propriile cookie-uri.  
-Totuși, Google Identity Services poate seta <strong>cookie-uri de autentificare</strong> necesare pentru:
-</p>
-<ul>
-  <li>autentificare și menținerea sesiunii</li>
-  <li>securitate și prevenirea fraudei</li>
-</ul>
-
-<p>Aplicația nu folosește cookie-uri de tracking, analiză sau publicitate.</p>
-
-<h2>7. Drepturile tale (GDPR)</h2>
-<ul>
-  <li>Dreptul de acces</li>
-  <li>Dreptul de rectificare</li>
-  <li>Dreptul la ștergere („dreptul de a fi uitat”)</li>
-  <li>Dreptul la restricționarea prelucrării</li>
-  <li>Dreptul la portabilitatea datelor</li>
-  <li>Dreptul de retragere a consimțământului</li>
-</ul>
-
-<h2>8. Perioada de stocare</h2>
-<ul>
-  <li>Datele din Firebase se păstrează până când soliciți ștergerea lor.</li>
-  <li>Datele din modul vizitator rămân doar în browser.</li>
-</ul>
-
-<h2>9. Servicii terțe</h2>
-<ul>
-  <li>Google Identity Services – autentificare</li>
-  <li>Firebase / Google Cloud – stocare securizată</li>
-</ul>
-
-<h2>10. Contact</h2>
-<p>
-Pentru ștergerea datelor sau alte solicitări GDPR, contactează dezvoltatorul prin profilul GitHub.
-</p>
-
+<p>Google poate seta cookie-uri esențiale sau de analiză anonimizate.</p>
+<h2>7. Partajare</h2>
+<ul><li>Google Identity Services</li><li>Firebase</li><li>Analytics (opțional)</li><li>Reclame nepersonalizate (opțional)</li></ul>
+<h2>8. Drepturi GDPR</h2>
+<p>Acces, rectificare, ștergere, restricționare, portabilitate, retragerea consimțământului.</p>
+<h2>9. Retenție</h2>
+<p>Datele sunt păstrate până la solicitarea ștergerii.</p>
+<h2>10. Actualizări</h2>
+<p>Politica poate fi actualizată periodic.</p>
 </body>
 </html>

@@ -1,121 +1,40 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Privacy Policy – ExpenseFlow</title>
-  <style>
-    body { font-family: system-ui, sans-serif; padding: 30px; line-height: 1.6; max-width: 800px; margin: auto; }
-    h1, h2 { margin-top: 25px; }
-  </style>
+<meta charset="UTF-8">
+<title>Privacy Policy – ExpenseFlow</title>
+<style>body{font-family:system-ui,sans-serif;padding:30px;line-height:1.6;max-width:850px;margin:auto;}h1,h2,h3{margin-top:25px;}</style>
 </head>
 <body>
-
 <h1>Privacy Policy</h1>
 <p>Last updated: January 2025</p>
-
-<p>
-ExpenseFlow is a personal finance tracking application. It is a non-commercial personal project and is provided “as is.”
-This Privacy Policy explains how data is collected, processed, and stored in accordance with the General Data Protection Regulation (GDPR).
-</p>
-
+<p>ExpenseFlow is a personal, non-commercial finance tracking tool. This Privacy Policy explains how data is collected, stored, and processed in accordance with the GDPR.</p>
 <h2>1. Data Controller</h2>
-<p>
-For GDPR purposes, the data controller is the individual developer who built ExpenseFlow.<br>
-If you require clarification or deletion of your data, you may contact the developer using the GitHub profile associated with this project.
-</p>
-
-<h2>2. What Data Is Collected</h2>
-
-<h3>2.1. If you sign in with Google</h3>
-<p>
-When choosing Google Sign-In, the following information is processed:
-</p>
-<ul>
-  <li>Your <strong>Google User ID (UID)</strong> – obtained from the Google Identity token ("sub" field)</li>
-  <li>Your financial data entered into the application (expenses, categories, notes, utilities, car expenses, etc.)</li>
-</ul>
-<p>
-No email address, profile picture, name, or additional personal data is collected.
-</p>
-
-<h3>2.2. Visitor Mode</h3>
-<p>
-In visitor mode, no personal data is sent to any server. All information is stored locally in your browser using <strong>localStorage</strong> and is deleted when your browser data is cleared.
-</p>
-
-<h2>3. Purpose of Data Processing</h2>
-<p>Data is processed exclusively for:</p>
-<ul>
-  <li>Allowing you to log in and access your individual financial entries</li>
-  <li>Saving your expense data so it is accessible across sessions</li>
-  <li>Providing app functionality (charts, summaries, monthly reports)</li>
-</ul>
-<p>No profiling, marketing, or automated decision-making takes place.</p>
-
-<h2>4. Legal Basis for Processing (GDPR Article 6)</h2>
-<ul>
-  <li><strong>Art. 6(1)(b)</strong> – Processing is necessary for providing the service (saving and retrieving your personal finance data)</li>
-  <li><strong>Art. 6(1)(a)</strong> – Your consent when you choose to sign in with Google</li>
-</ul>
-
-<h2>5. Where and How Data Is Stored</h2>
-<p>
-If you sign in with Google, data is stored in <strong>Firebase Firestore (Google Cloud)</strong>, under your unique Google UID.  
-Storage is handled by Google’s secure infrastructure.
-</p>
-
-<p>
-In visitor mode, data is stored only locally in your browser.
-</p>
-
+<p>The developer who created ExpenseFlow acts as the Data Controller. Contact may be made through the GitHub profile associated with this project.</p>
+<h2>2. Data Collected</h2>
+<h3>2.1 Google Sign-In</h3>
+<p>Processed data includes the Google User ID (UID) and financial data entered by the user.</p>
+<h3>2.2 Visitor Mode</h3>
+<p>Data is stored only locally using localStorage.</p>
+<h3>2.3 Analytics Data (Optional)</h3>
+<p>Anonymized usage statistics may be collected via Google Analytics with IP anonymization.</p>
+<h3>2.4 Advertising Data (Optional)</h3>
+<p>Only non-personalized ads may be displayed. No profiling occurs.</p>
+<h2>3. Purpose of Processing</h2>
+<p>Data is used for authentication, saving entries, session continuity, summaries, and anonymous analytics.</p>
+<h2>4. Legal Basis</h2>
+<ul><li>GDPR Art.6(1)(b)</li><li>GDPR Art.6(1)(a)</li></ul>
+<h2>5. Storage Location</h2>
+<p>Data is stored in Firebase Firestore tied to the user UID.</p>
 <h2>6. Cookies</h2>
-<p>
-ExpenseFlow does not set any cookies of its own.  
-However, Google Identity Services may set <strong>authentication cookies</strong> necessary for:
-</p>
-<ul>
-  <li>Login and session management</li>
-  <li>Security and fraud prevention</li>
-</ul>
-<p>
-No analytics, tracking, or advertising cookies are used by ExpenseFlow.
-</p>
-
-<h2>7. Your GDPR Rights</h2>
-<p>You have the following rights:</p>
-
-<ul>
-  <li><strong>Right of access</strong> – You may request details of your stored data</li>
-  <li><strong>Right to rectification</strong> – You may correct inaccurate data</li>
-  <li><strong>Right to erasure (“right to be forgotten”)</strong> – You may request data deletion</li>
-  <li><strong>Right to restriction of processing</strong></li>
-  <li><strong>Right to data portability</strong> (export your data)</li>
-  <li><strong>Right to withdraw consent</strong> – by deleting your Firebase account data</li>
-</ul>
-
-<p>
-Firebase does not allow direct remote deletion by users, so you may contact the developer to request data removal.
-</p>
-
-<h2>8. Data Retention</h2>
-<ul>
-  <li>Data stored in Firebase is kept until you request deletion.</li>
-  <li>Data in visitor mode exists only locally and is deleted by your browser.</li>
-</ul>
-
-<h2>9. Third-Party Services</h2>
-<p>The application uses:</p>
-<ul>
-  <li><strong>Google Identity Services</strong> – for authentication</li>
-  <li><strong>Firebase / Google Cloud</strong> – for secure data storage</li>
-</ul>
-
-<p>No other third-party services are used.</p>
-
-<h2>10. Contact</h2>
-<p>
-For data deletion or inquiries, you may contact the developer via the GitHub profile connected to this project.
-</p>
-
+<p>Google Sign-In and Google Analytics may set essential or anonymous cookies.</p>
+<h2>7. Data Sharing</h2>
+<ul><li>Google Identity Services</li><li>Firebase Firestore</li><li>Google Analytics (optional)</li><li>Advertising networks (optional)</li></ul>
+<h2>8. User Rights</h2>
+<p>Access, correction, deletion, restriction, portability, and consent withdrawal.</p>
+<h2>9. Retention</h2>
+<p>Data remains until user requests deletion.</p>
+<h2>10. Updates</h2>
+<p>The policy may be updated as needed.</p>
 </body>
 </html>

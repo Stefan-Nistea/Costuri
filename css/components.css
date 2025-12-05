@@ -9,7 +9,7 @@
    ========================================================================== */
    
 /* ===========================
-	  TOTALS (summary cards)
+	 TOTALS (summary cards)
    =========================== */
 
 .totalsContainer{
@@ -61,9 +61,9 @@
   margin-top: 6px;
 }
 
-/* ================================
-		PANELS (rates, settings)
-   ================================ */
+/* ============================
+	 PANELS (rates, settings)
+   ============================ */
 
 .rates-panel{
   background: var(--bg-soft);
@@ -108,9 +108,9 @@
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
 }
 
-/* ================================
-		FORMS / INPUTS / BUTTONS
-   ================================ */
+/* ============================
+	 FORMS / INPUTS / BUTTONS
+   ============================ */
 
 .formRow{
   display:flex;
@@ -208,9 +208,9 @@
   }
 }
 
-/* ======================
-		TABLES
-   ====================== */
+/* =============
+     TABLES
+   ============= */
 
 .services-table{
   width:100%;
@@ -232,7 +232,8 @@
   font-size: 13px;
 }
 
-.services-table th, .services-table td{
+.services-table th,
+.services-table td {
   border: 1px solid var(--border);
   padding: 3px 6px;
   font-size: 13px;
@@ -311,14 +312,13 @@
 /* ON / OFF */
 /* Base */
 .switchBtn {
-  padding: 2px 6px;
+  padding: 1px 3px;
   border-radius: 6px;
   font-weight: 600;
   cursor: pointer;
   transition: opacity .15s ease, transform .15s ease;
   border: none;
   background: transparent !important;
-  min-width: auto;
 }
 
 /* ON state */
@@ -381,12 +381,6 @@ h3{
 
 h3 + .util-flex{
   margin-top: 6px;
-}
-
-/* Numeric column width hint */
-.services-table th:nth-child(2),
-.services-table td:nth-child(2){
-  width: 110px;
 }
 
 .services-table td:nth-child(2) input[type="number"]{
