@@ -1,15 +1,15 @@
-/* === Google Login + Firebase Auth Integration === */
+/* ==============================
+   GOOGLE LOGIN + FIREBASE AUTH
+   ============================== */
 
 window.handleGoogleLogin = function (response) {
   try {
     const idToken = response.credential;
-
     if (!idToken) {
       console.error("Google login error: Missing ID token.");
       return;
     }
 
-    // Decode Google JWT to extract UID ("sub")
     let payload;
     try {
       payload = JSON.parse(atob(idToken.split('.')[1]));
@@ -20,23 +20,20 @@ window.handleGoogleLogin = function (response) {
 
     const googleUID = payload.sub;
     if (!googleUID) {
-      console.error("Google login error: Missing 'sub' in token payload.");
+      console.error("Google login error: Missing 'sub' in token.");
       return;
     }
 
-    // Save raw Google token + UID locally
     localStorage.setItem("userGoogleToken", idToken);
     localStorage.setItem("userID", googleUID);
-    localStorage.removeItem("visitorMode"); 
+    localStorage.removeItem("visitorMode");
 
-    // Sign in to Firebase using Google ID token
     const firebaseCredential =
       firebase.auth.GoogleAuthProvider.credential(idToken, null);
 
     firebase.auth()
       .signInWithCredential(firebaseCredential)
       .then(() => {
-        console.log("Firebase Auth successful.");
         window.location.href = "index.html";
       })
       .catch(err => {
@@ -51,20 +48,29 @@ window.handleGoogleLogin = function (response) {
 };
 
 
-/* === GSI INITIALIZATION (CRITICAL) === */
-window.addEventListener("DOMContentLoaded", () => {
+/* ================================================
+   GOOGLE IDENTITY SERVICES INITIALIZATION (SAFE)
+   ================================================ */
+
+window.onGoogleLibraryLoad = function () {
   google.accounts.id.initialize({
     client_id: "889298108360-kfn17tvq3qc3qkm4f1lm0of14ilsuo0p.apps.googleusercontent.com",
     callback: window.handleGoogleLogin
   });
 
-  document.getElementById("customGoogleBtn").addEventListener("click", () => {
-    google.accounts.id.prompt();
-  });
-});
+  const btn = document.getElementById("customGoogleBtn");
+  if (btn) {
+    btn.addEventListener("click", () => {
+      google.accounts.id.prompt();
+    });
+  }
+};
 
 
-/* === Visitor Mode (local-only session) === */
+/* ==============
+   VISITOR MODE
+   ============== */
+
 function continueAsVisitor() {
   localStorage.removeItem("userGoogleToken");
   localStorage.removeItem("userID");
@@ -74,7 +80,9 @@ function continueAsVisitor() {
 }
 
 
-/* === LANGUAGE SYSTEM FOR LOGIN PAGE === */
+/* ================================
+   LANGUAGE SYSTEM FOR LOGIN PAGE
+   ================================ */
 
 const loginTexts = {
   en: {
@@ -120,18 +128,15 @@ function applyLoginLang(lang) {
   localStorage.setItem("loginLang", lang);
 }
 
-/* Detect default language */
 const browserLang = navigator.language.startsWith("ro") ? "ro" : "en";
 const savedLang = localStorage.getItem("loginLang") || browserLang;
 
-/* Apply on load */
 document.addEventListener("DOMContentLoaded", () => {
   applyLoginLang(savedLang);
-});
 
-/* Language switch buttons */
-document.querySelectorAll(".lang-switch button").forEach(btn => {
-  btn.addEventListener("click", () => {
-    applyLoginLang(btn.dataset.lang);
+  document.querySelectorAll(".lang-switch button").forEach(btn => {
+    btn.addEventListener("click", () => {
+      applyLoginLang(btn.dataset.lang);
+    });
   });
 });
