@@ -27,10 +27,11 @@ window.handleGoogleLogin = function (response) {
     // Save raw Google token + UID locally
     localStorage.setItem("userGoogleToken", idToken);
     localStorage.setItem("userID", googleUID);
-    localStorage.removeItem("visitorMode"); // Ensure visitor mode is disabled
+    localStorage.removeItem("visitorMode"); 
 
-    // === SIGN IN TO FIREBASE USING GOOGLE ID TOKEN ===
-    const firebaseCredential = firebase.auth.GoogleAuthProvider.credential(idToken, null);
+    // Sign in to Firebase using Google ID token
+    const firebaseCredential =
+      firebase.auth.GoogleAuthProvider.credential(idToken, null);
 
     firebase.auth()
       .signInWithCredential(firebaseCredential)
@@ -50,6 +51,19 @@ window.handleGoogleLogin = function (response) {
 };
 
 
+/* === GSI INITIALIZATION (CRITICAL) === */
+window.addEventListener("DOMContentLoaded", () => {
+  google.accounts.id.initialize({
+    client_id: "889298108360-kfn17tvq3qc3qkm4f1lm0of14ilsuo0p.apps.googleusercontent.com",
+    callback: window.handleGoogleLogin
+  });
+
+  document.getElementById("customGoogleBtn").addEventListener("click", () => {
+    google.accounts.id.prompt();
+  });
+});
+
+
 /* === Visitor Mode (local-only session) === */
 function continueAsVisitor() {
   localStorage.removeItem("userGoogleToken");
@@ -58,6 +72,7 @@ function continueAsVisitor() {
 
   window.location.href = "index.html";
 }
+
 
 /* === LANGUAGE SYSTEM FOR LOGIN PAGE === */
 
