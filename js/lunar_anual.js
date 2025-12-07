@@ -77,6 +77,10 @@ function addItem(type) {
     activ: true,
     note: ''
   });
+  
+  // mark unsaved changes
+  hasUnsavedChanges = true;
+  updateCloudSaveButton();
 
   // Refresh all dependent UI and summaries
   updateAll();
@@ -104,6 +108,10 @@ function addCategory(type) {
     categorie: true,
     nume: name
   });
+  
+  // mark unsaved changes
+  hasUnsavedChanges = true;
+  updateCloudSaveButton();
 
   // Update the UI and all dependent calculations
   updateAll();
@@ -125,6 +133,10 @@ function toggleService(type, i) {
 
   // Toggle active flag (true ↔ false)
   arr[i].activ = !arr[i].activ;
+  
+  // mark unsaved changes
+  hasUnsavedChanges = true;
+  updateCloudSaveButton();
 
   // Re-render all dependent sections
   updateAll();
@@ -153,6 +165,10 @@ function deleteItem(type, i) {
 
   // Remove item at index `i`
   arr.splice(i, 1);
+  
+  // mark unsaved changes
+  hasUnsavedChanges = true;
+  updateCloudSaveButton();
 
   // Refresh calculations and UI
   updateAll();
@@ -169,6 +185,11 @@ function deleteItem(type, i) {
  */
 function updateNote(type, i, v) { 
   getDataFor(type).servicii[i].note = v;
+  
+  // mark unsaved changes
+  hasUnsavedChanges = true;
+  updateCloudSaveButton();
+  
   saveDataLocal();
 }
 
@@ -187,6 +208,11 @@ function updateCost(type, i, v) {
   // Skip automatic summary or admin lines
   if (!item.util_media && !item.util_admin) {
     item.cost = parseFloat(v) || 0;
+	
+	// mark unsaved changes
+    hasUnsavedChanges = true;
+    updateCloudSaveButton();
+  
     updateAll();
   }
 }
@@ -211,6 +237,10 @@ function updateCostInline(type, i, val) {
 
   // Store cost rounded to 2 decimals
   getDataFor(type).servicii[i].cost = parseFloat(num.toFixed(2));
+  
+  // mark unsaved changes
+  hasUnsavedChanges = true;
+  updateCloudSaveButton();
 
   // Persist and refresh
   saveDataLocal();
@@ -233,6 +263,11 @@ function updateMoneda(type, i, v) {
   // Prevent updates on automatic/system rows
   if (!item.util_media && !item.util_admin) {
     item.moneda = v;
+	
+	// mark unsaved changes
+    hasUnsavedChanges = true;
+    updateCloudSaveButton();
+	
     updateAll();
   }
 }
@@ -248,6 +283,11 @@ function updateMoneda(type, i, v) {
  */
 function deleteCategory(type, i) {
   getDataFor(type).servicii.splice(i, 1);
+  
+  // mark unsaved changes
+  hasUnsavedChanges = true;
+  updateCloudSaveButton();
+  
   updateAll();
 }
 

@@ -51,7 +51,7 @@ function renderUtilPlati() {
     chartUtilPlati.data.datasets[0].data = values;
     chartUtilPlati.update();
   }
-
+  
   // Save all data changes locally
   saveDataLocal();
 }
@@ -62,22 +62,26 @@ function renderUtilPlati() {
  * Reads values from input fields, validates data, then updates
  * the utilities list, chart, and linked "Lunar" average automatically.
  */
-function addUtilPlata() {
-  const luna = document.getElementById('utilPlataLuna').value;
-  const suma = parseFloat(document.getElementById('utilPlataSuma').value);
-  const moneda = document.getElementById('utilPlataMoneda').value;
+function addUtilCurent() {
+  const luna = document.getElementById('utilCurentLuna').value;
+  const val = parseFloat(document.getElementById('utilCurentValoare').value);
 
-  // Validation
-  if (!luna || isNaN(suma)) {
-    alert('Completează luna și suma');
+  // Basic validation
+  if (!luna || isNaN(val)) {
+    alert('Completează luna și valoarea');
     return;
   }
 
-  // Add new payment record
-  data_utilitati.plati.push({ luna, suma, moneda });
+  // Check for existing month entry and update or insert
+  const idx = data_utilitati.citiri_curent.findIndex(x => x.luna === luna);
+  if (idx > -1) data_utilitati.citiri_curent[idx].valoare = val;
+  else data_utilitati.citiri_curent.push({ luna, valoare: val });
 
-  // Update the linked "Lunar" table and UI
-  updateAll();
+  // mark unsaved changes
+  hasUnsavedChanges = true;
+  updateCloudSaveButton();
+
+  renderUtilCurent();
 }
 
 
@@ -95,6 +99,10 @@ function deleteUtilPlata(luna, suma, moneda) {
   );
 
   if (i > -1) data_utilitati.plati.splice(i, 1);
+  
+  // mark unsaved changes
+  hasUnsavedChanges = true;
+  updateCloudSaveButton();
 
   // Resync automatic average and refresh
   updateAll();
@@ -177,6 +185,10 @@ function addUtilCurent() {
   const idx = data_utilitati.citiri_curent.findIndex(x => x.luna === luna);
   if (idx > -1) data_utilitati.citiri_curent[idx].valoare = val;
   else data_utilitati.citiri_curent.push({ luna, valoare: val });
+  
+  // mark unsaved changes
+  hasUnsavedChanges = true;
+  updateCloudSaveButton();
 
   renderUtilCurent();
 }
@@ -192,6 +204,12 @@ function addUtilCurent() {
 function deleteUtilCurent(luna, val) {
   const i = data_utilitati.citiri_curent.findIndex(c => c.luna === luna && c.valoare === val);
   if (i > -1) data_utilitati.citiri_curent.splice(i, 1);
+  
+  // mark unsaved changes
+  hasUnsavedChanges = true;
+  updateCloudSaveButton();
+
+
   renderUtilCurent();
 }
 
@@ -271,6 +289,10 @@ function addUtilGaz() {
   const idx = data_utilitati.citiri_gaz.findIndex(x => x.luna === luna);
   if (idx > -1) data_utilitati.citiri_gaz[idx].valoare = val;
   else data_utilitati.citiri_gaz.push({ luna, valoare: val });
+  
+  // mark unsaved changes 
+  hasUnsavedChanges = true;
+  updateCloudSaveButton();
 
   renderUtilGaz();
 }
@@ -285,5 +307,10 @@ function addUtilGaz() {
 function deleteUtilGaz(luna, val) {
   const i = data_utilitati.citiri_gaz.findIndex(c => c.luna === luna && c.valoare === val);
   if (i > -1) data_utilitati.citiri_gaz.splice(i, 1);
+  
+  // mark unsaved changes
+  hasUnsavedChanges = true;
+  updateCloudSaveButton();
+
   renderUtilGaz();
 }

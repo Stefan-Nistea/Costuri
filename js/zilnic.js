@@ -87,6 +87,10 @@ function addZilnicTranzactie() {
     supermarket,
     suma
   });
+  
+  // mark unsaved changes
+  hasUnsavedChanges = true;
+  updateCloudSaveButton();
 
   // Refresh UI and dependent components
   updateAll();
@@ -102,6 +106,11 @@ function addZilnicTranzactie() {
 function deleteZilnicTranzactie(id) {
   const idx = data_zilnic.tranzactii.findIndex(t => t._id === id);
   if (idx > -1) data_zilnic.tranzactii.splice(idx, 1);
+  
+  // mark unsaved changes
+  hasUnsavedChanges = true;
+  updateCloudSaveButton();
+  
   updateAll();
 }
 
@@ -117,6 +126,11 @@ function updateZilnicSuma(index, newVal) {
   const cleaned = parseFloat(newVal.replace(',', '.'));
   if (!isNaN(cleaned)) {
     data_zilnic.tranzactii[index].suma = cleaned;
+	
+	// mark unsaved changes
+    hasUnsavedChanges = true;
+    updateCloudSaveButton();
+  
     updateAll();
   }
 }

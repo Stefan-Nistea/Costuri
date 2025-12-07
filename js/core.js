@@ -116,6 +116,8 @@ let sortableAnual = null;
 // Current visible SPA "page" key: 'lunar' | 'utilitati' | 'administratie' | 'zilnic'
 let currentPage = 'lunar';
 
+/* Tracks whether the user has unsaved changes */
+let hasUnsavedChanges = false;
 
 /* ============================================
    LANGUAGE SYSTEM (i18n)
@@ -262,6 +264,20 @@ function loadDataLocal() {
 }
 
 
+/* Activates or deactivates the cloud save button */
+function updateCloudSaveButton() {
+  const btn = document.getElementById("cloudSaveBtn");
+  if (!btn) return;
+
+  if (hasUnsavedChanges) {
+    btn.classList.add("active");
+    btn.disabled = false;
+  } else {
+    btn.classList.remove("active");
+    btn.disabled = true;
+  }
+}
+
 // === FIRESTORE SYNC ===
 
 // === Load user data from Firestore ===
@@ -273,9 +289,19 @@ async function cloudLoadUserData(uid) {
   return snap.data();
 }
 
-// === Save user data to Firestore (safe merge) ===
+// === Save user data to Firestore ===
 async function cloudSaveUserData(uid) {
-  const ref = db.collection("users").doc(uid);
+  // Try to get UID from argument or from current Firebase user
+  const current = firebase.auth().currentUser;
+  const finalUid = uid || (current && current.uid);
+
+  // If we still do not have a UID → skip save safely
+  if (!finalUid) {
+    console.warn("cloudSaveUserData: missing UID, skipping save.");
+    return;
+  }
+
+  const ref = db.collection("users").doc(finalUid);
 
   await ref.set({
     data_lunar,
@@ -287,6 +313,7 @@ async function cloudSaveUserData(uid) {
     last_updated: Date.now()
   }, { merge: true }); // merge prevents accidental deletion
 }
+
 
 // === Synchronize local data with Firestore ===
 async function syncWithCloud() {
@@ -592,20 +619,18 @@ document.addEventListener('scroll', e => {
  */
 async function loadPage(page) {
   try {
-    // --- Fetch page HTML ---
+    // Load page HTML
     const res = await fetch(`${page}.html`);
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
 
     const html = await res.text();
     const contentDiv = document.getElementById('content');
-
-    // Inject page HTML
     contentDiv.innerHTML = html;
 
-    // --- Apply language BEFORE any updateAll() regenerates content ---
+    // Apply translations before UI updates
     loadLanguage(currentLang);
 
-    // --- Page-specific initialization for "Zilnic" ---
+    // Page-specific for Zilnic
     if (page === 'zilnic') {
       const carTip = document.getElementById('carTip');
       if (carTip) {
@@ -620,25 +645,64 @@ async function loadPage(page) {
       }
     }
 
-    // --- Update active navigation button ---
+    // Update navigation active state
     document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
     const activeBtn = document.getElementById(
       `btn${page.charAt(0).toUpperCase() + page.slice(1)}`
     );
     if (activeBtn) activeBtn.classList.add('active');
 
-    // --- Track current page and persist state ---
+    // Update current page and persist it
     currentPage = page;
     saveDataLocal();
 
-    // --- Initialize charts & column resizing ---
+    // Init charts & column resizing
     initChartsFor(page);
     setTimeout(enableColumnResize, 0);
 
-    // --- Final full UI + data refresh AFTER translation ---
+    // Update UI + auto-rows + totals
     updateAll();
 
-	setTimeout(() => loadLanguage(currentLang), 10);
+    // Reapply language after DOM updates
+    setTimeout(() => loadLanguage(currentLang), 10);
+
+    // ===========================================
+    //   RE-ATTACH CLOUD SAVE BUTTON (FIXED)
+    // ===========================================
+    const cloudBtn = document.getElementById("cloudSaveBtn");
+
+    if (cloudBtn) {
+      // Remove old listeners (SPA-safe)
+      const newBtn = cloudBtn.cloneNode(true);
+      cloudBtn.parentNode.replaceChild(newBtn, cloudBtn);
+
+      newBtn.addEventListener("click", async () => {
+        const user = firebase.auth().currentUser;
+        const visitorNow = localStorage.getItem("visitorMode") === "true";
+
+        if (!user || visitorNow) {
+          alert("Cloud save is available only for logged-in users.");
+          return;
+        }
+
+        newBtn.textContent = "Saving…";
+        newBtn.disabled = true;
+
+        try {
+          await cloudSaveUserData(user.uid);
+          hasUnsavedChanges = false;
+          updateCloudSaveButton();
+
+          newBtn.textContent = "Saved";
+          setTimeout(() => newBtn.textContent = "Save changes", 1500);
+        } catch (err) {
+          console.error("Cloud save error:", err);
+
+          newBtn.textContent = "Error";
+          setTimeout(() => newBtn.textContent = "Save changes", 2000);
+        }
+      });
+    }
 
   } catch (e) {
     console.error('Error loading page:', page, e);
@@ -648,6 +712,7 @@ async function loadPage(page) {
       </p>`;
   }
 
+  // Pre-fill month inputs
   setDefaultMonth("adminPlataLuna");
   setDefaultMonth("utilPlataLuna");
   setDefaultMonth("utilCurentLuna");
@@ -655,8 +720,8 @@ async function loadPage(page) {
   setDefaultMonth("adminApaLuna");
   setDefaultMonth("zilnicLuna");
   setDefaultMonth("carData");
-
 }
+
 
 
 /**
@@ -665,58 +730,61 @@ async function loadPage(page) {
  * sets up rate update controls, and restores the last visited page.
  */
 document.addEventListener('DOMContentLoaded', () => {
-  // 1. Load saved data from localStorage 
-  loadDataLocal();
+  console.log("App start → waiting for Firebase…");
 
-  // 2. Detect and apply initial language
   currentLang = detectInitialLanguage();
   loadLanguage(currentLang);
 
-  // 3. Wait for Firebase Auth to initialize BEFORE touching Firestore
-  firebase.auth().onAuthStateChanged(user => {
-    
-    // Check if the app is running in visitor mode 
+  firebase.auth().onAuthStateChanged(async user => {
     const isVisitor = localStorage.getItem("visitorMode") === "true";
-	
-	const userDisp = document.getElementById("userDisplay");
+    const userDisp = document.getElementById("userDisplay");
 
+    // Display user name / guest
     if (user) {
-        const email = user.email || "";
-        const name = user.displayName || "";
-
-        userDisp.textContent = name || email;
+      userDisp.textContent = user.displayName || user.email || "User";
     } else {
-        userDisp.textContent = "Guest"; // guest / no user
+      userDisp.textContent = "Guest";
     }
-    
+
+    // ============================
+    // CASE 1: LOGGED IN USER
+    // ============================
     if (user && !isVisitor) {
-        // Case 1: Authenticated user
-        localStorage.setItem("userID", user.uid);
-        console.log("Firebase User State Confirmed. Starting cloud sync.");
+      console.log("Logged in → Cloud is authoritative");
 
-        syncWithCloud().then(() => {
-            // After cloud sync (Cloud → Local), refresh the UI
-            updateAll();
-        });
+      localStorage.setItem("userID", user.uid);
 
-    } else {
-        // Case 2: User not logged in OR visitor mode
-        console.log("Firebase User State: Not logged in or visitor mode. Skipping cloud sync.");
+      try {
+        await syncWithCloud();   // CLOUD → LOCAL
+        updateAll();             // UI din cloud
+      } catch (err) {
+        console.error("Cloud sync failed:", err);
+        loadDataLocal();
         updateAll();
+      }
     }
 
-    // 4. Navigation buttons & rates setup 
+    // ============================
+    // CASE 2: VISITOR or LOGGED OUT
+    // ============================
+    else {
+      console.log("Visitor or logged-out → using LOCAL ONLY");
+      loadDataLocal();
+      updateAll();
+    }
+
+    // ============================
+    // NAV + RATES
+    // ============================
     document.querySelectorAll('#mainNav .main-nav-btn').forEach(btn => {
       const page = btn.getAttribute('data-page');
       if (!page) return;
       btn.addEventListener('click', () => loadPage(page));
     });
 
-    // Manual rates refresh
     const btnRates = document.getElementById('applyRates');
     if (btnRates) btnRates.addEventListener('click', updateAll);
 
-    // Automatic BNR exchange rate update
     const btnAutoRates = document.getElementById('autoRates');
     if (btnAutoRates) {
       btnAutoRates.addEventListener('click', async () => {
@@ -724,23 +792,53 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     }
 
-    // 5. Load initial page (THIS IS NEW + CORRECT)
+    // ============================
+    // LOAD INITIAL PAGE
+    // ============================
     const hasAuth = localStorage.getItem("userGoogleToken") || 
                     localStorage.getItem("visitorMode");
 
     if (!hasAuth) {
-      // User is not authenticated → load login
       loadPage("login");
       return;
     }
 
-    // User authenticated → load last visited page
     let last = (localStorage.getItem('lastPage') || 'lunar').toLowerCase();
-    if (!['lunar', 'utilitati', 'administratie', 'zilnic'].includes(last)) {
-      last = 'lunar';
+    if (!['lunar', 'utilitati', 'administratie', 'zilnic'].includes(last)) last = 'lunar';
+    loadPage(last);
+
+    // ============================
+    // CLOUD SAVE BUTTON
+    // ============================
+    const cloudBtn = document.getElementById("cloudSaveBtnHome") 
+              || document.getElementById("cloudSaveBtnLunar");
+    if (cloudBtn) {
+      cloudBtn.addEventListener("click", async () => {
+        const user = firebase.auth().currentUser;
+        const visitorNow = localStorage.getItem("visitorMode") === "true";
+
+        if (!user || visitorNow) {
+          alert("Cloud save is available only for logged-in users.");
+          return;
+        }
+
+        cloudBtn.textContent = "Saving…";
+        cloudBtn.disabled = true;
+
+        try {
+          await cloudSaveUserData(user.uid);
+          hasUnsavedChanges = false;
+          updateCloudSaveButton();
+          cloudBtn.textContent = "Saved";
+          setTimeout(() => cloudBtn.textContent = "Save changes", 1500);
+        } catch (err) {
+          console.error("Cloud save error:", err);
+          cloudBtn.textContent = "Error";
+          setTimeout(() => cloudBtn.textContent = "Save changes", 2000);
+        }
+      });
     }
 
-    loadPage(last);
   });
 });
 
