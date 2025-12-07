@@ -5,33 +5,35 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>ExpenseFlow – Login</title>
 
-  <!-- Firebase v9 compat (global firebase object) -->
+  <!-- Firebase v9 compat -->
   <script src="https://www.gstatic.com/firebasejs/9.6.11/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.6.11/firebase-auth-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.6.11/firebase-firestore-compat.js"></script>
 
-  <!-- Firebase config (must load BEFORE login.js so firebase is initialized) -->
+  <!-- Firebase config -->
   <script src="js/firebase.js"></script>
 
-  <!-- Login logic (defines window.handleGoogleLogin) -->
+  <!-- Login logic (defines all callbacks, EN/RO, visitor, etc.) -->
   <script src="js/login.js"></script>
 
-  <!-- Google Identity Services (MUST be loaded AFTER login.js) -->
-  <script src="https://accounts.google.com/gsi/client" async defer></script>
+  <!-- Google Identity Services (must load LAST) -->
+  <script src="https://accounts.google.com/gsi/client"
+          async
+          defer
+          onload="onGoogleLibraryLoad()"></script>
 
-  <!-- Styles -->
   <link rel="stylesheet" href="css/login.css" />
 </head>
 
 <body>
   <div class="login-wrapper">
     <div class="login-card">
-		
-	  <h1> ExpenseFlow </h1>
+
+      <h1> ExpenseFlow </h1>
       <h2 id="login_title">Welcome!</h2>
       <p id="login_subtitle" class="subtitle">Choose a Login option</p>
 
-      <!-- Google Login -->
+      <!-- GSI auto-configuration (required even if we use custom button) -->
       <div id="g_id_onload"
         data-client_id="889298108360-kfn17tvq3qc3qkm4f1lm0of14ilsuo0p.apps.googleusercontent.com"
         data-context="signin"
@@ -39,33 +41,34 @@
         data-auto_prompt="false">
       </div>
 
+      <!-- Custom Google button -->
       <button id="customGoogleBtn" class="google-custom-btn">
-		<img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="">
-		Sign in with Google
-	  </button>
+        <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="">
+        Sign in with Google
+      </button>
 
       <hr class="divider" />
 
       <!-- Visitor Mode -->
       <button class="visitor-btn" onclick="continueAsVisitor()" id="visitor_btn">
-		Continue as visitor
-	  </button>
+        Continue as visitor
+      </button>
 
-	  <p class="info-text" id="visitor_info">
-		Visitor mode keeps data only locally and will be lost when you close the browser.
-	  </p>
+      <p class="info-text" id="visitor_info">
+        Visitor mode keeps data only locally and will be lost when you close the browser.
+      </p>
 
-	  <p class="legal-text">
-		<span id="legal_text">By continuing, you agree to the</span>
-		<a id="link_terms" href="terms.html" target="_blank">Terms</a>
-		<span id="legal_and">and</span>
-		<a id="link_privacy" href="privacy.html" target="_blank">Privacy Policy</a>.
-	  </p>
+      <p class="legal-text">
+        <span id="legal_text">By continuing, you agree to the</span>
+        <a id="link_terms" href="terms.html" target="_blank">Terms</a>
+        <span id="legal_and">and</span>
+        <a id="link_privacy" href="privacy.html" target="_blank">Privacy Policy</a>.
+      </p>
 
-	  <div class="lang-switch">
-		<button data-lang="en">EN</button>
-		<button data-lang="ro">RO</button>
-	  </div>
+      <div class="lang-switch">
+        <button data-lang="en">EN</button>
+        <button data-lang="ro">RO</button>
+      </div>
 
     </div>
   </div>
