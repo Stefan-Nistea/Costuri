@@ -1,16 +1,22 @@
-// Hide page until auth state is validated
-document.documentElement.style.display = "none";
+// Hide UI until guard check completes (safe for GSI)
+document.documentElement.style.visibility = "hidden";
 
 window.addEventListener("DOMContentLoaded", () => {
   const isVisitor = localStorage.getItem("visitorMode") === "true";
   const token = localStorage.getItem("userGoogleToken");
 
-  // User not logged in → redirect immediately
-  if (!token && !isVisitor) {
-    window.location.href = "login.html";
-    return;
+  // If this is the login page 
+  const isLoginPage = window.location.pathname.endsWith("login.html");
+
+  if (!isLoginPage) {
+
+    // For internal pages → require login or visitor mode
+    if (!token && !isVisitor) {
+      window.location.href = "login.html";
+      return;
+    }
   }
 
-  // Auth OK → show the UI
-  document.documentElement.style.display = "block";
+  // Restore UI after successful check
+  document.documentElement.style.visibility = "visible";
 });

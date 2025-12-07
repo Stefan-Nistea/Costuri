@@ -76,41 +76,75 @@
   }
 }
 
-
 /* ============================================================================
    LUNAR PAGE — Compact View Mode
    ----------------------------------------------------------------------------
-   Compact mode reduces tables to the four essential columns:
+   Compact mode reduces the table to four essential columns:
      1. Service
      2. Cost
      3. Percentage
      4. Active
 
-   The table structure in lunar.html is:
-     1 = Serviciu
+   Lunar table structure:
+     1 = Service
      2 = Cost
-     3 = Monedă
-     4 = %
-     5 = Note
-     6 = Activ
+     3 = Currency
+     4 = Percentage
+     5 = Notes
+     6 = Active
      7 = Drag
-     8 = Șterge
+     8 = Delete
    ============================================================================ */
-.lunar-compact table th:nth-child(3),
-.lunar-compact table td:nth-child(3),
-.lunar-compact table th:nth-child(5),
-.lunar-compact table td:nth-child(5),
-.lunar-compact table th:nth-child(7),
-.lunar-compact table td:nth-child(7),
-.lunar-compact table th:nth-child(8),
-.lunar-compact table td:nth-child(8) {
+
+/* Hide non-essential columns (3, 5, 8) */
+.lunar-compact table.services-table th:nth-child(3),
+.lunar-compact table.services-table td:nth-child(3),
+.lunar-compact table.services-table th:nth-child(5),
+.lunar-compact table.services-table td:nth-child(5),
+.lunar-compact table.services-table th:nth-child(8),
+.lunar-compact table.services-table td:nth-child(8) {
   display: none !important;
 }
 
-/* Small toggle button styling */
+/* Compact table layout */
+.lunar-compact table.services-table {
+  table-layout: fixed !important;
+  width: 100% !important;
+}
+
+/* Smaller rows and font size */
+.lunar-compact table.services-table th,
+.lunar-compact table.services-table td {
+  padding: 4px 6px !important;
+  font-size: 12px !important;
+  height: 26px;
+}
+
+/* Align service column to the left */
+.lunar-compact table.services-table th:nth-child(1),
+.lunar-compact table.services-table td:nth-child(1) {
+  text-align: left;
+}
+
+/* Narrower columns for Cost, %, Active */
+.lunar-compact table.services-table th:nth-child(2),
+.lunar-compact table.services-table td:nth-child(2) { /* Cost */
+  width: 90px;
+}
+
+.lunar-compact table.services-table th:nth-child(4),
+.lunar-compact table.services-table td:nth-child(4) { /* % */
+  width: 70px;
+}
+
+.lunar-compact table.services-table th:nth-child(6),
+.lunar-compact table.services-table td:nth-child(6) { /* Active */
+  width: 80px;
+}
+
+/* Small toggle button */
 .small-btn {
   padding: 6px 10px;
   font-size: 13px;
   margin-bottom: 15px;
 }
-

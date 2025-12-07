@@ -1,6 +1,6 @@
 /* === Google Login + Firebase Auth Integration === */
 
-function handleGoogleLogin(response) {
+window.handleGoogleLogin = function (response) {
   try {
     const idToken = response.credential;
 
@@ -47,11 +47,8 @@ function handleGoogleLogin(response) {
     console.error("Google login error:", err);
     alert("Login error: Unexpected issue during sign-in.");
   }
-}
+};
 
-document.getElementById("customGoogleBtn").addEventListener("click", function () {
-  google.accounts.id.prompt(); 
-});
 
 /* === Visitor Mode (local-only session) === */
 function continueAsVisitor() {
