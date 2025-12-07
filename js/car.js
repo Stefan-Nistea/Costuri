@@ -66,6 +66,10 @@ function addCarTranzactie() {
       moneda: 'RON'
     });
   }
+  
+  // mark unsaved changes
+  hasUnsavedChanges = true;
+  updateCloudSaveButton();
 
   saveDataLocal();
   renderCarTables();
@@ -151,6 +155,11 @@ function deleteCarItem(id) {
   const idx = data_car.tranzactii.findIndex(x => x._id === id);
   if (idx > -1) {
     data_car.tranzactii.splice(idx, 1);
+	
+	// mark unsaved changes
+    hasUnsavedChanges = true;
+    updateCloudSaveButton();
+  
     saveDataLocal();
     renderCarTables();
     updateCarTotals();

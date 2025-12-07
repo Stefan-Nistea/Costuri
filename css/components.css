@@ -138,7 +138,7 @@
 .formRow input[type="number"],
 .formRow input[type="month"],
 .formRow select {
-  padding: 10px 12px;
+  padding: 8px 12px;
   border: 1px solid var(--border);
   border-radius: 12px;
   min-width: 148px;
@@ -161,7 +161,7 @@
   background: var(--accent);
   color: #fff;
   border: none;          
-  padding: 10px 14px;
+  padding: 6px 12px;
   border-radius: 12px;
   cursor: pointer;
   font-weight: 800;
@@ -175,6 +175,12 @@
 	padding: 5px 8px; 
 	font-size: 13px; 
 	border-radius: 8px; 
+}
+
+.small-btn {
+  padding: 6px 10px;
+  font-size: 13px;
+  margin-bottom: 0; 
 }
 
 .btn.ghost{
@@ -298,7 +304,7 @@
   background: #fff;
   border: 1px solid var(--danger);
   color: var(--danger);
-  padding: 4px 6px;
+  padding: 2px 3px;
   border-radius: 8px;
   cursor: pointer;
   border: none;

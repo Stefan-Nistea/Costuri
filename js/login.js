@@ -10,17 +10,11 @@ window.handleGoogleLogin = function (response) {
       return;
     }
 
-    let payload;
-    try {
-      payload = JSON.parse(atob(idToken.split('.')[1]));
-    } catch (err) {
-      console.error("Failed to decode Google ID token:", err);
-      return;
-    }
-
+    const payload = JSON.parse(atob(idToken.split('.')[1] || ""));
     const googleUID = payload.sub;
+
     if (!googleUID) {
-      console.error("Google login error: Missing 'sub' in token.");
+      console.error("Google login error: Missing 'sub'.");
       return;
     }
 
@@ -33,9 +27,7 @@ window.handleGoogleLogin = function (response) {
 
     firebase.auth()
       .signInWithCredential(firebaseCredential)
-      .then(() => {
-        window.location.href = "index.html";
-      })
+      .then(() => window.location.href = "index.html")
       .catch(err => {
         console.error("Firebase Auth error:", err);
         alert("Login error: Firebase authentication failed.");
@@ -48,11 +40,12 @@ window.handleGoogleLogin = function (response) {
 };
 
 
-/* ================================================
-   GOOGLE IDENTITY SERVICES INITIALIZATION (SAFE)
-   ================================================ */
+/* =========================================
+   GOOGLE IDENTITY SERVICES INITIALIZATION 
+   ========================================= */
 
-window.onGoogleLibraryLoad = function () {
+function onGoogleLibraryLoad() {
+
   google.accounts.id.initialize({
     client_id: "889298108360-kfn17tvq3qc3qkm4f1lm0of14ilsuo0p.apps.googleusercontent.com",
     callback: window.handleGoogleLogin
@@ -64,7 +57,9 @@ window.onGoogleLibraryLoad = function () {
       google.accounts.id.prompt();
     });
   }
-};
+}
+
+window.onGoogleLibraryLoad = onGoogleLibraryLoad;
 
 
 /* ==============
@@ -75,14 +70,13 @@ function continueAsVisitor() {
   localStorage.removeItem("userGoogleToken");
   localStorage.removeItem("userID");
   localStorage.setItem("visitorMode", "true");
-
   window.location.href = "index.html";
 }
 
 
-/* ================================
-   LANGUAGE SYSTEM FOR LOGIN PAGE
-   ================================ */
+/* =================
+   LANGUAGE SYSTEM
+   ================= */
 
 const loginTexts = {
   en: {
@@ -107,29 +101,34 @@ const loginTexts = {
   }
 };
 
+
 function applyLoginLang(lang) {
   const t = loginTexts[lang] || loginTexts.en;
 
   document.getElementById("login_title").textContent = t.title;
   document.getElementById("login_subtitle").textContent = t.subtitle;
-
   document.getElementById("visitor_btn").textContent = t.visitor_btn;
   document.getElementById("visitor_info").textContent = t.visitor_info;
-
   document.getElementById("legal_text").textContent = t.legal_text;
   document.getElementById("legal_and").textContent = t.legal_and;
 
   document.getElementById("link_terms").href = t.terms;
   document.getElementById("link_privacy").href = t.privacy;
 
-  document.querySelectorAll(".lang-switch button").forEach(b => b.classList.remove("active"));
-  document.querySelector(`.lang-switch button[data-lang="${lang}"]`).classList.add("active");
+  document.querySelectorAll(".lang-switch button")
+    .forEach(b => b.classList.remove("active"));
+
+  document
+    .querySelector(`.lang-switch button[data-lang="${lang}"]`)
+    .classList.add("active");
 
   localStorage.setItem("loginLang", lang);
 }
 
+
 const browserLang = navigator.language.startsWith("ro") ? "ro" : "en";
 const savedLang = localStorage.getItem("loginLang") || browserLang;
+
 
 document.addEventListener("DOMContentLoaded", () => {
   applyLoginLang(savedLang);

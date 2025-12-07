@@ -71,6 +71,10 @@ function addAdminPlata() {
 
   // Add new payment entry
   data_administratie.plati.push({ luna, suma, moneda });
+  
+  // mark unsaved changes
+  hasUnsavedChanges = true;
+  updateCloudSaveButton();
 
   // Sync with "Lunar" and update UI
   updateAll();
@@ -90,6 +94,10 @@ function deleteAdminPlata(luna, suma, moneda) {
   );
 
   if (i > -1) data_administratie.plati.splice(i, 1);
+
+  // mark unsaved changes
+  hasUnsavedChanges = true;
+  updateCloudSaveButton();
 
   updateAll();
 }
@@ -183,31 +191,6 @@ function renderAdminApa() {
 
 
 /**
- * Adds a new administration payment record.
- * Reads input values from the form, validates them,
- * appends the new record to the dataset, synchronizes
- * the "Lunar" page with the latest data, and refreshes the UI.
- */
-function addAdminPlata() {
-  const luna = document.getElementById('adminPlataLuna')?.value;
-  const suma = parseFloat(document.getElementById('adminPlataSuma')?.value);
-  const moneda = document.getElementById('adminPlataMoneda')?.value;
-
-  // Validate input
-  if (!luna || isNaN(suma)) {
-    alert('Completează luna și suma');
-    return;
-  }
-
-  // Add new payment entry
-  data_administratie.plati.push({ luna, suma, moneda });
-
-  // Sync with "Lunar" and update UI
-  updateAll();
-}
-
-
-/**
  * Adds or updates water meter readings (Contor 1 and Contor 2)
  * for a specific month. Ensures both fields are valid numbers.
  * Initializes "cost_factura" with 0 when a new record is created.
@@ -237,6 +220,10 @@ function addAdminApa() {
       cost_factura: 0
     });
   }
+  
+  // mark unsaved changes
+  hasUnsavedChanges = true;
+  updateCloudSaveButton();
 
   renderAdminApa();
   saveDataLocal();
@@ -255,7 +242,11 @@ function updateAdminCostFactura(luna, val) {
   const item = data_administratie.apa.find(r => r.luna === luna);
 
   if (item) item.cost_factura = valNum;
-
+  
+  // mark unsaved changes
+  hasUnsavedChanges = true;
+  updateCloudSaveButton();
+  
   saveDataLocal();
   renderAdminApa();
 }
@@ -282,6 +273,10 @@ function deleteAdminApa(luna, c1, c2, cf) {
 
   if (i > -1) data_administratie.apa.splice(i, 1);
 
+  // mark unsaved changes
+  hasUnsavedChanges = true;
+  updateCloudSaveButton();
+
   renderAdminApa();
 }
 
@@ -296,6 +291,11 @@ function applyAdminCost() {
   if (isNaN(v)) return;
 
   data_administratie.cost_pe_mc = v;
+  
+  // mark unsaved changes
+  hasUnsavedChanges = true;
+  updateCloudSaveButton();
+  
   renderAdminApa();
   saveDataLocal();
 }
